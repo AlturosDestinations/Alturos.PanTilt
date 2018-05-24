@@ -1,20 +1,20 @@
 # Alturos.PanTilt
 
-This project delivers an interface for general pan tilt communication. Additional we deliver also an implementation for [Eneo VPT-601](https://eneo-security.com/de/produkte/positioniersysteme/schwenk-neigekoepfe.html) unit.
-We have three different communication provider udp/tcp/serial available.
+This project delivers an interface for general pan tilt communication. Additionally we deliver an implementation for [Eneo VPT-601](https://eneo-security.com/de/produkte/positioniersysteme/schwenk-neigekoepfe.html) unit.
+We have three different communication providers udp/tcp/serial available.
 
-The library supports following primary features
+The library supports the following primary features
 - [x] Move to absolute position
 - [x] Move with relative speed
 - [x] Position feedback
 - [x] Get limits
 
-And some eneo special features
+And some Eneo special features
 - [x] Set limits
 - [x] Get temperature
 - [x] Set relay
 
-### Exampels
+### Examples
 
 #### Move to position pan 50° and tilt 0° with udp communication
 ```cs
