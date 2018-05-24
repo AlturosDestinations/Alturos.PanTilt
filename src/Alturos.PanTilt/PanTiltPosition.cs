@@ -38,13 +38,5 @@ namespace Alturos.PanTilt
         {
             return $"{this.Pan}/{this.Tilt}";
         }
-
-        public PanTiltPosition AddRelativePosition(PanTiltPosition panTiltPosition, int seconds)
-        {
-            var pan = this.Pan + panTiltPosition.Pan * seconds;
-            var tilt = this.Tilt + panTiltPosition.Tilt * seconds;
-
-            return new PanTiltPosition(pan,tilt);
-        }
     }
 }

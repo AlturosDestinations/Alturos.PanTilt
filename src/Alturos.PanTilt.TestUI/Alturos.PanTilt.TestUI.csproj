@@ -101,6 +101,7 @@
       <DependentUpon>ConfigDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Extension\ControlExtension.cs" />
+    <Compile Include="Extension\PanTiltPositionExtension.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
