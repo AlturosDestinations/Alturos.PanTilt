@@ -14,6 +14,12 @@ And some Eneo special features
 - [x] Get temperature
 - [x] Set relay
 
+### nuget
+The package is available on [nuget](https://www.nuget.org/packages/Alturos.PanTilt)
+```
+PM> install-package Alturos.PanTilt
+```
+
 ### Examples
 
 #### Move to position pan 50° and tilt 0° with udp communication
