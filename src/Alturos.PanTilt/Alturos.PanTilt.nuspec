@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+	<licenseUrl>https://github.com/AlturosDestinations/Alturos.PanTilt/blob/master/Licence.txt</licenseUrl>
+	<projectUrl>https://github.com/AlturosDestinations/Alturos.PanTilt</projectUrl>
+	<tags>pantilt pthead eneo ptunit pan tilt</tags>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$Description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2018 Alturos Destinations</copyright>
+  </metadata>
+</package>
