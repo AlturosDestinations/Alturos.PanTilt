@@ -20,6 +20,18 @@ The package is available on [nuget](https://www.nuget.org/packages/Alturos.PanTi
 PM> install-package Alturos.PanTilt
 ```
 
+### Network communication to RS-422/RS-485
+
+Do you want to talk about the network with your pan tilt unit you can use a serial device server.
+
+Manufacturer | Product | Communications |
+--- | --- | --- |
+iccdesigns.com | ETH-1000 | RS-485 |
+moxa.com | NPort 5130 | RS-422/RS-485 |
+atop.com.tw | SE5001 | RS-422/RS-485 |
+aten.com | SN3101 | RS-422/RS-485 |
+
+
 ### Examples
 
 #### Move to position pan 50° and tilt 0° with udp communication
