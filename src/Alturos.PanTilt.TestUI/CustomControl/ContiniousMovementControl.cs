@@ -15,11 +15,11 @@ namespace Alturos.PanTilt.TestUI.CustomControl
     {
         private IPanTiltControl _panTiltControl;
         private PanTiltPosition _currentPosition;
+        private PanTiltPosition _lastPosition;
         private DrawEngine _drawEngine;
         private PanTiltLimit _ptLimit;
         private bool _limitOverrunDetected;
         private bool _deviationOverrunDetected;
-        private PanTiltPosition _lastPosition;
         private bool _stoppedManually;
         private AutoResetEvent _waitMovementResetEvent = new AutoResetEvent(false);
         private int _multiplier = 4;
@@ -181,7 +181,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
                 if (this._lastPosition != null)
                 {
-                    this._drawEngine.DrawLine(this._lastPosition, _currentPosition, Color.HotPink, 2);
+                    this._drawEngine.DrawLine(this._lastPosition, this._currentPosition, Color.HotPink, 2);
                 }
 
                 this._lastPosition = this._currentPosition;
@@ -256,8 +256,8 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             items.Add(new PanTiltPosition(0, degreePerSeconds));
             items.Add(new PanTiltPosition(degreePerSeconds / 2, 0));
 
-            var absoluteCurrentPt = _currentPosition;
-            var absolutePreviousPt = _currentPosition;
+            var absoluteCurrentPt = this._currentPosition;
+            var absolutePreviousPt = this._currentPosition;
             var allowedDeriviation = 0.5 * degreePerSeconds;
 
             this._lastPosition = null;
@@ -272,11 +272,11 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 absoluteCurrentPt = absoluteCurrentPt.AddRelativePosition(relativeCurrentPt, seconds);
                 this._drawEngine.DrawLine(absolutePreviousPt, absoluteCurrentPt, Color.DarkGreen, 4);
 
-                this.labelPanTiltPosition.Text = $"Pan:{_currentPosition.Pan:0.00} Tilt:{_currentPosition.Tilt:0.00}";
+                this.labelPanTiltPosition.Text = $"Pan:{this._currentPosition.Pan:0.00} Tilt:{this._currentPosition.Tilt:0.00}";
 
-                if (_lastPosition != null)
+                if (this._lastPosition != null)
                 {
-                    this._drawEngine.DrawLine(this._lastPosition, _currentPosition, Color.HotPink, 3);
+                    this._drawEngine.DrawLine(this._lastPosition, this._currentPosition, Color.HotPink, 3);
                 }
                 this.UpdateCurrentImage();
 
@@ -292,9 +292,9 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 i++;
             }
 
-            if (_lastPosition != null)
+            if (this._lastPosition != null)
             {
-                this._drawEngine.DrawLine(this._lastPosition, _currentPosition, Color.HotPink, 3);
+                this._drawEngine.DrawLine(this._lastPosition, this._currentPosition, Color.HotPink, 3);
             }
             this.UpdateCurrentImage();
             this.SaveRectangleTestImageToFile(degreePerSeconds, seconds);
