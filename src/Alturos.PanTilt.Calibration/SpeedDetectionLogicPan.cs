@@ -1,5 +1,4 @@
-﻿using Alturos.PanTilt;
-using Alturos.PanTilt.Eneo;
+﻿using Alturos.PanTilt.Eneo;
 using System;
 using System.Threading;
 

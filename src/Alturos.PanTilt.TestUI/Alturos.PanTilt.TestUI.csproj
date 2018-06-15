@@ -112,6 +112,7 @@
     <Compile Include="Model\DeviceConfiguration.cs" />
     <Compile Include="Model\DeviceConfigurationHelper.cs" />
     <Compile Include="Model\FastMovementInfo.cs" />
+    <Compile Include="Model\PositionCompare.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CustomControl\FastMovementControl.resx">

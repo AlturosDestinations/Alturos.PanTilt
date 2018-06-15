@@ -505,7 +505,7 @@ namespace Alturos.PanTilt.TestUI
 
         private void OnPositionChanged(PanTiltPosition position)
         {
-            if (this._lastRefresh.AddMilliseconds(40) >= DateTime.Now)
+            if (this._lastRefresh.AddMilliseconds(200) >= DateTime.Now)
             {
                 return;
             }
@@ -515,8 +515,14 @@ namespace Alturos.PanTilt.TestUI
             this.labelPositionPan.Invoke(o => o.Text = $"Pan: {position.Pan}");
             this.labelPositionTilt.Invoke(o => o.Text = $"Tilt: {position.Tilt}");
 
-            if (!this._deviceConfiguration.CameraActive && this._panTiltControl != null)
+            if (this._deviceConfiguration.CameraActive)
             {
+                return;
+            }
+
+            if (this._panTiltControl != null)
+            {
+                //TODO:Optimize render image not block position changed event
                 this._cameraDrawEngine.Clear();
                 this._cameraDrawEngine.DrawPtHeadLimits(this._panTiltControl.GetLimits());
                 this._cameraDrawEngine.DrawCrossHair(position, Brushes.Black);
