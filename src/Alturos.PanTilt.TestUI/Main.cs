@@ -522,7 +522,7 @@ namespace Alturos.PanTilt.TestUI
 
             if (this._panTiltControl != null)
             {
-                //TODO:Optimize render image not block position changed event
+                //TODO:Optimize render image does not block position changed event
                 this._cameraDrawEngine.Clear();
                 this._cameraDrawEngine.DrawPtHeadLimits(this._panTiltControl.GetLimits());
                 this._cameraDrawEngine.DrawCrossHair(position, Brushes.Black);
