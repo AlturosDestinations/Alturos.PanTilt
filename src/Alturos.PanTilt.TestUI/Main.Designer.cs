@@ -312,6 +312,7 @@ namespace Alturos.PanTilt.TestUI
             this.buttonReinitialize.TabIndex = 23;
             this.buttonReinitialize.Text = "Reinitialize";
             this.buttonReinitialize.UseVisualStyleBackColor = true;
+            this.buttonReinitialize.Click += new System.EventHandler(this.buttonReinitialize_Click);
             // 
             // groupBox1
             // 
@@ -817,6 +818,7 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageLiveView.TabIndex = 0;
             this.tabPageLiveView.Text = "LiveView";
             this.tabPageLiveView.UseVisualStyleBackColor = true;
+            this.tabPageLiveView.Click += new System.EventHandler(this.buttonStopMoving_Click);
             // 
             // pictureBox_CameraPos
             // 
