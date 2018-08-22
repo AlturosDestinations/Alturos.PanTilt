@@ -1,3 +1,5 @@
+![Alturos.PanTilt](doc/logo-banner.png)
+
 # Alturos.PanTilt
 
 This project delivers an interface for general pan tilt communication. Additionally we deliver an implementation for [Eneo VPT-601](https://eneo-security.com/de/produkte/positioniersysteme/schwenk-neigekoepfe.html) unit.
