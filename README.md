@@ -2,7 +2,7 @@
 
 # Alturos.PanTilt
 
-This project delivers an interface for general pan tilt communication. Additionally we deliver an implementation for [Eneo VPT-601] unit.
+This project delivers an interface for general pan tilt communication. Additionally we deliver an implementation for Eneo VPT-601 unit.
 We have three different communication providers udp/tcp/serial available.
 
 The library supports the following primary features
