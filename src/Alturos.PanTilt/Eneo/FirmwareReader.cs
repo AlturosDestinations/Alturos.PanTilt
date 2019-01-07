@@ -6,8 +6,8 @@ namespace Alturos.PanTilt.Eneo
 {
     public class FirmwareReader : IDisposable
     {
-        private ICommunication _communication;
-        public string Firmware;
+        private readonly ICommunication _communication;
+        public string Firmware { get; private set; }
 
         public FirmwareReader(ICommunication communication)
         {
@@ -21,6 +21,12 @@ namespace Alturos.PanTilt.Eneo
         }
 
         public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             this._communication.ReceiveData -= DataReceive;
         }

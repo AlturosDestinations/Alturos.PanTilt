@@ -13,16 +13,16 @@ namespace Alturos.PanTilt.Eneo
         private static readonly ILog Log = LogManager.GetLogger(typeof(EneoPanTiltControl));
 
         private PanTiltPosition _position;
-        private PanTiltLimit _limits;
-        private FeedbackHandler _handler;
-        private ManualResetEvent _resetEvent;
+        private readonly PanTiltLimit _limits;
+        private readonly FeedbackHandler _handler;
+        private readonly ManualResetEvent _resetEvent;
         private bool _stopHeartbeat;
-        private int _dipReceiverPort = 1;
+        private readonly int _dipReceiverPort = 1;
         private int _receiveCount;
         private int _sendCount;
-        private bool _debug;
-        private ICommunication _communication;
-        private Dictionary<double, byte> _speed = new Dictionary<double, byte>();
+        private readonly bool _debug;
+        private readonly ICommunication _communication;
+        private readonly Dictionary<double, byte> _speed = new Dictionary<double, byte>();
 
         public event Action<PanTiltPosition> PositionChanged;
         public event Action LimitOverrun;
@@ -42,7 +42,7 @@ namespace Alturos.PanTilt.Eneo
             this._resetEvent = new ManualResetEvent(false);
             this._stopHeartbeat = true;
 
-            this.InitializeSpeedTable();
+            this.InitializeSpeedTranslationTable();
         }
 
         public void Dispose()
@@ -50,7 +50,7 @@ namespace Alturos.PanTilt.Eneo
             this._communication.ReceiveData -= PackageReceived;
         }
 
-        private void InitializeSpeedTable()
+        private void InitializeSpeedTranslationTable()
         {
             this._speed.Add(0.138357516814, 1);
             this._speed.Add(0.211443667312, 2);
@@ -502,7 +502,7 @@ namespace Alturos.PanTilt.Eneo
             }
         }
 
-        public void ReinitializePosition()
+        public bool ReinitializePosition()
         {
             //Firmware request command need to commands for start the reinitialize
 
@@ -513,12 +513,12 @@ namespace Alturos.PanTilt.Eneo
 
             this.Send(command, "GetFirmware-Reinitialize1");
             Thread.Sleep(50);
-            this.Send(command, "GetFirmware-Reinitialize2");
+            return this.Send(command, "GetFirmware-Reinitialize2");
         }
 
         #region Absolute
 
-        public void SetSmoothing(byte acceleration = 100, byte gain = 50)
+        public bool SetSmoothing(byte acceleration = 100, byte gain = 50)
         {
             gain = Math.Max((byte)0x01, gain);
             var data = new byte[3];
@@ -527,10 +527,10 @@ namespace Alturos.PanTilt.Eneo
             data[2] = gain; // or constant
 
             var command = this.CreateCommand(data);
-            this.Send(command, $"SetSmoothing Acceleration:{acceleration} Gain:{gain}");
+            return this.Send(command, $"SetSmoothing Acceleration:{acceleration} Gain:{gain}");
         }
 
-        public void MovePanAbsolute(double panPosition)
+        public bool MovePanAbsolute(double panPosition)
         {
             var data = new byte[3];
             data[0] = 0xDC;
@@ -544,10 +544,10 @@ namespace Alturos.PanTilt.Eneo
             data[2] = panData2;
 
             var command = this.CreateCommand(data);
-            this.Send(command, $"PanAbsolute {panPosition}");
+            return this.Send(command, $"PanAbsolute {panPosition}");
         }
 
-        public void MoveTiltAbsolute(double tiltPosition)
+        public bool MoveTiltAbsolute(double tiltPosition)
         {
             var data = new byte[3];
             data[0] = 0xDD;
@@ -561,7 +561,7 @@ namespace Alturos.PanTilt.Eneo
             data[2] = tiltData2;
 
             var command = this.CreateCommand(data);
-            this.Send(command, $"TiltAbsolute {tiltPosition}");
+            return this.Send(command, $"TiltAbsolute {tiltPosition}");
         }
 
         #endregion
@@ -573,12 +573,11 @@ namespace Alturos.PanTilt.Eneo
         /// </summary>
         /// <param name="panSpeed">degree per second</param>
         /// <param name="tiltSpeed">degree per second</param>
-        public void MoveRelative(double panSpeed, double tiltSpeed)
+        public bool MoveRelative(double panSpeed, double tiltSpeed)
         {
             if (panSpeed == 0 && tiltSpeed == 0)
             {
-                this.StopMoving();
-                return;
+                return this.StopMoving();
             }
 
             #region Get Eneo Speed value for degree per second value
@@ -663,7 +662,7 @@ namespace Alturos.PanTilt.Eneo
             }
 
             var command = this.CreateCommand(data);
-            this.Send(command, $"MoveRelative Tilt:{tiltSpeed}  Pan:{panSpeed}");
+            return this.Send(command, $"MoveRelative Tilt:{tiltSpeed}  Pan:{panSpeed}");
         }
 
         public bool StopMoving()
@@ -676,22 +675,22 @@ namespace Alturos.PanTilt.Eneo
             return true;
         }
 
-        public void StopPanMovement()
+        public bool StopPanMovement()
         {
             var data = new byte[1];
             data[0] = 0x49;
 
             var command = this.CreateCommand(data);
-            this.Send(command, "StopPanMovement");
+            return this.Send(command, "StopPanMovement");
         }
 
-        public void StopTiltMovement()
+        public bool StopTiltMovement()
         {
             var data = new byte[1];
             data[0] = 0x4A;
 
             var command = this.CreateCommand(data);
-            this.Send(command, "StopTiltMovement");
+            return this.Send(command, "StopTiltMovement");
         }
 
         #endregion
@@ -911,8 +910,7 @@ namespace Alturos.PanTilt.Eneo
 
             try
             {
-                this._communication.Send(command, description);
-                return true;
+                return this._communication.Send(command, description);
             }
             catch (ObjectDisposedException exception)
             {
@@ -930,35 +928,39 @@ namespace Alturos.PanTilt.Eneo
 
         #region IPanTiltControl
 
-        public void PanAbsolute(double pan)
+        public bool PanAbsolute(double pan)
         {
-            this.MovePanAbsolute(pan);
+            return this.MovePanAbsolute(pan);
         }
 
-        public void TiltAbsolute(double tilt)
+        public bool TiltAbsolute(double tilt)
         {
-            this.MoveTiltAbsolute(tilt);
+            return this.MoveTiltAbsolute(tilt);
         }
 
-        public void PanTiltAbsolute(double pan, double tilt)
+        public bool PanTiltAbsolute(double pan, double tilt)
         {
-            this.MovePanAbsolute(pan);
-            this.MoveTiltAbsolute(tilt);
+            if (this.MovePanAbsolute(pan) && this.MoveTiltAbsolute(tilt))
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public void PanRelative(double panSpeed)
+        public bool PanRelative(double panSpeed)
         {
-            this.MoveRelative(panSpeed, 0);
+            return this.MoveRelative(panSpeed, 0);
         }
 
-        public void TiltRelative(double tiltSpeed)
+        public bool TiltRelative(double tiltSpeed)
         {
-            this.MoveRelative(0, tiltSpeed);
+            return this.MoveRelative(0, tiltSpeed);
         }
 
-        public void PanTiltRelative(double panSpeed, double tiltSpeed)
+        public bool PanTiltRelative(double panSpeed, double tiltSpeed)
         {
-            this.MoveRelative(panSpeed, tiltSpeed);
+            return this.MoveRelative(panSpeed, tiltSpeed);
         }
 
         public PanTiltPosition GetPosition()
@@ -971,7 +973,7 @@ namespace Alturos.PanTilt.Eneo
             return this._limits;
         }
 
-        public bool ComparePosition(PanTiltPosition position, double tolerance, int retry, int timeout)
+        public bool ComparePosition(PanTiltPosition position, double tolerance = 0.5, int retry = 5, int timeout = 500)
         {
             if (this._debug)
             {

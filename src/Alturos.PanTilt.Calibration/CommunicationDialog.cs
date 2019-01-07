@@ -6,7 +6,7 @@ namespace Alturos.PanTilt.Calibration
 {
     public partial class CommunicationDialog : Form
     {
-        public ICommunication Communication;
+        public ICommunication Communication { get; private set; }
 
         public CommunicationDialog()
         {

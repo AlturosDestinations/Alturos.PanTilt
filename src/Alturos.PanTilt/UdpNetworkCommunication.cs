@@ -10,8 +10,8 @@ namespace Alturos.PanTilt
         private static readonly ILog Log = LogManager.GetLogger(typeof(UdpNetworkCommunication));
         private UdpClient _receiver;
         private UdpClient _sender;
-        private IPEndPoint _ipEndPoint;
-        private bool _externalReceiver;
+        private readonly IPEndPoint _ipEndPoint;
+        private readonly bool _externalReceiver;
 
         public event Action<byte[]> ReceiveData;
         public event Action<byte[], string> SendData;
@@ -48,6 +48,12 @@ namespace Alturos.PanTilt
         }
 
         public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             this._sender?.Close();
             this._sender?.Dispose();

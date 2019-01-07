@@ -88,7 +88,7 @@ namespace Alturos.PanTilt.Calibration
                     }
                     catch (Exception exception)
                     {
-
+                        Trace.Write(exception.ToString());
                     }
                 }
             }
@@ -135,7 +135,7 @@ namespace Alturos.PanTilt.Calibration
                     }
                     catch (Exception exception)
                     {
-
+                        Trace.Write(exception.ToString());
                     }
                 }
             }

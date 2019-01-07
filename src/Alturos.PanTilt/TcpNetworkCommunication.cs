@@ -10,23 +10,27 @@ namespace Alturos.PanTilt
     public class TcpNetworkCommunication : ICommunication
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(TcpNetworkCommunication));
+        private readonly IPEndPoint _ipEndPoint;
         private TcpClient _tcpClient;
         private NetworkStream _networkStream;
-        private IPEndPoint _ipEndPoint;
         public event Action<byte[]> ReceiveData;
         public event Action<byte[], string> SendData;
 
         public TcpNetworkCommunication(IPEndPoint ipEndPoint)
         {
-            this._tcpClient = new TcpClient();
-            this._tcpClient.Connect(ipEndPoint);
             this._ipEndPoint = ipEndPoint;
-            this._networkStream = this._tcpClient.GetStream();
+            this.Connect();
 
-            Task.Run(() => ReceiveProcess());
+            Task.Run(async () => await this.ReceiveProcessAsync());
         }
 
         public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             this._networkStream?.Close();
             this._networkStream?.Dispose();
@@ -34,8 +38,49 @@ namespace Alturos.PanTilt
             this._tcpClient?.Dispose();
         }
 
+        private void Connect()
+        {
+            if (this._networkStream != null)
+            {
+                try
+                {
+                    this._networkStream.Close();
+                    this._networkStream.Dispose();
+                }
+                catch (Exception exception)
+                {
+                    Log.Error($"{nameof(Connect)} - NetworkStream cleanup", exception);
+                }
+            }
+
+            if (this._tcpClient != null)
+            {
+                try
+                {
+                    this._tcpClient.Close();
+                    this._tcpClient.Dispose();
+                }
+                catch (Exception exception)
+                {
+                    Log.Error($"{nameof(Connect)} - TcpClient cleanup", exception);
+                }
+            }
+
+            this._tcpClient = new TcpClient();
+            this._tcpClient.Connect(this._ipEndPoint);
+            this._networkStream = this._tcpClient.GetStream();
+
+            Log.Debug($"{nameof(Connect)} - {this._ipEndPoint}");
+        }
+
         public bool Send(byte[] data, string description)
         {
+            if (!this._tcpClient.Connected)
+            {
+                Task.Run(() => this.Connect());
+                return false;
+            }
+
             if (!this._networkStream.CanWrite)
             {
                 return false;
@@ -46,7 +91,7 @@ namespace Alturos.PanTilt
             return true;
         }
 
-        private async void ReceiveProcess()
+        private async Task ReceiveProcessAsync()
         {
             try
             {
@@ -57,14 +102,14 @@ namespace Alturos.PanTilt
 
                 if (!this._networkStream.CanRead)
                 {
-                    this.ReceiveProcess();
+                    await Task.Run(async () => await this.ReceiveProcessAsync());
                     return;
                 }
 
                 var buffer = new byte[128];
                 var receiveCount = await this._networkStream.ReadAsync(buffer, 0, buffer.Length);
                 this.ReceiveData?.Invoke(buffer.Take(receiveCount).ToArray());
-                this.ReceiveProcess();
+                await Task.Run(async () => await this.ReceiveProcessAsync());
             }
             catch (ObjectDisposedException)
             {
@@ -72,7 +117,7 @@ namespace Alturos.PanTilt
             }
             catch (Exception exception)
             {
-                Log.Error(nameof(ReceiveProcess), exception);
+                Log.Error(nameof(ReceiveProcessAsync), exception);
             }
         }
     }
