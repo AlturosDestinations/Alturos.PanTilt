@@ -14,6 +14,12 @@ namespace Alturos.PanTilt.TestUI.Dialog
         {
             this.InitializeComponent();
 
+            this.comboBoxCameraImageUrl.DataSource = new string[]
+            {
+                "/jpg/image.jpg", //Axis
+                "/snapshot/1/snapshot.jpg" //Eneo
+            };
+
             this.comboBoxComType.DataSource = ((CommunicationType[])Enum.GetValues(typeof(CommunicationType))).OrderBy(x => x.ToString()).ToList();
             this.comboBoxPort.DataSource = SerialPort.GetPortNames();
 
@@ -29,7 +35,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
                 this.comboBoxPort.Text = this.DeviceConfiguration.ComPort;
                 this.checkBoxCameraActive.Checked = this.DeviceConfiguration.CameraActive;
                 this.textBoxCameraIpAddress.Text = this.DeviceConfiguration.CameraIpAddress;
-                this.textBoxCameraJpegUrl.Text = this.DeviceConfiguration.CameraJpegUrl;
+                this.comboBoxCameraImageUrl.Text = this.DeviceConfiguration.CameraJpegUrl;
                 this.textBoxCameraIpAddress.Text = this.DeviceConfiguration.CameraIpAddress;
             }
         }
@@ -41,7 +47,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             this.DeviceConfiguration.ComPort = this.comboBoxPort.Text;
             this.DeviceConfiguration.CameraActive = this.checkBoxCameraActive.Checked;
             this.DeviceConfiguration.CameraIpAddress = this.textBoxCameraIpAddress.Text;
-            this.DeviceConfiguration.CameraJpegUrl = this.textBoxCameraJpegUrl.Text;
+            this.DeviceConfiguration.CameraJpegUrl = this.comboBoxCameraImageUrl.Text;
             this.DeviceConfiguration.CameraIpAddress = this.textBoxCameraIpAddress.Text;
 
             this.DialogResult = DialogResult.OK;

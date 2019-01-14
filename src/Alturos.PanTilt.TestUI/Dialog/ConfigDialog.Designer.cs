@@ -39,10 +39,10 @@ namespace Alturos.PanTilt.TestUI.Dialog
             this.comboBoxPort = new System.Windows.Forms.ComboBox();
             this.labelCOMPort = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBoxCameraImageUrl = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBoxCameraActive = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBoxCameraJpegUrl = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -96,11 +96,11 @@ namespace Alturos.PanTilt.TestUI.Dialog
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(89, 47);
+            this.label3.Location = new System.Drawing.Point(90, 47);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 13);
+            this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Jpeg Url:";
+            this.label3.Text = "Image Url:";
             // 
             // comboBoxComType
             // 
@@ -142,7 +142,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBoxCameraJpegUrl);
+            this.groupBox1.Controls.Add(this.comboBoxCameraImageUrl);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.checkBoxCameraActive);
             this.groupBox1.Controls.Add(this.textBoxCameraIpAddress);
@@ -154,6 +154,14 @@ namespace Alturos.PanTilt.TestUI.Dialog
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Camera";
+            // 
+            // comboBoxCameraImageUrl
+            // 
+            this.comboBoxCameraImageUrl.FormattingEnabled = true;
+            this.comboBoxCameraImageUrl.Location = new System.Drawing.Point(150, 44);
+            this.comboBoxCameraImageUrl.Name = "comboBoxCameraImageUrl";
+            this.comboBoxCameraImageUrl.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxCameraImageUrl.TabIndex = 9;
             // 
             // label1
             // 
@@ -187,14 +195,6 @@ namespace Alturos.PanTilt.TestUI.Dialog
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PanTilt Head";
-            // 
-            // textBoxCameraMjpegUrl
-            // 
-            this.textBoxCameraJpegUrl.Location = new System.Drawing.Point(150, 44);
-            this.textBoxCameraJpegUrl.Name = "textBoxCameraMjpegUrl";
-            this.textBoxCameraJpegUrl.Size = new System.Drawing.Size(129, 20);
-            this.textBoxCameraJpegUrl.TabIndex = 8;
-            this.textBoxCameraJpegUrl.Text = "/jpg/image.jpg";
             // 
             // ConfigDialog
             // 
@@ -233,6 +233,6 @@ namespace Alturos.PanTilt.TestUI.Dialog
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBoxCameraActive;
-        private System.Windows.Forms.TextBox textBoxCameraJpegUrl;
+        private System.Windows.Forms.ComboBox comboBoxCameraImageUrl;
     }
 }
