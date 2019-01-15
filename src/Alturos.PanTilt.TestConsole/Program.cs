@@ -95,15 +95,16 @@ namespace Alturos.PanTilt.TestConsole
         {
             Console.WriteLine("Start");
             var panTiltControl = new EneoPanTiltControl(communication);
+            var positionChecker = new PositionChecker(panTiltControl);
             panTiltControl.PositionChanged += PanTiltControl_OnPositionChanged;
 
             while (true)
             {
                 panTiltControl.PanAbsolute(0);
-                panTiltControl.ComparePosition(new PanTiltPosition(0, 0), 0.5, 20, 100);
+                positionChecker.ComparePosition(new PanTiltPosition(0, 0), 0.5, 20, 100);
 
                 panTiltControl.PanAbsolute(40);
-                panTiltControl.ComparePosition(new PanTiltPosition(40, 0), 0.5, 20, 100);
+                positionChecker.ComparePosition(new PanTiltPosition(40, 0), 0.5, 20, 100);
 
                 panTiltControl.PanRelative(-40);
                 Thread.Sleep(500);
@@ -139,6 +140,8 @@ namespace Alturos.PanTilt.TestConsole
         private static void DriveRandomPositions(ICommunication communication, bool debug)
         {
             var panTiltControl = new EneoPanTiltControl(communication, debug);
+            var positionChecker = new PositionChecker(panTiltControl);
+
             panTiltControl.Start();
 
             var random = new Random();
@@ -179,7 +182,7 @@ namespace Alturos.PanTilt.TestConsole
                 }
 
                 panTiltControl.PanTiltAbsolute(0, 0);
-                panTiltControl.ComparePosition(new PanTiltPosition(0, 0), 0.5, 20, 200);
+                positionChecker.ComparePosition(new PanTiltPosition(0, 0), 0.5, 20, 200);
             }
 
         }

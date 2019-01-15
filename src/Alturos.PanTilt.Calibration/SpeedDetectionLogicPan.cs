@@ -6,22 +6,36 @@ namespace Alturos.PanTilt.Calibration
 {
     public class SpeedDetectionLogicPan : IDisposable
     {
-        private ICommunication _communication;
-        private IPanTiltControl _panTiltControl;
+        private readonly ICommunication _communication;
+        private readonly IPanTiltControl _panTiltControl;
+        private readonly IPositionChecker _positionChecker;
         private int _stop;
         private bool _active = false;
-        private AutoResetEvent _resetEvent = new AutoResetEvent(false);
+        private readonly AutoResetEvent _resetEvent = new AutoResetEvent(false);
 
         public SpeedDetectionLogicPan(ICommunication communication)
         {
             this._communication = communication;
             this._panTiltControl = new EneoPanTiltControl(this._communication);
             this._panTiltControl.PositionChanged += OnPositionChanged;
+            this._positionChecker = new PositionChecker(this._panTiltControl);
+
             this._panTiltControl.Start();
         }
 
         public void Dispose()
         {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this._panTiltControl != null)
+            {
+                this._panTiltControl.PositionChanged -= OnPositionChanged;
+            }
+
             this._panTiltControl?.StopMoving();
             this._panTiltControl?.Stop();
             this._panTiltControl?.Dispose();
@@ -32,7 +46,7 @@ namespace Alturos.PanTilt.Calibration
         {
             this._active = false;
             this._panTiltControl.PanTiltAbsolute(position, 0);
-            while (!this._panTiltControl.ComparePosition(new PanTiltPosition(position, 0), retry: 10))
+            while (!this._positionChecker.ComparePosition(new PanTiltPosition(position, 0), retry: 10))
             {
                 Console.WriteLine($"Position is invalid {position}/{this._panTiltControl.GetPosition().Pan}");
                 Thread.Sleep(500);

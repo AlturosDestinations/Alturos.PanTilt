@@ -4,8 +4,6 @@ using Alturos.PanTilt.TestUI.Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,10 +16,10 @@ namespace Alturos.PanTilt.TestUI.CustomControl
     public partial class FastMovementControl : UserControl
     {
         private IPanTiltControl _panTiltControl;
+        private IPositionChecker _positionChecker;
         private PanTiltPosition _currentPosition;
         private DrawEngine _drawEngine;
         private PanTiltLimit _ptLimit;
-        private bool _deviationOverrunDetected;
         private PanTiltPosition _lastPosition;
         private AutoResetEvent _waitMovementResetEvent = new AutoResetEvent(false);
         private int _currentPtIndices;
@@ -40,8 +38,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
             this.label1.Text = string.Empty;
             this.labelError.Text = string.Empty;
-
-            this.UpdatePtLimit();
 
             this.PreparePositions();
             this._currentPtIndices = 0;
@@ -74,7 +70,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                     return;
                 }
 
-                var currentDestination = this._panTiltPositions[this._currentPtIndices];
                 var currentPosition = this._currentPosition;
                 if (currentPosition == null)
                 {
@@ -107,19 +102,21 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         public void SetPanTiltControl(IPanTiltControl panTiltControl)
         {
             this._panTiltControl = panTiltControl;
+            this._positionChecker = new PositionChecker(this._panTiltControl);
+
             this._panTiltControl.PositionChanged += PanTiltPositionChanged;
             this._panTiltControl.LimitOverrun += PanTiltLimitOverrun;
             this._panTiltControl.LimitChanged += PanTiltLimitChanged;
 
-            this.UpdatePtLimit();
+            this.CheckPtLimitAsync().GetAwaiter().GetResult();
         }
 
         private void PanTiltLimitChanged()
         {
-            this.UpdatePtLimit();
+            this.CheckPtLimitAsync().GetAwaiter().GetResult();
         }
 
-        private async void UpdatePtLimit()
+        private async Task CheckPtLimitAsync()
         {
             if (this._panTiltControl == null)
             {
@@ -154,21 +151,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.labelError.Invoke(o => o.Text = $"{DateTime.Now.ToShortTimeString()} - LimitOverrun detected");
         }
 
-        private void ProveDeriviation(PanTiltPosition absoluteCurrentPt, double allowedDeriviation)
-        {
-            var deviationOk = this._panTiltControl.ComparePosition(absoluteCurrentPt, allowedDeriviation);
-            this._deviationOverrunDetected = !this._deviationOverrunDetected && !deviationOk;
-
-            if (this._deviationOverrunDetected)
-            {
-                this.labelError.Invoke(o => o.Text = $"{DateTime.Now.ToShortTimeString()} - Too high deviation detected");
-            }
-            else
-            {
-                this.labelError.Invoke(o => o.Text = String.Empty);
-            }
-        }
-
         private void UpdateCurrentImage()
         {
             var oldImage = this.pictureBox1.Image;
@@ -179,29 +161,29 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             oldImage?.Dispose();
         }
 
-        private void SaveRectangleTestImageToFile(double degrees, int seconds)
-        {
-            var deviationOverrunText = this._deviationOverrunDetected ? "Fail" : "Success";
-            var fileName = $"MovementTest_{DateTime.Now:yyyy-MM-dd_hh-mm-ss}_D{degrees}_S{seconds}_PT{this._ptLimit}_{deviationOverrunText}.jpg";
-            var dirName = "RectangleMovementTestImages";
-            this.SaveTestImageToFile(dirName, fileName);
-        }
+        //private void SaveRectangleTestImageToFile(double degrees, int seconds)
+        //{
+        //    var deviationOverrunText = this._deviationOverrunDetected ? "Fail" : "Success";
+        //    var fileName = $"MovementTest_{DateTime.Now:yyyy-MM-dd_hh-mm-ss}_D{degrees}_S{seconds}_PT{this._ptLimit}_{deviationOverrunText}.jpg";
+        //    var dirName = "RectangleMovementTestImages";
+        //    this.SaveTestImageToFile(dirName, fileName);
+        //}
 
-        private void SaveTestImageToFile(string dirName, string fileName)
-        {
-            if (!Directory.Exists(dirName))
-            {
-                Directory.CreateDirectory(dirName);
-            }
+        //private void SaveTestImageToFile(string dirName, string fileName)
+        //{
+        //    if (!Directory.Exists(dirName))
+        //    {
+        //        Directory.CreateDirectory(dirName);
+        //    }
 
-            var directory = Path.Combine(dirName, fileName);
-            var format = ImageFormat.Jpeg;
+        //    var directory = Path.Combine(dirName, fileName);
+        //    var format = ImageFormat.Jpeg;
 
-            using (var bitmap = this._drawEngine.GetImage())
-            {
-                bitmap.Save(directory, format);
-            }
-        }
+        //    using (var bitmap = this._drawEngine.GetImage())
+        //    {
+        //        bitmap.Save(directory, format);
+        //    }
+        //}
 
         private async void buttonStartFast_Click(object sender, EventArgs e)
         {
@@ -247,7 +229,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
             await Task.Run(() =>
             {
-                this._panTiltControl?.ComparePosition(this._panTiltPositions.Last());
+                this._positionChecker?.ComparePosition(this._panTiltPositions.Last());
             });
 
             this._ptUpdateTimer.Stop();

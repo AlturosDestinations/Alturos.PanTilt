@@ -9,23 +9,30 @@ namespace Alturos.PanTilt.Calibration
 {
     public class SpeedTestLogic : IDisposable
     {
-        private ICommunication _communication;
-        private AxisType _axisType;
-        private IPanTiltControl _panTiltControl;
-        private Dictionary<double, int> _speed = new Dictionary<double, int>();
+        private readonly AxisType _axisType;
+        private readonly IPanTiltControl _panTiltControl;
+        private readonly IPositionChecker _positionChecker;
+        private readonly Dictionary<double, int> _speed = new Dictionary<double, int>();
         private double _lastPosition;
         public double LastPosition { get { return this._lastPosition; } }
 
         public SpeedTestLogic(ICommunication communication, AxisType axisType)
         {
-            this._communication = communication;
             this._axisType = axisType;
-            this._panTiltControl = new EneoPanTiltControl(this._communication);
+            this._panTiltControl = new EneoPanTiltControl(communication);
             this._panTiltControl.PositionChanged += OnPositionChanged;
+            this._positionChecker = new PositionChecker(this._panTiltControl);
+
             this._panTiltControl.Start();
         }
 
         public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             this._panTiltControl.PositionChanged -= OnPositionChanged;
             this._panTiltControl?.StopMoving();
@@ -321,7 +328,7 @@ namespace Alturos.PanTilt.Calibration
                     break;
             }
 
-            while (!this._panTiltControl.ComparePosition(panTiltPosition, tolerance: 0.2))
+            while (!this._positionChecker.ComparePosition(panTiltPosition, tolerance: 0.2))
             {
                 Thread.Sleep(100);
             }

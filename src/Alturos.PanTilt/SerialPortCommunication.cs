@@ -8,7 +8,7 @@ namespace Alturos.PanTilt
     public class SerialPortCommunication : ICommunication
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(SerialPortCommunication));
-        private SerialPort _serialPort;
+        private readonly SerialPort _serialPort;
         public event Action<byte[]> ReceiveData;
         public event Action<byte[], string> SendData;
 
@@ -27,6 +27,12 @@ namespace Alturos.PanTilt
         }
 
         public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             if (this._serialPort == null)
             {

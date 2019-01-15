@@ -4,46 +4,110 @@ namespace Alturos.PanTilt
 {
     public interface IPanTiltControl : IDisposable
     {
+        /// <summary>
+        /// Start the communication with the pt head
+        /// </summary>
+        /// <returns></returns>
         bool Start();
+
+        /// <summary>
+        /// Stop the communication with the pt head
+        /// </summary>
+        /// <returns></returns>
         bool Stop();
 
+        /// <summary>
+        /// Event triggers new pt head position received
+        /// </summary>
         event Action<PanTiltPosition> PositionChanged;
-        event Action LimitOverrun;
+
+        /// <summary>
+        /// Event triggers pt head limits changed
+        /// </summary>
         event Action LimitChanged;
 
-        bool PanAbsolute(double pan);
-        bool TiltAbsolute(double tilt);
-        bool PanTiltAbsolute(double pan, double tilt);
         /// <summary>
-        /// PanRelative
+        /// Event triggers pt head detect a failure on limit 
+        /// </summary>
+        event Action LimitOverrun;
+
+        #region Absolute
+
+        /// <summary>
+        /// Pan move to an absolute position
+        /// </summary>
+        /// <param name="pan"></param>
+        /// <returns></returns>
+        bool PanAbsolute(double pan);
+
+        /// <summary>
+        /// Tilt move to an absolute position
+        /// </summary>
+        /// <param name="tilt"></param>
+        /// <returns></returns>
+        bool TiltAbsolute(double tilt);
+
+        /// <summary>
+        /// Pan Tilt move to an absolute position
+        /// </summary>
+        /// <param name="pan"></param>
+        /// <param name="tilt"></param>
+        /// <returns></returns>
+        bool PanTiltAbsolute(double pan, double tilt);
+
+        #endregion
+
+        #region Relative
+
+        /// <summary>
+        /// Pan move of the pt head with a relative speed
         /// </summary>
         /// <param name="panSpeed">degree per second</param>
         bool PanRelative(double panSpeed);
+
         /// <summary>
-        /// TiltRelative
+        /// Tilt move of the pt head with a relative speed
         /// </summary>
         /// <param name="tiltSpeed">degree per second</param>
         bool TiltRelative(double tiltSpeed);
+
         /// <summary>
-        /// PanTiltRelative
+        /// Pan Tilt move of the pt head with a relative speed
         /// </summary>
         /// <param name="panSpeed">degree per second</param>
         /// <param name="tiltSpeed">degree per second</param>
         bool PanTiltRelative(double panSpeed, double tiltSpeed);
-        PanTiltPosition GetPosition();
-        PanTiltLimit GetLimits();
-        bool StopMoving();
 
         /// <summary>
-        /// Check PanTilt Position
+        /// Stop Relative movement
         /// </summary>
-        /// <param name="position">expect pan tilt position</param>
-        /// <param name="tolerance">tolerance to position</param>
-        /// <param name="retry">retry count</param>
-        /// <param name="timeout">milliseconds</param>
         /// <returns></returns>
-        bool ComparePosition(PanTiltPosition position, double tolerance = 0.5, int retry = 5, int timeout = 500);
+        bool StopMoving();
 
+        #endregion
+
+        /// <summary>
+        /// Get the current pt position
+        /// </summary>
+        /// <returns></returns>
+        PanTiltPosition GetPosition();
+
+        /// <summary>
+        /// Get the limits of the pt head
+        /// </summary>
+        /// <returns></returns>
+        PanTiltLimit GetLimits();
+
+        /// <summary>
+        /// Set the limits of the pt head
+        /// </summary>
+        /// <returns></returns>
+        bool SetLimits(PanTiltLimit panTiltLimit);
+
+        /// <summary>
+        /// Reinitialize the pt head
+        /// </summary>
+        /// <returns></returns>
         bool ReinitializePosition();
     }
 }

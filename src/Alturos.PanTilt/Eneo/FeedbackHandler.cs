@@ -3,7 +3,6 @@ using log4net;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Alturos.PanTilt.Eneo
 {
@@ -14,7 +13,7 @@ namespace Alturos.PanTilt.Eneo
     public class FeedbackHandler
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(FeedbackHandler));
-        private ConcurrentQueue<byte> _buffer = new ConcurrentQueue<byte>();
+        private readonly ConcurrentQueue<byte> _buffer = new ConcurrentQueue<byte>();
 
         public List<BaseResponse> HandleResponse(byte[] data)
         {

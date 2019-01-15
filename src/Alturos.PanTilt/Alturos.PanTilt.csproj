@@ -61,8 +61,10 @@
     <Compile Include="Eneo\Response\TiltLimitResponse.cs" />
     <Compile Include="ICommunication.cs" />
     <Compile Include="IPanTiltControl.cs" />
+    <Compile Include="IPositionChecker.cs" />
     <Compile Include="PanTiltLimit.cs" />
     <Compile Include="PanTiltPosition.cs" />
+    <Compile Include="PositionChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerialPortCommunication.cs" />
     <Compile Include="TcpNetworkCommunication.cs" />

@@ -47,6 +47,12 @@ namespace Alturos.PanTilt.Eneo
 
         public void Dispose()
         {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
             this._communication.ReceiveData -= PackageReceived;
         }
 
@@ -973,39 +979,9 @@ namespace Alturos.PanTilt.Eneo
             return this._limits;
         }
 
-        public bool ComparePosition(PanTiltPosition position, double tolerance = 0.5, int retry = 5, int timeout = 500)
+        public bool SetLimits(PanTiltLimit panTiltLimit)
         {
-            if (this._debug)
-            {
-                Log.Debug($"{nameof(ComparePosition)} - Pan:{position.Pan} Tilt:{position.Tilt} Tolerance: {tolerance}");
-            }
-
-            while (retry > 0)
-            {
-                if (this._position == null)
-                {
-                    Thread.Sleep(timeout);
-                    retry--;
-                    continue;
-                }
-
-                var panDifference = Math.Abs(position.Pan - this._position.Pan);
-                var tiltDifference = Math.Abs(position.Tilt - this._position.Tilt);
-
-                if (panDifference <= tolerance && tiltDifference <= tolerance)
-                {
-                    return true;
-                }
-
-                if (this._debug)
-                {
-                    Log.Debug($"{nameof(ComparePosition)} - Difference, Pan:{panDifference} Tilt:{tiltDifference} Retry:{retry}");
-                }
-
-                Thread.Sleep(timeout);
-                retry--;
-            }
-
+            //TODO: Move logic from TestUI project
             return false;
         }
 

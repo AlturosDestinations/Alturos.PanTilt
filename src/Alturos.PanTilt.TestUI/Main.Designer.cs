@@ -99,6 +99,7 @@ namespace Alturos.PanTilt.TestUI
             this.fastMovementControl1 = new Alturos.PanTilt.TestUI.CustomControl.FastMovementControl();
             this.tabPageCommunicationHistory = new System.Windows.Forms.TabPage();
             this.communicationHistoryControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommunicationHistoryControl();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBoxControls.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -281,6 +282,7 @@ namespace Alturos.PanTilt.TestUI
             // 
             // tabPageManualControl
             // 
+            this.tabPageManualControl.Controls.Add(this.label7);
             this.tabPageManualControl.Controls.Add(this.groupBox6);
             this.tabPageManualControl.Controls.Add(this.groupBox1);
             this.tabPageManualControl.Controls.Add(this.groupBox3);
@@ -887,6 +889,15 @@ namespace Alturos.PanTilt.TestUI
             this.communicationHistoryControl1.Size = new System.Drawing.Size(1119, 558);
             this.communicationHistoryControl1.TabIndex = 0;
             // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(8, 105);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(456, 32);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Info: Absolute move the pt head to the expected position, relative move the pt he" +
+    "ad with a continuous speed (degrees per second)";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1008,6 +1019,7 @@ namespace Alturos.PanTilt.TestUI
         private System.Windows.Forms.Label labelCameraIpAddress;
         private System.Windows.Forms.Label labelPanTiltIpAddress;
         private System.Windows.Forms.Label labelFirmware;
+        private System.Windows.Forms.Label label7;
     }
 }
 

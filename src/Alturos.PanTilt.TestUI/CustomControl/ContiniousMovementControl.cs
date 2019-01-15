@@ -14,6 +14,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
     public partial class ContiniousMovementControl : UserControl
     {
         private IPanTiltControl _panTiltControl;
+        private IPositionChecker _positionChecker;
         private PanTiltPosition _currentPosition;
         private PanTiltPosition _lastPosition;
         private DrawEngine _drawEngine;
@@ -35,18 +36,18 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.buttonStart.Enabled = true;
             this.buttonStartRelative.Enabled = true;
             this.buttonStop.Enabled = false;
-
-            this.UpdatePtLimit();
         }
 
         public void SetPanTiltControl(IPanTiltControl panTiltControl)
         {
             this._panTiltControl = panTiltControl;
+            this._positionChecker = new PositionChecker(this._panTiltControl);
+
             this._panTiltControl.PositionChanged += PanTiltPositionChanged;
             this._panTiltControl.LimitOverrun += PanTiltLimitOverrun;
             this._panTiltControl.LimitChanged += PanTiltLimitChanged;
 
-            this.UpdatePtLimit();
+            this.CheckPtLimitAsync().GetAwaiter().GetResult();
         }
 
         private async void buttonStart_Click(object sender, EventArgs e)
@@ -144,7 +145,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             {
                 this._panTiltControl.PanTiltAbsolute(0, 0);
                 this._waitMovementResetEvent.WaitOne(1000);
-                this._panTiltControl.ComparePosition(new PanTiltPosition(0, 0), 0.2, 20, 40);
+                this._positionChecker.ComparePosition(new PanTiltPosition(0, 0), 0.2, 20, 40);
             });
 
             var circleLogic = new CircleLogic();
@@ -192,7 +193,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 await Task.Run(() =>
                 {
                     this._panTiltControl.PanTiltAbsolute(currentPt.Pan, currentPt.Tilt);
-                    this._panTiltControl.ComparePosition(new PanTiltPosition(currentPt.Pan, currentPt.Tilt), 0.1, 50, 40);
+                    this._positionChecker.ComparePosition(new PanTiltPosition(currentPt.Pan, currentPt.Tilt), 0.1, 50, 40);
                 });
             }
 
@@ -202,10 +203,10 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private void PanTiltLimitChanged()
         {
-            this.UpdatePtLimit();
+            this.CheckPtLimitAsync().GetAwaiter().GetResult();
         }
 
-        private async void UpdatePtLimit()
+        private async Task CheckPtLimitAsync()
         {
             if (this._panTiltControl == null)
             {
@@ -241,7 +242,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             {
                 this._panTiltControl.PanTiltAbsolute(0, 0);
                 this._waitMovementResetEvent.WaitOne(1000);
-                this._panTiltControl.ComparePosition(new PanTiltPosition(0, 0), 0.1, 20, 40);
+                this._positionChecker.ComparePosition(new PanTiltPosition(0, 0), 0.1, 20, 40);
             });
 
             this._currentPosition = _panTiltControl.GetPosition();
@@ -307,7 +308,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 return;
             }
 
-            var deviationOk = this._panTiltControl.ComparePosition(absoluteCurrentPt, allowedDeriviation);
+            var deviationOk = this._positionChecker.ComparePosition(absoluteCurrentPt, allowedDeriviation);
             this._deviationOverrunDetected = !this._deviationOverrunDetected && !deviationOk;
 
             if (this._deviationOverrunDetected)
