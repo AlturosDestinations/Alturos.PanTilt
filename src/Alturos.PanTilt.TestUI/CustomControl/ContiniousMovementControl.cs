@@ -213,7 +213,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 return;
             }
 
-            await Task.Delay(1000);
+            await Task.Delay(1000).ConfigureAwait(false);
             this._ptLimit = this._panTiltControl.GetLimits();
             this.PrepareDrawing();
         }

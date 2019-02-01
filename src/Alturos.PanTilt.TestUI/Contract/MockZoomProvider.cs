@@ -19,7 +19,7 @@ namespace Alturos.PanTilt.TestUI.Contract
 
         public double GetZoom()
         {
-            return this._currentZoom = 0;
+            return this._currentZoom;
         }
 
         public Task<bool> SetZoomAsync(double zoom)

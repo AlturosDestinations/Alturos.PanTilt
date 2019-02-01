@@ -42,7 +42,7 @@ namespace Alturos.PanTilt.TestUI
                 {
                     case DialogResult.OK:
                         this._deviceConfiguration = dialog.DeviceConfiguration;
-                       this._deviceConfigurationHelper.SaveConfig("default",this._deviceConfiguration);
+                        this._deviceConfigurationHelper.SaveConfig("default", this._deviceConfiguration);
                         break;
                     case DialogResult.Cancel:
                     case DialogResult.None:
@@ -59,26 +59,29 @@ namespace Alturos.PanTilt.TestUI
             this.UpdateMousePanel();
             this.panelMouseControl.MouseWheel += MouseWheelZoom;
 
+            //Disable TabPage Zoom - No ZoomProvider available
+            //this.tabControl1.TabPages.Remove(this.tabPageCameraZoom);
+            this._zoomProvider = new MockZoomProvider();
+            this._zoomProvider.SetZoomAsync(0);
+            this._zoomProvider.ZoomChanged += CameraControlZoomChanged;
+
             if (this._deviceConfiguration.CameraActive)
             {
+                //Live Camera Image
                 var url = $"http://{this._deviceConfiguration.CameraIpAddress}{this._deviceConfiguration.CameraJpegUrl}";
 
                 IVideoSource source = new JPEGStream(url);
-                ((JPEGStream)source).FrameInterval = 100;
+                ((JPEGStream)source).FrameInterval = 200;
 
                 this._videoSourcePlayer = new Accord.Controls.VideoSourcePlayer();
                 this._videoSourcePlayer.VideoSource = source;
                 this._videoSourcePlayer.Start();
                 this._videoSourcePlayer.Dock = DockStyle.Fill;
                 this.tabPageLiveView.Controls.Add(this._videoSourcePlayer);
-
-                this._zoomProvider = new MockZoomProvider();
-                this._zoomProvider.SetZoomAsync(0);
-                this._zoomProvider.ZoomChanged += CameraControlZoomChanged;
             }
-
             else
             {
+                //Visual Map
                 this._cameraDrawEngine = new DrawEngine(4);
                 this.UpdateCurrentImage();
                 this.pictureBox_CameraPos.Visible = true;
@@ -241,14 +244,17 @@ namespace Alturos.PanTilt.TestUI
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
+            var zoom = this._zoomProvider.GetZoom();
+            var factor = zoom / 10;
+
             var width = this.panelMouseControl.Width;
             var height = this.panelMouseControl.Height;
 
             var pan = e.X - width / (double)2;
             var tilt = -(e.Y - height / (double)2);
 
-            pan = Math.Round(pan / 2.45, 2);
-            tilt = Math.Round(tilt / 2.45, 2);
+            pan = Math.Round(pan / factor, 2);
+            tilt = Math.Round(tilt / factor, 2);
 
             if (pan >= 100)
             {

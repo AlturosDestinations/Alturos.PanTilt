@@ -42,6 +42,7 @@ namespace Alturos.PanTilt.TestUI
             this.groupBoxSpeed = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPageManualControl = new System.Windows.Forms.TabPage();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.buttonReinitialize = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -79,6 +80,7 @@ namespace Alturos.PanTilt.TestUI
             this.labelLimitRight = new System.Windows.Forms.Label();
             this.labelLimitLeft = new System.Windows.Forms.Label();
             this.tabPageCameraZoom = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.trackBarCurrentZoom = new System.Windows.Forms.TrackBar();
             this.buttonZoom0 = new System.Windows.Forms.Button();
@@ -99,7 +101,6 @@ namespace Alturos.PanTilt.TestUI
             this.fastMovementControl1 = new Alturos.PanTilt.TestUI.CustomControl.FastMovementControl();
             this.tabPageCommunicationHistory = new System.Windows.Forms.TabPage();
             this.communicationHistoryControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommunicationHistoryControl();
-            this.label7 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBoxControls.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -295,6 +296,15 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageManualControl.TabIndex = 2;
             this.tabPageManualControl.Text = "Manual Control";
             this.tabPageManualControl.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(8, 105);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(456, 32);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Info: Absolute move the pt head to the expected position, relative move the pt he" +
+    "ad with a continuous speed (degrees per second)";
             // 
             // groupBox6
             // 
@@ -663,6 +673,7 @@ namespace Alturos.PanTilt.TestUI
             // 
             // tabPageCameraZoom
             // 
+            this.tabPageCameraZoom.Controls.Add(this.label8);
             this.tabPageCameraZoom.Controls.Add(this.label2);
             this.tabPageCameraZoom.Controls.Add(this.trackBarCurrentZoom);
             this.tabPageCameraZoom.Controls.Add(this.buttonZoom0);
@@ -675,6 +686,14 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageCameraZoom.TabIndex = 1;
             this.tabPageCameraZoom.Text = "Camera Zoom";
             this.tabPageCameraZoom.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(286, 37);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(199, 44);
+            this.label8.TabIndex = 25;
+            this.label8.Text = "If the zoom is higher the mouse control work more smoother";
             // 
             // label2
             // 
@@ -889,15 +908,6 @@ namespace Alturos.PanTilt.TestUI
             this.communicationHistoryControl1.Size = new System.Drawing.Size(1119, 558);
             this.communicationHistoryControl1.TabIndex = 0;
             // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(8, 105);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(456, 32);
-            this.label7.TabIndex = 24;
-            this.label7.Text = "Info: Absolute move the pt head to the expected position, relative move the pt he" +
-    "ad with a continuous speed (degrees per second)";
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1020,6 +1030,7 @@ namespace Alturos.PanTilt.TestUI
         private System.Windows.Forms.Label labelPanTiltIpAddress;
         private System.Windows.Forms.Label labelFirmware;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
     }
 }
 
