@@ -93,6 +93,7 @@ namespace Alturos.PanTilt.TestUI
             {
                 this.continiousMovementControl1.SetPanTiltControl(this._panTiltControl);
                 this.fastMovementControl1.SetPanTiltControl(this._panTiltControl);
+                this.absolutePositionControl1.SetPanTiltControl(this._panTiltControl);
                 this._panTiltControl.PanTiltAbsolute(0,0);
             }
         }
@@ -125,7 +126,7 @@ namespace Alturos.PanTilt.TestUI
 
         private void Main_Resize(object sender, EventArgs e)
         {
-            this.groupBoxControls.Location = new Point(this.tabControl2.Width - this.groupBoxControls.Width - 10, this.tabControl2.Height - this.groupBoxControls.Height - 20);
+            this.groupBoxControls.Location = new Point(this.mainTabControl.Width - this.groupBoxControls.Width - 10, this.mainTabControl.Height - this.groupBoxControls.Height - 20);
         }
 
         private void SetConfigurationInfo()

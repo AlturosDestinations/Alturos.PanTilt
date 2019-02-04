@@ -92,7 +92,7 @@ namespace Alturos.PanTilt.TestUI
             this.labelFirmware = new System.Windows.Forms.Label();
             this.labelPositionPan = new System.Windows.Forms.Label();
             this.labelPositionTilt = new System.Windows.Forms.Label();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.mainTabControl = new System.Windows.Forms.TabControl();
             this.tabPageLiveView = new System.Windows.Forms.TabPage();
             this.pictureBox_CameraPos = new System.Windows.Forms.PictureBox();
             this.tabPageMovementCheck = new System.Windows.Forms.TabPage();
@@ -101,6 +101,8 @@ namespace Alturos.PanTilt.TestUI
             this.fastMovementControl1 = new Alturos.PanTilt.TestUI.CustomControl.FastMovementControl();
             this.tabPageCommunicationHistory = new System.Windows.Forms.TabPage();
             this.communicationHistoryControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommunicationHistoryControl();
+            this.tabPageAbsolutePosition = new System.Windows.Forms.TabPage();
+            this.absolutePositionControl1 = new Alturos.PanTilt.TestUI.CustomControl.AbsolutePositionControl();
             this.groupBox2.SuspendLayout();
             this.groupBoxControls.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -122,12 +124,13 @@ namespace Alturos.PanTilt.TestUI
             ((System.ComponentModel.ISupportInitialize)(this.trackBarCurrentZoom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarZoom)).BeginInit();
             this.tabPageInfo.SuspendLayout();
-            this.tabControl2.SuspendLayout();
+            this.mainTabControl.SuspendLayout();
             this.tabPageLiveView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CameraPos)).BeginInit();
             this.tabPageMovementCheck.SuspendLayout();
             this.tabPageFastMovement.SuspendLayout();
             this.tabPageCommunicationHistory.SuspendLayout();
+            this.tabPageAbsolutePosition.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonPanRelative
@@ -813,18 +816,19 @@ namespace Alturos.PanTilt.TestUI
             this.labelPositionTilt.TabIndex = 18;
             this.labelPositionTilt.Text = "labelPosition";
             // 
-            // tabControl2
+            // mainTabControl
             // 
-            this.tabControl2.Controls.Add(this.tabPageLiveView);
-            this.tabControl2.Controls.Add(this.tabPageMovementCheck);
-            this.tabControl2.Controls.Add(this.tabPageFastMovement);
-            this.tabControl2.Controls.Add(this.tabPageCommunicationHistory);
-            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.Location = new System.Drawing.Point(0, 0);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1133, 590);
-            this.tabControl2.TabIndex = 21;
+            this.mainTabControl.Controls.Add(this.tabPageLiveView);
+            this.mainTabControl.Controls.Add(this.tabPageMovementCheck);
+            this.mainTabControl.Controls.Add(this.tabPageFastMovement);
+            this.mainTabControl.Controls.Add(this.tabPageAbsolutePosition);
+            this.mainTabControl.Controls.Add(this.tabPageCommunicationHistory);
+            this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainTabControl.Location = new System.Drawing.Point(0, 0);
+            this.mainTabControl.Name = "mainTabControl";
+            this.mainTabControl.SelectedIndex = 0;
+            this.mainTabControl.Size = new System.Drawing.Size(1133, 590);
+            this.mainTabControl.TabIndex = 21;
             // 
             // tabPageLiveView
             // 
@@ -908,12 +912,31 @@ namespace Alturos.PanTilt.TestUI
             this.communicationHistoryControl1.Size = new System.Drawing.Size(1119, 558);
             this.communicationHistoryControl1.TabIndex = 0;
             // 
+            // tabPageAbsolutePosition
+            // 
+            this.tabPageAbsolutePosition.Controls.Add(this.absolutePositionControl1);
+            this.tabPageAbsolutePosition.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAbsolutePosition.Name = "tabPageAbsolutePosition";
+            this.tabPageAbsolutePosition.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAbsolutePosition.Size = new System.Drawing.Size(1125, 564);
+            this.tabPageAbsolutePosition.TabIndex = 4;
+            this.tabPageAbsolutePosition.Text = "Absolute Position Check";
+            this.tabPageAbsolutePosition.UseVisualStyleBackColor = true;
+            // 
+            // absolutePositionControl1
+            // 
+            this.absolutePositionControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.absolutePositionControl1.Location = new System.Drawing.Point(3, 3);
+            this.absolutePositionControl1.Name = "absolutePositionControl1";
+            this.absolutePositionControl1.Size = new System.Drawing.Size(1119, 558);
+            this.absolutePositionControl1.TabIndex = 0;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1133, 590);
-            this.Controls.Add(this.tabControl2);
+            this.Controls.Add(this.mainTabControl);
             this.Name = "Main";
             this.Text = "change by code";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
@@ -946,13 +969,14 @@ namespace Alturos.PanTilt.TestUI
             ((System.ComponentModel.ISupportInitialize)(this.trackBarZoom)).EndInit();
             this.tabPageInfo.ResumeLayout(false);
             this.tabPageInfo.PerformLayout();
-            this.tabControl2.ResumeLayout(false);
+            this.mainTabControl.ResumeLayout(false);
             this.tabPageLiveView.ResumeLayout(false);
             this.tabPageLiveView.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CameraPos)).EndInit();
             this.tabPageMovementCheck.ResumeLayout(false);
             this.tabPageFastMovement.ResumeLayout(false);
             this.tabPageCommunicationHistory.ResumeLayout(false);
+            this.tabPageAbsolutePosition.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -993,7 +1017,7 @@ namespace Alturos.PanTilt.TestUI
         private System.Windows.Forms.Button buttonSmoothingNormal;
         private System.Windows.Forms.Button buttonSmoothingHigh;
         private CustomControl.ContiniousMovementControl continiousMovementControl1;
-        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabControl mainTabControl;
         private System.Windows.Forms.TabPage tabPageLiveView;
         private System.Windows.Forms.TabPage tabPageMovementCheck;
         private System.Windows.Forms.Label labelLimitLeft;
@@ -1031,6 +1055,8 @@ namespace Alturos.PanTilt.TestUI
         private System.Windows.Forms.Label labelFirmware;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TabPage tabPageAbsolutePosition;
+        private CustomControl.AbsolutePositionControl absolutePositionControl1;
     }
 }
 

@@ -76,6 +76,12 @@
   <ItemGroup>
     <Compile Include="Contract\IZoomProvider.cs" />
     <Compile Include="Contract\MockZoomProvider.cs" />
+    <Compile Include="CustomControl\AbsolutePositionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\AbsolutePositionControl.Designer.cs">
+      <DependentUpon>AbsolutePositionControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\FastMovementControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -115,6 +121,9 @@
     <Compile Include="Model\PositionCompare.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CustomControl\AbsolutePositionControl.resx">
+      <DependentUpon>AbsolutePositionControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomControl\FastMovementControl.resx">
       <DependentUpon>FastMovementControl.cs</DependentUpon>
     </EmbeddedResource>
