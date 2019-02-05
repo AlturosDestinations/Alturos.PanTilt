@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alturos.PanTilt.TestUI.Extension;
@@ -39,22 +40,36 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this._panTiltControl.TiltAbsolute(0);
             for (var pan = limits.PanMin; pan < limits.PanMax; pan += 0.05)
             {
+                pan = Math.Round(pan, 2);
                 this._panTiltControl.PanAbsolute(pan);
-                if (!positionChecker.ComparePosition(new PanTiltPosition(pan, 0), 0.1, 5, 2000))
+                Thread.Sleep(2000);
+                if (positionChecker.ComparePosition(new PanTiltPosition(pan, 0), 0.1))
                 {
                     var position = this._panTiltControl.GetPosition();
-                    this.textBoxResult.Invoke(o => o.Text += $"Failure move to pan position {pan} ({position.Pan})\r\n");
+                    this.textBoxResult.Invoke(o => o.Text += $"Good;pan;{pan};{position.Pan}\r\n");
+                }
+                else
+                {
+                    var position = this._panTiltControl.GetPosition();
+                    this.textBoxResult.Invoke(o => o.Text += $"Failure;pan;{pan};{position.Pan}\r\n");
                 }
             }
 
             this._panTiltControl.PanAbsolute(0);
             for (var tilt = limits.TiltMin; tilt < limits.TiltMax; tilt += 0.05)
             {
+                tilt = Math.Round(tilt, 2);
                 this._panTiltControl.TiltAbsolute(tilt);
-                if (!positionChecker.ComparePosition(new PanTiltPosition(0, tilt), 0.1, 5, 2000))
+                Thread.Sleep(2000);
+                if (positionChecker.ComparePosition(new PanTiltPosition(0, tilt), 0.1))
                 {
                     var position = this._panTiltControl.GetPosition();
-                    this.textBoxResult.Invoke(o => o.Text += $"Failure move to tilt position {tilt} ({position.Tilt})\r\n");
+                    this.textBoxResult.Invoke(o => o.Text += $"Good;tilt;{tilt};{position.Tilt}\r\n");
+                }
+                else
+                {
+                    var position = this._panTiltControl.GetPosition();
+                    this.textBoxResult.Invoke(o => o.Text += $"Failure;tilt;{tilt};{position.Tilt}\r\n");
                 }
             }
         }
