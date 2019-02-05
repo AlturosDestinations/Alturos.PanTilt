@@ -18,13 +18,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         public void SetPanTiltControl(IPanTiltControl panTiltControl)
         {
             this._panTiltControl = panTiltControl;
-            //this._positionChecker = new PositionChecker(this._panTiltControl);
-
-            //this._panTiltControl.PositionChanged += PanTiltPositionChanged;
-            //this._panTiltControl.LimitOverrun += PanTiltLimitOverrun;
-            //this._panTiltControl.LimitChanged += PanTiltLimitChanged;
-
-            //this.CheckPtLimitAsync().GetAwaiter().GetResult();
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
