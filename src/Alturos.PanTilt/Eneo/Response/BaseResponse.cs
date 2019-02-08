@@ -2,8 +2,8 @@
 {
     public class BaseResponse
     {
-        public ResponseType ResponseType;
-        public bool ChecksumValid;
+        public ResponseType ResponseType { get; private set; }
+        public bool ChecksumValid { get; private set; }
 
         public BaseResponse(ResponseType responseType, bool checksumValid)
         {

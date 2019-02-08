@@ -2,7 +2,7 @@
 {
     public class LimitOverrunResponse : BaseResponse
     {
-        public LimitOverrunType LimitOverrunType;
+        public LimitOverrunType LimitOverrunType { get; private set; }
 
         public LimitOverrunResponse(LimitOverrunType limitOverrunType, bool checksumValid) : base(ResponseType.LimitOverrun, checksumValid)
         {

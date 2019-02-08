@@ -382,8 +382,8 @@ namespace Alturos.PanTilt.Eneo
             if (groupResponses.ContainsKey(ResponseType.PanLimit))
             {
                 var limits = groupResponses[ResponseType.PanLimit].Select(o => ((PanLimitResponse)o)).ToList();
-                var minLimit = limits.Where(o => o.Type == LimitType.Min).FirstOrDefault()?.Limit;
-                var maxLimit = limits.Where(o => o.Type == LimitType.Max).FirstOrDefault()?.Limit;
+                var minLimit = limits.FirstOrDefault(o => o.Type == LimitType.Min)?.Limit;
+                var maxLimit = limits.FirstOrDefault(o => o.Type == LimitType.Max)?.Limit;
 
                 if (minLimit.HasValue)
                 {
@@ -399,8 +399,8 @@ namespace Alturos.PanTilt.Eneo
             if (groupResponses.ContainsKey(ResponseType.TiltLimit))
             {
                 var limits = groupResponses[ResponseType.TiltLimit].Select(o => ((TiltLimitResponse)o)).ToList();
-                var minLimit = limits.Where(o => o.Type == LimitType.Min).FirstOrDefault()?.Limit;
-                var maxLimit = limits.Where(o => o.Type == LimitType.Max).FirstOrDefault()?.Limit;
+                var minLimit = limits.FirstOrDefault(o => o.Type == LimitType.Min)?.Limit;
+                var maxLimit = limits.FirstOrDefault(o => o.Type == LimitType.Max)?.Limit;
 
                 if (minLimit.HasValue)
                 {
@@ -461,13 +461,13 @@ namespace Alturos.PanTilt.Eneo
         {
             if (position == 0)
             {
-                // set angle position zero
+                //Set angle position zero
                 data1 = 0xDA;
                 data2 = 0xAA;
                 return;
             }
 
-            // to be able to encode two decimal points
+            //To be able to encode two decimal points
             var targetPosition = (int)(position * 100);
 
             if (position > 0)
@@ -482,15 +482,15 @@ namespace Alturos.PanTilt.Eneo
 
                 if (data2 == 0x00)
                 {
-                    data1 = 0x51;
+                    //Dont move the order it's important first data2
                     data2 = data1;
+                    data1 = 0x51;
                 }
 
                 return;
             }
 
             //position < 0
-            // absolute?
             data1 = (byte)(Math.Abs(targetPosition) >> 8);
             data1 |= 0x80;
 
@@ -503,8 +503,9 @@ namespace Alturos.PanTilt.Eneo
 
             if (data2 == 0x00)
             {
-                data1 = 0xD1;
+                //Dont move the order it's important first data2
                 data2 = data1;
+                data1 = 0xD1;
             }
         }
 

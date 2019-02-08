@@ -4,7 +4,6 @@
     {
         public LimitActiveResponse(bool checksumValid) : base(ResponseType.LimitActive, checksumValid)
         {
-
         }
     }
 }

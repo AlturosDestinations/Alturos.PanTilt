@@ -2,7 +2,7 @@
 {
     public class TiltInfoResponse : BaseResponse
     {
-        public double Tilt;
+        public double Tilt { get; private set; }
 
         public TiltInfoResponse(double tilt, bool checksumValid) : base (ResponseType.TiltInfo, checksumValid)
         {
