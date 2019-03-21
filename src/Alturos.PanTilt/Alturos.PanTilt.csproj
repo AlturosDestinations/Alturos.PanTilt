@@ -69,6 +69,7 @@
     <Compile Include="SerialPortCommunication.cs" />
     <Compile Include="TcpNetworkCommunication.cs" />
     <Compile Include="UdpNetworkCommunication.cs" />
+    <Compile Include="UdpReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
