@@ -1,4 +1,3 @@
-using log4net;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -7,44 +6,33 @@ namespace Alturos.PanTilt
 {
     public class UdpNetworkCommunication : ICommunication
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(UdpNetworkCommunication));
-        private UdpClient _receiver;
+        private UdpReceiver _receiver;
         private UdpClient _sender;
-        private readonly IPEndPoint _ipEndPoint;
+        private IPAddress _ipAddress;
         private readonly bool _externalReceiver;
 
         public event Action<byte[]> ReceiveData;
         public event Action<byte[], string> SendData;
 
-        public UdpNetworkCommunication(IPAddress ipAddress, UdpClient receiver, int sendPort = 4003)
+        public UdpNetworkCommunication(IPAddress ipAddress, UdpReceiver receiver, int sendPort = 4003)
         {
             this._externalReceiver = true;
-            this._ipEndPoint = new IPEndPoint(ipAddress, sendPort);
             this.Initialize(ipAddress, sendPort, receiver);
         }
 
         public UdpNetworkCommunication(IPAddress ipAddress, int sendPort = 4003, int receivePort = 4003)
         {
-            this._ipEndPoint = new IPEndPoint(ipAddress, receivePort);
-            var receiver = new UdpClient(receivePort, AddressFamily.InterNetwork);
-
+            var receiver = new UdpReceiver(receivePort, new IPAddress[] { ipAddress });
             this.Initialize(ipAddress, sendPort, receiver);
         }
 
-        private void Initialize(IPAddress ipAddress, int sendPort = 4003, UdpClient receiver = null)
+        private void Initialize(IPAddress ipAddress, int sendPort = 4003, UdpReceiver receiver = null)
         {
+            this._ipAddress = ipAddress;
             this._sender = new UdpClient();
             this._sender.Connect(ipAddress, sendPort);
             this._receiver = receiver;
-
-            try
-            {
-                this._receiver.BeginReceive(new AsyncCallback(ReceiveProcess), null);
-            }
-            catch (Exception exception)
-            {
-                Log.Error(nameof(Initialize), exception);
-            }
+            this._receiver.OnPackageReceived += OnPackageReceived;
         }
 
         public void Dispose()
@@ -60,8 +48,8 @@ namespace Alturos.PanTilt
 
             if (!this._externalReceiver)
             {
-                this._receiver?.Close();
-                this._receiver?.Dispose();
+                this._receiver?.UdpClient?.Close();
+                this._receiver?.UdpClient?.Dispose();
             }
         }
 
@@ -72,32 +60,11 @@ namespace Alturos.PanTilt
             return true;
         }
 
-        private void ReceiveProcess(IAsyncResult result)
+        private void OnPackageReceived(IPAddress ipAddress, byte[] bytes)
         {
-            IPEndPoint remoteIpEndPoint = null;
-
-            try
+            if (this._ipAddress.Equals(ipAddress))
             {
-                var received = this._receiver.EndReceive(result, ref remoteIpEndPoint);
-
-                if (this._ipEndPoint.Address.Equals(remoteIpEndPoint.Address))
-                {
-                    this.ReceiveData?.Invoke(received);
-                }
-                else
-                {
-                    Log.Debug($"{nameof(ReceiveProcess)} - Invalid endpoint {remoteIpEndPoint.Address}");
-                }
-
-                this._receiver.BeginReceive(new AsyncCallback(ReceiveProcess), null);
-            }
-            catch (ObjectDisposedException exception)
-            {
-                Log.Debug(nameof(ReceiveProcess), exception);
-            }
-            catch (Exception exception)
-            {
-                Log.Error(nameof(ReceiveProcess), exception);
+                this.ReceiveData?.Invoke(bytes);
             }
         }
     }
