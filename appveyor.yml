@@ -1,0 +1,14 @@
+version: '1.0.{build}'
+image: Visual Studio 2017
+branches:
+  only:
+  - master
+configuration: Release
+build:
+  project: src/Alturos.PanTilt.sln
+  verbosity: normal
+build_script:
+   - dotnet restore src
+artifacts:  
+  - path: '**\*.nupkg'
+    name: nugetpackage
