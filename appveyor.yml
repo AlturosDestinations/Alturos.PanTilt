@@ -4,11 +4,11 @@ branches:
   only:
   - master
 configuration: Release
+before_build:
+   - dotnet restore src
 build:
   project: src/Alturos.PanTilt.sln
   verbosity: normal
-build_script:
-   - dotnet restore src
 artifacts:  
   - path: '**\*.nupkg'
     name: nugetpackage
