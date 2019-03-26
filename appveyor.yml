@@ -12,5 +12,5 @@ build:
   publish_nuget_symbols: true
   verbosity: normal
 artifacts:  
-  - path: '**\*.nupkg'
+  - path: '**\src\*.nupkg'
     name: nugetpackage
