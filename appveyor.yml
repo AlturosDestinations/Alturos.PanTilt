@@ -5,7 +5,7 @@ branches:
   - master
 configuration: Release
 before_build:
-   - dotnet restore src
+   - nuget restore src
 build:
   project: src/Alturos.PanTilt.sln
   verbosity: normal
