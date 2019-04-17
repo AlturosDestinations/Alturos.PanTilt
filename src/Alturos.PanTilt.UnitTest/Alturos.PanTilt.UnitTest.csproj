@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EneoConvertTest.cs" />
     <Compile Include="FeedbackHandlerTest.cs" />
     <Compile Include="MockCommunication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -47,6 +47,7 @@
     <Compile Include="Eneo\EneoPanTiltControl.cs" />
     <Compile Include="Eneo\FeedbackHandler.cs" />
     <Compile Include="Eneo\FirmwareReader.cs" />
+    <Compile Include="Eneo\PositionConverter.cs" />
     <Compile Include="Eneo\Response\BaseResponse.cs" />
     <Compile Include="Eneo\Response\LimitOverrunResponse.cs" />
     <Compile Include="Eneo\Response\LimitActiveResponse.cs" />
