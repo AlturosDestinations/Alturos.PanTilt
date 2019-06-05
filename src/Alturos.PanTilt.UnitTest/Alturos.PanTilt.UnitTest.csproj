@@ -52,6 +52,7 @@
     <Compile Include="Alturos\SendTest.cs" />
     <Compile Include="Eneo\FeedbackHandlerTest.cs" />
     <Compile Include="Mock\MockCommunication.cs" />
+    <Compile Include="EneoConvertTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Eneo\ProtocolTest.cs" />
     <Compile Include="Eneo\SendTest.cs" />

@@ -17,6 +17,7 @@ namespace Alturos.PanTilt.Contract
         private readonly PanTiltLimit _limits;
         private readonly FeedbackHandler _handler;
         private readonly ManualResetEvent _resetEvent;
+        private readonly PositionConverter _positionConverter;
         private bool _stopHeartbeat;
         private readonly int _dipReceiverPort = 1;
         private int _receiveCount;
@@ -35,6 +36,8 @@ namespace Alturos.PanTilt.Contract
             this._communication.ReceiveData += PackageReceived;
 
             this._debug = debug;
+
+            this._positionConverter = new PositionConverter();
 
             this._position = null;
             this._limits = new PanTiltLimit();
@@ -458,58 +461,6 @@ namespace Alturos.PanTilt.Contract
             this.DeactivateFeedback();
         }
 
-        private void ConvertPositionData(double position, out byte data1, out byte data2)
-        {
-            if (position == 0)
-            {
-                //Set angle position zero
-                data1 = 0xDA;
-                data2 = 0xAA;
-                return;
-            }
-
-            //To be able to encode two decimal points
-            var targetPosition = (int)(position * 100);
-
-            if (position > 0)
-            {
-                data1 = (byte)(targetPosition >> 8);
-                data2 = (byte)(targetPosition & 0x00FF);
-
-                if (data1 == 0x00)
-                {
-                    data1 = 0x50;
-                }
-
-                if (data2 == 0x00)
-                {
-                    //Dont move the order it's important first data2
-                    data2 = data1;
-                    data1 = 0x51;
-                }
-
-                return;
-            }
-
-            //position < 0
-            data1 = (byte)(Math.Abs(targetPosition) >> 8);
-            data1 |= 0x80;
-
-            data2 = (byte)(Math.Abs(targetPosition) & 0x00FF);
-
-            if (data1 == 0x00)
-            {
-                data1 = 0xD0;
-            }
-
-            if (data2 == 0x00)
-            {
-                //Dont move the order it's important first data2
-                data2 = data1;
-                data1 = 0xD1;
-            }
-        }
-
         public bool ReinitializePosition()
         {
             //Firmware request command need to commands for start the reinitialize
@@ -546,7 +497,7 @@ namespace Alturos.PanTilt.Contract
             byte panData1;
             byte panData2;
 
-            this.ConvertPositionData(panPosition, out panData1, out panData2);
+            this._positionConverter.ConvertPositionData(panPosition, out panData1, out panData2);
 
             data[1] = panData1;
             data[2] = panData2;
@@ -563,7 +514,7 @@ namespace Alturos.PanTilt.Contract
             byte tiltData1;
             byte tiltData2;
 
-            this.ConvertPositionData(tiltPosition, out tiltData1, out tiltData2);
+            this._positionConverter.ConvertPositionData(tiltPosition, out tiltData1, out tiltData2);
 
             data[1] = tiltData1;
             data[2] = tiltData2;
