@@ -1,6 +1,7 @@
 using Accord.Video;
+using Alturos.PanTilt.Contract;
+using Alturos.PanTilt.Contract.Eneo;
 using Alturos.PanTilt.Diagnostic;
-using Alturos.PanTilt.Eneo;
 using Alturos.PanTilt.TestUI.Contract;
 using Alturos.PanTilt.TestUI.Dialog;
 using Alturos.PanTilt.TestUI.Extension;
@@ -185,7 +186,8 @@ namespace Alturos.PanTilt.TestUI
                 await Task.Delay(100).ConfigureAwait(false);
             }
 
-            this._panTiltControl = new EneoPanTiltControl(this._communication);
+            this._panTiltControl = new AlturosPanTiltControl(this._communication);
+            //this._panTiltControl = new EneoPanTiltControl(this._communication);
             this._panTiltControl.PositionChanged += OnPositionChanged;
             this._positionChecker = new PositionChecker(this._panTiltControl);
 
@@ -355,12 +357,22 @@ namespace Alturos.PanTilt.TestUI
 
         private void buttonEnableLimits_Click(object sender, EventArgs e)
         {
-            ((EneoPanTiltControl)this._panTiltControl).EnableLimit();
+            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
+            if (eneoPanTiltControl == null)
+            {
+                return;
+            }
+            eneoPanTiltControl.EnableLimit();
         }
 
         private void buttonDisableLimits_Click(object sender, EventArgs e)
         {
-            ((EneoPanTiltControl)this._panTiltControl).DisableLimit();
+            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
+            if (eneoPanTiltControl == null)
+            {
+                return;
+            }
+            eneoPanTiltControl.DisableLimit();
         }
 
         private async void buttonRefreshLimitInfos_Click(object sender, EventArgs e)
@@ -370,29 +382,54 @@ namespace Alturos.PanTilt.TestUI
 
         private async Task RefreshLimits()
         {
-            ((EneoPanTiltControl)this._panTiltControl).QueryLimits();
+            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
+            if (eneoPanTiltControl == null)
+            {
+                return;
+            }
+            eneoPanTiltControl.QueryLimits();
             await Task.Delay(1000);
             this.GetLimitInfos();
         }
 
         private void buttonLimitUp_Click(object sender, EventArgs e)
         {
-            ((EneoPanTiltControl)this._panTiltControl).SetLimitUp();
+            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
+            if (eneoPanTiltControl == null)
+            {
+                return;
+            }
+            eneoPanTiltControl.SetLimitUp();
         }
 
         private void buttonSetLimitDown_Click(object sender, EventArgs e)
         {
-            ((EneoPanTiltControl)this._panTiltControl).SetLimitDown();
+            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
+            if (eneoPanTiltControl == null)
+            {
+                return;
+            }
+            eneoPanTiltControl.SetLimitDown();
         }
 
         private void buttonLimitLeft_Click(object sender, EventArgs e)
         {
-            ((EneoPanTiltControl)this._panTiltControl).SetLimitLeft();
+            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
+            if (eneoPanTiltControl == null)
+            {
+                return;
+            }
+            eneoPanTiltControl.SetLimitLeft();
         }
 
         private void buttonSetLimitRight_Click(object sender, EventArgs e)
         {
-            ((EneoPanTiltControl)this._panTiltControl).SetLimitRigth();
+            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
+            if (eneoPanTiltControl == null)
+            {
+                return;
+            }
+            eneoPanTiltControl.SetLimitRigth();
         }
 
         private void buttonReinitialize_Click(object sender, EventArgs e)
@@ -413,11 +450,16 @@ namespace Alturos.PanTilt.TestUI
         {
             //Notice:
             //Pt head cannot move with absolute commands to a position outside the limits we must change the limits before with a relative command
+            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
+            if (eneoPanTiltControl == null)
+            {
+                return;
+            }
 
             await Task.Run(() =>
             {
                 //Disable limits
-                ((EneoPanTiltControl)this._panTiltControl).DisableLimit();
+                eneoPanTiltControl.DisableLimit();
 
                 //Move to zero position
                 this._panTiltControl.PanTiltAbsolute(0, 0);
@@ -426,18 +468,18 @@ namespace Alturos.PanTilt.TestUI
                 //PanMin
                 this._panTiltControl.PanRelative(-30);
                 this._positionChecker.ComparePosition(new PanTiltPosition(limits.PanMin - 10, 0), tolerance: 5, timeout: 50, retry: 200);
-                ((EneoPanTiltControl)this._panTiltControl).SetLimitLeft();
+                eneoPanTiltControl.SetLimitLeft();
                 this._panTiltControl.PanAbsolute(limits.PanMin);
                 this._positionChecker.ComparePosition(new PanTiltPosition(limits.PanMin, 0));
-                ((EneoPanTiltControl)this._panTiltControl).SetLimitLeft();
+                eneoPanTiltControl.SetLimitLeft();
 
                 //PanMax
                 this._panTiltControl.PanRelative(30);
                 this._positionChecker.ComparePosition(new PanTiltPosition(limits.PanMax + 10, 0), tolerance: 5, timeout: 50, retry: 200);
-                ((EneoPanTiltControl)this._panTiltControl).SetLimitRigth();
+                eneoPanTiltControl.SetLimitRigth();
                 this._panTiltControl.PanAbsolute(limits.PanMax);
                 this._positionChecker.ComparePosition(new PanTiltPosition(limits.PanMax, 0));
-                ((EneoPanTiltControl)this._panTiltControl).SetLimitRigth();
+                eneoPanTiltControl.SetLimitRigth();
 
                 //Move to zero position
                 this._panTiltControl.PanTiltAbsolute(0, 0);
@@ -446,21 +488,21 @@ namespace Alturos.PanTilt.TestUI
                 //TiltMin
                 this._panTiltControl.TiltRelative(-20);
                 this._positionChecker.ComparePosition(new PanTiltPosition(0, limits.TiltMin - 10), tolerance: 5, timeout: 50, retry: 200);
-                ((EneoPanTiltControl)this._panTiltControl).SetLimitDown();
+                eneoPanTiltControl.SetLimitDown();
                 this._panTiltControl.TiltAbsolute(limits.TiltMin);
                 this._positionChecker.ComparePosition(new PanTiltPosition(0, limits.TiltMin));
-                ((EneoPanTiltControl)this._panTiltControl).SetLimitDown();
+                eneoPanTiltControl.SetLimitDown();
 
                 //TiltMax
                 this._panTiltControl.TiltRelative(20);
                 this._positionChecker.ComparePosition(new PanTiltPosition(0, limits.TiltMax + 10), tolerance: 5, timeout: 50, retry: 200);
-                ((EneoPanTiltControl)this._panTiltControl).SetLimitUp();
+                eneoPanTiltControl.SetLimitUp();
                 this._panTiltControl.TiltAbsolute(limits.TiltMax);
                 this._positionChecker.ComparePosition(new PanTiltPosition(0, limits.TiltMax));
-                ((EneoPanTiltControl)this._panTiltControl).SetLimitUp();
+                eneoPanTiltControl.SetLimitUp();
 
                 //Enable limits
-                ((EneoPanTiltControl)this._panTiltControl).EnableLimit();
+                eneoPanTiltControl.EnableLimit();
 
                 //Move to zero position
                 this._panTiltControl.PanTiltAbsolute(0, 0);
@@ -506,7 +548,11 @@ namespace Alturos.PanTilt.TestUI
             this.labelAccleration.Text = $"Acceleration: {acceleration}";
             this.labelGain.Text = $"Gain: {gain}";
 
-            ((EneoPanTiltControl)this._panTiltControl).SetSmoothing(acceleration, gain);
+            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
+            if (eneoPanTiltControl != null)
+            {
+                eneoPanTiltControl.SetSmoothing(acceleration, gain);
+            }
         }
 
         #endregion

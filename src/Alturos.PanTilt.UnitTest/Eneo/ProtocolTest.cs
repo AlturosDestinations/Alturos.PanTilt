@@ -1,10 +1,11 @@
-﻿using Alturos.PanTilt.Eneo;
+﻿using Alturos.PanTilt.Contract;
+using Alturos.PanTilt.UnitTest.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Alturos.PanTilt.UnitTest
+namespace Alturos.PanTilt.UnitTest.Eneo
 {
     [TestClass]
     public class ProtocolTest

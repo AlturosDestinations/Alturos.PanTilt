@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Text;
 
-namespace Alturos.PanTilt.UnitTest
+namespace Alturos.PanTilt.UnitTest.Mock
 {
     public class MockCommunication : ICommunication
     {
@@ -24,6 +25,11 @@ namespace Alturos.PanTilt.UnitTest
         {
             this.SendData?.Invoke(data, description);
             return true;
+        }
+
+        public void Receive(string data)
+        {
+            this.ReceiveData?.Invoke(Encoding.ASCII.GetBytes(data));
         }
     }
 }

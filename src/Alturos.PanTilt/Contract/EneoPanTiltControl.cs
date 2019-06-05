@@ -1,4 +1,5 @@
-using Alturos.PanTilt.Eneo.Response;
+using Alturos.PanTilt.Contract.Eneo;
+using Alturos.PanTilt.Contract.Eneo.Response;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Alturos.PanTilt.Eneo
+namespace Alturos.PanTilt.Contract
 {
     public class EneoPanTiltControl : IPanTiltControl
     {

@@ -48,11 +48,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FeedbackHandlerTest.cs" />
-    <Compile Include="MockCommunication.cs" />
+    <Compile Include="Alturos\ReceiveTest.cs" />
+    <Compile Include="Alturos\SendTest.cs" />
+    <Compile Include="Eneo\FeedbackHandlerTest.cs" />
+    <Compile Include="Mock\MockCommunication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProtocolTest.cs" />
-    <Compile Include="SendTest.cs" />
+    <Compile Include="Eneo\ProtocolTest.cs" />
+    <Compile Include="Eneo\SendTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Alturos.PanTilt\Alturos.PanTilt.csproj">

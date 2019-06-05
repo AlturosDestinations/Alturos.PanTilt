@@ -1,4 +1,4 @@
-﻿using Alturos.PanTilt.Eneo;
+﻿using Alturos.PanTilt.Contract;
 using System;
 using System.Threading;
 

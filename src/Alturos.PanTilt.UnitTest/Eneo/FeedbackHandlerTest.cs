@@ -1,8 +1,8 @@
-﻿using Alturos.PanTilt.Eneo;
-using Alturos.PanTilt.Eneo.Response;
+﻿using Alturos.PanTilt.Contract.Eneo;
+using Alturos.PanTilt.Contract.Eneo.Response;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Alturos.PanTilt.UnitTest
+namespace Alturos.PanTilt.UnitTest.Eneo
 {
     [TestClass]
     public class FeedbackHandlerTest

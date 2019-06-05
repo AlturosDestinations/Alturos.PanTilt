@@ -1,10 +1,10 @@
-﻿using Alturos.PanTilt.Eneo.Response;
+﻿using Alturos.PanTilt.Contract.Eneo.Response;
 using log4net;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Alturos.PanTilt.Eneo
+namespace Alturos.PanTilt.Contract.Eneo
 {
     /// <summary>
     /// Understands the feedback the head sends back to the application and 

@@ -43,22 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\AlturosPanTiltControl.cs" />
     <Compile Include="CommunicationType.cs" />
-    <Compile Include="Eneo\EneoPanTiltControl.cs" />
-    <Compile Include="Eneo\FeedbackHandler.cs" />
-    <Compile Include="Eneo\FirmwareReader.cs" />
-    <Compile Include="Eneo\Response\BaseResponse.cs" />
-    <Compile Include="Eneo\Response\LimitOverrunResponse.cs" />
-    <Compile Include="Eneo\Response\LimitActiveResponse.cs" />
-    <Compile Include="Eneo\Response\LimitOverrunType.cs" />
-    <Compile Include="Eneo\Response\LimitType.cs" />
-    <Compile Include="Eneo\Response\PanInfoResponse.cs" />
-    <Compile Include="Eneo\Response\PanLimitResponse.cs" />
-    <Compile Include="Eneo\Response\PotentiometerResponse.cs" />
-    <Compile Include="Eneo\Response\ResponseType.cs" />
-    <Compile Include="Eneo\Response\TemperatureResponse.cs" />
-    <Compile Include="Eneo\Response\TiltInfoResponse.cs" />
-    <Compile Include="Eneo\Response\TiltLimitResponse.cs" />
+    <Compile Include="Contract\EneoPanTiltControl.cs" />
+    <Compile Include="Contract\Eneo\FeedbackHandler.cs" />
+    <Compile Include="Contract\Eneo\FirmwareReader.cs" />
+    <Compile Include="Contract\Eneo\Response\BaseResponse.cs" />
+    <Compile Include="Contract\Eneo\Response\LimitOverrunResponse.cs" />
+    <Compile Include="Contract\Eneo\Response\LimitActiveResponse.cs" />
+    <Compile Include="Contract\Eneo\Response\LimitOverrunType.cs" />
+    <Compile Include="Contract\Eneo\Response\LimitType.cs" />
+    <Compile Include="Contract\Eneo\Response\PanInfoResponse.cs" />
+    <Compile Include="Contract\Eneo\Response\PanLimitResponse.cs" />
+    <Compile Include="Contract\Eneo\Response\PotentiometerResponse.cs" />
+    <Compile Include="Contract\Eneo\Response\ResponseType.cs" />
+    <Compile Include="Contract\Eneo\Response\TemperatureResponse.cs" />
+    <Compile Include="Contract\Eneo\Response\TiltInfoResponse.cs" />
+    <Compile Include="Contract\Eneo\Response\TiltLimitResponse.cs" />
     <Compile Include="ICommunication.cs" />
     <Compile Include="IPanTiltControl.cs" />
     <Compile Include="IPositionChecker.cs" />
@@ -74,6 +75,8 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Alturos\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

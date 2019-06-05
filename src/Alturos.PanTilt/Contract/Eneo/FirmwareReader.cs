@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading;
 
-namespace Alturos.PanTilt.Eneo
+namespace Alturos.PanTilt.Contract.Eneo
 {
     public class FirmwareReader : IDisposable
     {
