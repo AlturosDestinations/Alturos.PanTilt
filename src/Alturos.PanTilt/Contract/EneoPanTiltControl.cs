@@ -1,5 +1,6 @@
 using Alturos.PanTilt.Contract.Eneo;
 using Alturos.PanTilt.Contract.Eneo.Response;
+using Alturos.PanTilt.Eneo;
 using log4net;
 using System;
 using System.Collections.Generic;

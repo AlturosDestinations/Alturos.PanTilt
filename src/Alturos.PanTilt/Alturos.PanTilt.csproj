@@ -48,6 +48,7 @@
     <Compile Include="Contract\EneoPanTiltControl.cs" />
     <Compile Include="Contract\Eneo\FeedbackHandler.cs" />
     <Compile Include="Contract\Eneo\FirmwareReader.cs" />
+    <Compile Include="Contract\Eneo\PositionConverter.cs" />
     <Compile Include="Contract\Eneo\Response\BaseResponse.cs" />
     <Compile Include="Contract\Eneo\Response\LimitOverrunResponse.cs" />
     <Compile Include="Contract\Eneo\Response\LimitActiveResponse.cs" />
@@ -75,8 +76,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Alturos\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
