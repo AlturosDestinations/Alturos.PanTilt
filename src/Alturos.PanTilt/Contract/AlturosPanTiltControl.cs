@@ -63,7 +63,7 @@ namespace Alturos.PanTilt.Contract
         private bool Send(string command, string description)
         {
             var commandData = Encoding.ASCII.GetBytes(command);
-            return this.Send(commandData, description);
+            return this.Send(commandData, $"{description} {command}");
         }
 
         private bool Send(byte[] command, string description)
@@ -105,22 +105,34 @@ namespace Alturos.PanTilt.Contract
 
         public bool PanAbsolute(double pan)
         {
-            return this.Send($"MAP{pan * 100:+00000;-00000;0}", "PanAbsolute");
+            return this.Send($"MAP{pan * 100:+00000;-00000;+00000}", "PanAbsolute");
         }
 
         public bool TiltAbsolute(double tilt)
         {
-            return this.Send($"MAT{tilt * 100:+00000;-00000;0}", "TiltAbsolute");
+            return this.Send($"MAT{tilt * 100:+00000;-00000;+00000}", "TiltAbsolute");
         }
 
         public bool PanRelative(double panSpeed)
         {
-            return this.Send($"MRP{panSpeed * 100:+00000;-00000;0}", "PanRelative");
+            this.Send($"SSP{panSpeed * 100:00000}", "PanSpeed");
+            if (panSpeed > 0)
+            {
+                return this.Send($"MRP{180 * 100:+00000;-00000;+00000}", "PanRelative");
+            }
+
+            return this.Send($"MRP{-180 * 100:+00000;-00000;+00000}", "PanRelative");
         }
 
         public bool TiltRelative(double tiltSpeed)
         {
-            return this.Send($"MRT{tiltSpeed * 100:+00000;-00000;0}", "TiltRelative");
+            this.Send($"SST{tiltSpeed * 100:00000}", "TiltSpeed");
+            if (tiltSpeed > 0)
+            {
+                return this.Send($"MRT{180 * 100:+00000;-00000;+00000}", "PanRelative");
+            }
+
+            return this.Send($"MRT{-180 * 100:+00000;-00000;+00000}", "PanRelative");
         }
 
         public bool PanTiltAbsolute(double pan, double tilt)
