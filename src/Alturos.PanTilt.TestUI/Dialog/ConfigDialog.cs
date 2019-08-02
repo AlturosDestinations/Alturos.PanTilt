@@ -20,6 +20,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
                 "/snapshot/1/snapshot.jpg" //Eneo
             };
 
+            this.comboBoxPanTiltControl.DataSource = ((PanTiltControlType[])Enum.GetValues(typeof(PanTiltControlType))).OrderBy(x => x.ToString()).ToList();
             this.comboBoxComType.DataSource = ((CommunicationType[])Enum.GetValues(typeof(CommunicationType))).OrderBy(x => x.ToString()).ToList();
             this.comboBoxPort.DataSource = SerialPort.GetPortNames();
 
@@ -42,6 +43,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
 
         private void buttonContinue_Click(object sender, EventArgs e)
         {
+            this.DeviceConfiguration.PanTiltControlType = (PanTiltControlType)this.comboBoxPanTiltControl.SelectedItem;
             this.DeviceConfiguration.CommunicationType = (CommunicationType)this.comboBoxComType.SelectedItem;
             this.DeviceConfiguration.PanTiltIpAddress = this.textBoxPanTilt.Text;
             this.DeviceConfiguration.ComPort = this.comboBoxPort.Text;

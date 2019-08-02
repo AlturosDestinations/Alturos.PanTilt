@@ -43,13 +43,15 @@ namespace Alturos.PanTilt.TestUI.Dialog
             this.label1 = new System.Windows.Forms.Label();
             this.checkBoxCameraActive = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.labelPanTiltControl = new System.Windows.Forms.Label();
+            this.comboBoxPanTiltControl = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxPanTilt
             // 
-            this.textBoxPanTilt.Location = new System.Drawing.Point(150, 46);
+            this.textBoxPanTilt.Location = new System.Drawing.Point(150, 72);
             this.textBoxPanTilt.Name = "textBoxPanTilt";
             this.textBoxPanTilt.Size = new System.Drawing.Size(129, 20);
             this.textBoxPanTilt.TabIndex = 2;
@@ -59,7 +61,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             // labelPTIP
             // 
             this.labelPTIP.AutoSize = true;
-            this.labelPTIP.Location = new System.Drawing.Point(87, 49);
+            this.labelPTIP.Location = new System.Drawing.Point(87, 75);
             this.labelPTIP.Name = "labelPTIP";
             this.labelPTIP.Size = new System.Drawing.Size(57, 13);
             this.labelPTIP.TabIndex = 1;
@@ -85,7 +87,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             // 
             // buttonContinue
             // 
-            this.buttonContinue.Location = new System.Drawing.Point(235, 215);
+            this.buttonContinue.Location = new System.Drawing.Point(235, 238);
             this.buttonContinue.Name = "buttonContinue";
             this.buttonContinue.Size = new System.Drawing.Size(75, 23);
             this.buttonContinue.TabIndex = 3;
@@ -106,7 +108,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             // 
             this.comboBoxComType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxComType.FormattingEnabled = true;
-            this.comboBoxComType.Location = new System.Drawing.Point(150, 19);
+            this.comboBoxComType.Location = new System.Drawing.Point(150, 46);
             this.comboBoxComType.Name = "comboBoxComType";
             this.comboBoxComType.Size = new System.Drawing.Size(129, 21);
             this.comboBoxComType.TabIndex = 7;
@@ -115,7 +117,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(35, 22);
+            this.label4.Location = new System.Drawing.Point(35, 49);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(109, 13);
             this.label4.TabIndex = 6;
@@ -124,7 +126,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             // comboBoxPort
             // 
             this.comboBoxPort.FormattingEnabled = true;
-            this.comboBoxPort.Location = new System.Drawing.Point(150, 45);
+            this.comboBoxPort.Location = new System.Drawing.Point(150, 71);
             this.comboBoxPort.Name = "comboBoxPort";
             this.comboBoxPort.Size = new System.Drawing.Size(129, 21);
             this.comboBoxPort.TabIndex = 9;
@@ -133,7 +135,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             // labelCOMPort
             // 
             this.labelCOMPort.AutoSize = true;
-            this.labelCOMPort.Location = new System.Drawing.Point(88, 49);
+            this.labelCOMPort.Location = new System.Drawing.Point(88, 75);
             this.labelCOMPort.Name = "labelCOMPort";
             this.labelCOMPort.Size = new System.Drawing.Size(56, 13);
             this.labelCOMPort.TabIndex = 8;
@@ -148,7 +150,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             this.groupBox1.Controls.Add(this.textBoxCameraIpAddress);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 100);
+            this.groupBox1.Location = new System.Drawing.Point(12, 123);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(298, 109);
             this.groupBox1.TabIndex = 10;
@@ -183,6 +185,8 @@ namespace Alturos.PanTilt.TestUI.Dialog
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.comboBoxPanTiltControl);
+            this.groupBox2.Controls.Add(this.labelPanTiltControl);
             this.groupBox2.Controls.Add(this.comboBoxComType);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.textBoxPanTilt);
@@ -191,16 +195,34 @@ namespace Alturos.PanTilt.TestUI.Dialog
             this.groupBox2.Controls.Add(this.comboBoxPort);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(298, 82);
+            this.groupBox2.Size = new System.Drawing.Size(298, 105);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PanTilt Head";
+            // 
+            // labelPanTiltControl
+            // 
+            this.labelPanTiltControl.AutoSize = true;
+            this.labelPanTiltControl.Location = new System.Drawing.Point(71, 22);
+            this.labelPanTiltControl.Name = "labelPanTiltControl";
+            this.labelPanTiltControl.Size = new System.Drawing.Size(73, 13);
+            this.labelPanTiltControl.TabIndex = 10;
+            this.labelPanTiltControl.Text = "Manufacturer:";
+            // 
+            // comboBoxPanTiltControl
+            // 
+            this.comboBoxPanTiltControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPanTiltControl.FormattingEnabled = true;
+            this.comboBoxPanTiltControl.Location = new System.Drawing.Point(150, 19);
+            this.comboBoxPanTiltControl.Name = "comboBoxPanTiltControl";
+            this.comboBoxPanTiltControl.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxPanTiltControl.TabIndex = 11;
             // 
             // ConfigDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 249);
+            this.ClientSize = new System.Drawing.Size(320, 272);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonContinue);
@@ -234,5 +256,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBoxCameraActive;
         private System.Windows.Forms.ComboBox comboBoxCameraImageUrl;
+        private System.Windows.Forms.ComboBox comboBoxPanTiltControl;
+        private System.Windows.Forms.Label labelPanTiltControl;
     }
 }

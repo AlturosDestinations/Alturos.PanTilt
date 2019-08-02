@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PanTiltControlType.cs" />
     <Compile Include="Contract\AlturosPanTiltControl.cs" />
     <Compile Include="CommunicationType.cs" />
     <Compile Include="Contract\EneoPanTiltControl.cs" />

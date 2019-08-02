@@ -186,8 +186,15 @@ namespace Alturos.PanTilt.TestUI
                 await Task.Delay(100).ConfigureAwait(false);
             }
 
-            this._panTiltControl = new AlturosPanTiltControl(this._communication);
-            //this._panTiltControl = new EneoPanTiltControl(this._communication);
+            switch (this._deviceConfiguration.PanTiltControlType)
+            {
+                case PanTiltControlType.Alturos:
+                    this._panTiltControl = new AlturosPanTiltControl(this._communication);
+                    break;
+                case PanTiltControlType.Eneo:
+                    this._panTiltControl = new EneoPanTiltControl(this._communication);
+                    break;
+            }
             this._panTiltControl.PositionChanged += OnPositionChanged;
             this._positionChecker = new PositionChecker(this._panTiltControl);
 
