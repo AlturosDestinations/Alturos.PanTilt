@@ -21,8 +21,11 @@ namespace Alturos.PanTilt.UnitTest.Alturos
 
                 using (var control = new AlturosPanTiltControl(communication, true))
                 {
+                    // Absolute movement sends one command
                     control.PanAbsolute(-47.17);
                     control.PanAbsolute(47.17);
+
+                    // Relative movement sends two commands
                     control.PanRelative(90.50);
                     control.PanRelative(-90.55);
                     control.TiltRelative(45.05);
@@ -32,7 +35,7 @@ namespace Alturos.PanTilt.UnitTest.Alturos
                 communication.SendData -= this.SendData;
             }
 
-            Assert.AreEqual(6, this._counter);
+            Assert.AreEqual(10, this._counter);
         }
 
         private void SendData(byte[] data, string description)
