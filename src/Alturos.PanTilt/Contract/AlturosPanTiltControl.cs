@@ -115,7 +115,7 @@ namespace Alturos.PanTilt.Contract
 
         public bool PanRelative(double panSpeed)
         {
-            this.Send($"SSP{panSpeed * 100:00000}", "PanSpeed");
+            this.Send($"SSP{Math.Abs(panSpeed * 100):00000}", "PanSpeed");
             if (panSpeed > 0)
             {
                 return this.Send($"MRP{180 * 100:+00000;-00000;+00000}", "PanRelative");
@@ -126,7 +126,7 @@ namespace Alturos.PanTilt.Contract
 
         public bool TiltRelative(double tiltSpeed)
         {
-            this.Send($"SST{tiltSpeed * 100:00000}", "TiltSpeed");
+            this.Send($"SST{Math.Abs(tiltSpeed * 100):00000}", "TiltSpeed");
             if (tiltSpeed > 0)
             {
                 return this.Send($"MRT{180 * 100:+00000;-00000;+00000}", "PanRelative");
@@ -158,6 +158,7 @@ namespace Alturos.PanTilt.Contract
         public bool StopMoving()
         {
             return this.PanTiltRelative(0, 0);
+            return this.Send($"SSS", "StopMoving");
         }
 
         public bool ReinitializePosition()
