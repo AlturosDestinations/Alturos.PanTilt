@@ -28,6 +28,12 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         private void TestLogic()
         {
             var limits = this._panTiltControl.GetLimits();
+            if (limits.PanMin == 0 && limits.PanMax == 0 && limits.TiltMin == 0 && limits.TiltMax == 0)
+            {
+                this.textBoxResult.Invoke(o => o.Text += $"Cannot execute test invalid limits\r\n");
+            }
+
+            this.textBoxResult.Invoke(o => o.Text += $"Limits;Pan;{limits.PanMin};{limits.PanMax};Tilt;{limits.TiltMin};{limits.TiltMax}\r\n");
             var positionChecker = new PositionChecker(this._panTiltControl);
 
             this._panTiltControl.TiltAbsolute(0);

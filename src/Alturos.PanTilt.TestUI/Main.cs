@@ -164,7 +164,13 @@ namespace Alturos.PanTilt.TestUI
                         this._communication = new TcpNetworkCommunication(new IPEndPoint(IPAddress.Parse(this._deviceConfiguration.PanTiltIpAddress), 4003));
                         break;
                     case CommunicationType.NetworkUdp:
-                        this._communication = new UdpNetworkCommunication(IPAddress.Parse(this._deviceConfiguration.PanTiltIpAddress), 4003, 4003);
+                        var port = 4003;
+                        if (this._deviceConfiguration.PanTiltControlType == PanTiltControlType.Alturos)
+                        {
+                            port = 5555;
+                        }
+
+                        this._communication = new UdpNetworkCommunication(IPAddress.Parse(this._deviceConfiguration.PanTiltIpAddress), port, port);
                         break;
                     case CommunicationType.SerialPort:
                         this._communication = new SerialPortCommunication(this._deviceConfiguration.ComPort);
