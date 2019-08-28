@@ -31,6 +31,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             else
             {
                 this.DeviceConfiguration = deviceConfiguration;
+                this.comboBoxPanTiltControl.SelectedItem = this.DeviceConfiguration.PanTiltControlType;
                 this.comboBoxComType.SelectedItem = this.DeviceConfiguration.CommunicationType;
                 this.textBoxPanTilt.Text = this.DeviceConfiguration.PanTiltIpAddress;
                 this.comboBoxPort.Text = this.DeviceConfiguration.ComPort;
