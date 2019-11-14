@@ -105,7 +105,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this._positionChecker = new PositionChecker(this._panTiltControl);
 
             this._panTiltControl.PositionChanged += PanTiltPositionChanged;
-            this._panTiltControl.LimitOverrun += PanTiltLimitOverrun;
             this._panTiltControl.LimitChanged += PanTiltLimitChanged;
 
             this.CheckPtLimitAsync().GetAwaiter().GetResult();
@@ -144,11 +143,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         private void PanTiltPositionChanged(PanTiltPosition position)
         {
             this._currentPosition = position;
-        }
-
-        private void PanTiltLimitOverrun()
-        {
-            this.labelError.Invoke(o => o.Text = $"{DateTime.Now.ToShortTimeString()} - LimitOverrun detected");
         }
 
         private void UpdateCurrentImage()

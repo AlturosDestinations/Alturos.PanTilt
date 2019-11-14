@@ -60,8 +60,6 @@ namespace Alturos.PanTilt.TestUI
             this.UpdateMousePanel();
             this.panelMouseControl.MouseWheel += MouseWheelZoom;
 
-            //Disable TabPage Zoom - No ZoomProvider available
-            //this.tabControl1.TabPages.Remove(this.tabPageCameraZoom);
             this._zoomProvider = new MockZoomProvider();
             this._zoomProvider.SetZoomAsync(0);
             this._zoomProvider.ZoomChanged += CameraControlZoomChanged;
@@ -74,10 +72,12 @@ namespace Alturos.PanTilt.TestUI
                 IVideoSource source = new JPEGStream(url);
                 ((JPEGStream)source).FrameInterval = 200;
 
-                this._videoSourcePlayer = new Accord.Controls.VideoSourcePlayer();
-                this._videoSourcePlayer.VideoSource = source;
+                this._videoSourcePlayer = new Accord.Controls.VideoSourcePlayer
+                {
+                    VideoSource = source,
+                    Dock = DockStyle.Fill
+                };
                 this._videoSourcePlayer.Start();
-                this._videoSourcePlayer.Dock = DockStyle.Fill;
                 this.tabPageLiveView.Controls.Add(this._videoSourcePlayer);
             }
             else
@@ -186,18 +186,18 @@ namespace Alturos.PanTilt.TestUI
             this._communication.SendData += this.CommunicationSendData;
             this._communication.ReceiveData += this.CommunicationReceiveData;
 
-            using (var firmwareReader = new FirmwareReader(this._communication))
-            {
-                this.labelFirmware.Invoke(o => o.Text = $"Firmware: {firmwareReader.Firmware}");
-                await Task.Delay(100).ConfigureAwait(false);
-            }
-
             switch (this._deviceConfiguration.PanTiltControlType)
             {
                 case PanTiltControlType.Alturos:
+                    this.tabControl1.TabPages.Remove(this.tabPageEneo);
                     this._panTiltControl = new AlturosPanTiltControl(this._communication);
                     break;
                 case PanTiltControlType.Eneo:
+                    using (var firmwareReader = new FirmwareReader(this._communication))
+                    {
+                        this.labelFirmware.Invoke(o => o.Text = $"Firmware: {firmwareReader.Firmware}");
+                        await Task.Delay(100).ConfigureAwait(false);
+                    }
                     this._panTiltControl = new EneoPanTiltControl(this._communication);
                     break;
             }
@@ -370,22 +370,18 @@ namespace Alturos.PanTilt.TestUI
 
         private void buttonEnableLimits_Click(object sender, EventArgs e)
         {
-            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
-            if (eneoPanTiltControl == null)
+            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
             {
-                return;
+                eneoPanTiltControl.EnableLimit();
             }
-            eneoPanTiltControl.EnableLimit();
         }
 
         private void buttonDisableLimits_Click(object sender, EventArgs e)
         {
-            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
-            if (eneoPanTiltControl == null)
+            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
             {
-                return;
+                eneoPanTiltControl.DisableLimit();
             }
-            eneoPanTiltControl.DisableLimit();
         }
 
         private async void buttonRefreshLimitInfos_Click(object sender, EventArgs e)
@@ -395,54 +391,44 @@ namespace Alturos.PanTilt.TestUI
 
         private async Task RefreshLimits()
         {
-            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
-            if (eneoPanTiltControl == null)
+            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
             {
-                return;
+                eneoPanTiltControl.QueryLimits();
+                await Task.Delay(1000);
+                this.GetLimitInfos();
             }
-            eneoPanTiltControl.QueryLimits();
-            await Task.Delay(1000);
-            this.GetLimitInfos();
         }
 
         private void buttonLimitUp_Click(object sender, EventArgs e)
         {
-            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
-            if (eneoPanTiltControl == null)
+            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
             {
-                return;
+                eneoPanTiltControl.SetLimitUp();
             }
-            eneoPanTiltControl.SetLimitUp();
         }
 
         private void buttonSetLimitDown_Click(object sender, EventArgs e)
         {
-            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
-            if (eneoPanTiltControl == null)
+            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
             {
-                return;
+                eneoPanTiltControl.SetLimitDown();
             }
-            eneoPanTiltControl.SetLimitDown();
         }
 
         private void buttonLimitLeft_Click(object sender, EventArgs e)
         {
-            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
-            if (eneoPanTiltControl == null)
+            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
             {
-                return;
+                eneoPanTiltControl.SetLimitLeft();
             }
-            eneoPanTiltControl.SetLimitLeft();
         }
 
         private void buttonSetLimitRight_Click(object sender, EventArgs e)
         {
-            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
-            if (eneoPanTiltControl == null)
+            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
             {
-                return;
+                eneoPanTiltControl.SetLimitRigth();
             }
-            eneoPanTiltControl.SetLimitRigth();
         }
 
         private void buttonReinitialize_Click(object sender, EventArgs e)
@@ -539,7 +525,7 @@ namespace Alturos.PanTilt.TestUI
 
         #endregion
 
-        #region Smoothing
+        #region Smoothing (Only Eneo)
 
         private void buttonSmoothingLow_Click(object sender, EventArgs e)
         {
@@ -558,12 +544,12 @@ namespace Alturos.PanTilt.TestUI
 
         private void SetSmoothing(byte acceleration, byte gain)
         {
-            this.labelAccleration.Text = $"Acceleration: {acceleration}";
-            this.labelGain.Text = $"Gain: {gain}";
-
             var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
             if (eneoPanTiltControl != null)
             {
+                this.labelAccleration.Text = $"Acceleration: {acceleration}";
+                this.labelGain.Text = $"Gain: {gain}";
+
                 eneoPanTiltControl.SetSmoothing(acceleration, gain);
             }
         }

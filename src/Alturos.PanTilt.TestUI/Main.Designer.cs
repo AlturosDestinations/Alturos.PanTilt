@@ -45,12 +45,6 @@ namespace Alturos.PanTilt.TestUI
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.buttonReinitialize = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.labelGain = new System.Windows.Forms.Label();
-            this.buttonSmoothingHigh = new System.Windows.Forms.Button();
-            this.labelAccleration = new System.Windows.Forms.Label();
-            this.buttonSmoothingNormal = new System.Windows.Forms.Button();
-            this.buttonSmoothingLow = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBoxTilt = new System.Windows.Forms.TextBox();
             this.buttonTiltRelative = new System.Windows.Forms.Button();
@@ -99,10 +93,17 @@ namespace Alturos.PanTilt.TestUI
             this.continiousMovementControl1 = new Alturos.PanTilt.TestUI.CustomControl.ContiniousMovementControl();
             this.tabPageFastMovement = new System.Windows.Forms.TabPage();
             this.fastMovementControl1 = new Alturos.PanTilt.TestUI.CustomControl.FastMovementControl();
-            this.tabPageCommunicationHistory = new System.Windows.Forms.TabPage();
-            this.communicationHistoryControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommunicationHistoryControl();
             this.tabPageAbsolutePosition = new System.Windows.Forms.TabPage();
             this.absolutePositionControl1 = new Alturos.PanTilt.TestUI.CustomControl.AbsolutePositionControl();
+            this.tabPageCommunicationHistory = new System.Windows.Forms.TabPage();
+            this.communicationHistoryControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommunicationHistoryControl();
+            this.tabPageEneo = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelGain = new System.Windows.Forms.Label();
+            this.buttonSmoothingHigh = new System.Windows.Forms.Button();
+            this.labelAccleration = new System.Windows.Forms.Label();
+            this.buttonSmoothingNormal = new System.Windows.Forms.Button();
+            this.buttonSmoothingLow = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBoxControls.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -114,7 +115,6 @@ namespace Alturos.PanTilt.TestUI
             this.groupBoxSpeed.SuspendLayout();
             this.tabPageManualControl.SuspendLayout();
             this.groupBox6.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabPageLimits.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -129,8 +129,10 @@ namespace Alturos.PanTilt.TestUI
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CameraPos)).BeginInit();
             this.tabPageMovementCheck.SuspendLayout();
             this.tabPageFastMovement.SuspendLayout();
-            this.tabPageCommunicationHistory.SuspendLayout();
             this.tabPageAbsolutePosition.SuspendLayout();
+            this.tabPageCommunicationHistory.SuspendLayout();
+            this.tabPageEneo.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonPanRelative
@@ -223,6 +225,7 @@ namespace Alturos.PanTilt.TestUI
             this.tabControl1.Controls.Add(this.tabPageLimits);
             this.tabControl1.Controls.Add(this.tabPageCameraZoom);
             this.tabControl1.Controls.Add(this.tabPageInfo);
+            this.tabControl1.Controls.Add(this.tabPageEneo);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(3, 16);
             this.tabControl1.Name = "tabControl1";
@@ -288,7 +291,6 @@ namespace Alturos.PanTilt.TestUI
             // 
             this.tabPageManualControl.Controls.Add(this.label7);
             this.tabPageManualControl.Controls.Add(this.groupBox6);
-            this.tabPageManualControl.Controls.Add(this.groupBox1);
             this.tabPageManualControl.Controls.Add(this.groupBox3);
             this.tabPageManualControl.Controls.Add(this.buttonStopMoving);
             this.tabPageManualControl.Controls.Add(this.groupBox2);
@@ -312,7 +314,7 @@ namespace Alturos.PanTilt.TestUI
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.buttonReinitialize);
-            this.groupBox6.Location = new System.Drawing.Point(240, 146);
+            this.groupBox6.Location = new System.Drawing.Point(6, 146);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(266, 70);
             this.groupBox6.TabIndex = 23;
@@ -328,68 +330,6 @@ namespace Alturos.PanTilt.TestUI
             this.buttonReinitialize.Text = "Reinitialize";
             this.buttonReinitialize.UseVisualStyleBackColor = true;
             this.buttonReinitialize.Click += new System.EventHandler(this.buttonReinitialize_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.labelGain);
-            this.groupBox1.Controls.Add(this.buttonSmoothingHigh);
-            this.groupBox1.Controls.Add(this.labelAccleration);
-            this.groupBox1.Controls.Add(this.buttonSmoothingNormal);
-            this.groupBox1.Controls.Add(this.buttonSmoothingLow);
-            this.groupBox1.Location = new System.Drawing.Point(6, 146);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(228, 70);
-            this.groupBox1.TabIndex = 22;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Smooting (Absolute)";
-            // 
-            // labelGain
-            // 
-            this.labelGain.AutoSize = true;
-            this.labelGain.Location = new System.Drawing.Point(127, 17);
-            this.labelGain.Name = "labelGain";
-            this.labelGain.Size = new System.Drawing.Size(51, 13);
-            this.labelGain.TabIndex = 1;
-            this.labelGain.Text = "labelGain";
-            // 
-            // buttonSmoothingHigh
-            // 
-            this.buttonSmoothingHigh.Location = new System.Drawing.Point(147, 36);
-            this.buttonSmoothingHigh.Name = "buttonSmoothingHigh";
-            this.buttonSmoothingHigh.Size = new System.Drawing.Size(63, 23);
-            this.buttonSmoothingHigh.TabIndex = 21;
-            this.buttonSmoothingHigh.Text = "High";
-            this.buttonSmoothingHigh.UseVisualStyleBackColor = true;
-            this.buttonSmoothingHigh.Click += new System.EventHandler(this.buttonSmoothingHigh_Click);
-            // 
-            // labelAccleration
-            // 
-            this.labelAccleration.AutoSize = true;
-            this.labelAccleration.Location = new System.Drawing.Point(6, 17);
-            this.labelAccleration.Name = "labelAccleration";
-            this.labelAccleration.Size = new System.Drawing.Size(88, 13);
-            this.labelAccleration.TabIndex = 0;
-            this.labelAccleration.Text = "labelAcceleration";
-            // 
-            // buttonSmoothingNormal
-            // 
-            this.buttonSmoothingNormal.Location = new System.Drawing.Point(78, 36);
-            this.buttonSmoothingNormal.Name = "buttonSmoothingNormal";
-            this.buttonSmoothingNormal.Size = new System.Drawing.Size(63, 23);
-            this.buttonSmoothingNormal.TabIndex = 20;
-            this.buttonSmoothingNormal.Text = "Normal";
-            this.buttonSmoothingNormal.UseVisualStyleBackColor = true;
-            this.buttonSmoothingNormal.Click += new System.EventHandler(this.buttonSmoothingNormal_Click);
-            // 
-            // buttonSmoothingLow
-            // 
-            this.buttonSmoothingLow.Location = new System.Drawing.Point(9, 36);
-            this.buttonSmoothingLow.Name = "buttonSmoothingLow";
-            this.buttonSmoothingLow.Size = new System.Drawing.Size(63, 23);
-            this.buttonSmoothingLow.TabIndex = 19;
-            this.buttonSmoothingLow.Text = "Low";
-            this.buttonSmoothingLow.UseVisualStyleBackColor = true;
-            this.buttonSmoothingLow.Click += new System.EventHandler(this.buttonSmoothingLow_Click);
             // 
             // groupBox3
             // 
@@ -893,6 +833,25 @@ namespace Alturos.PanTilt.TestUI
             this.fastMovementControl1.Size = new System.Drawing.Size(1119, 558);
             this.fastMovementControl1.TabIndex = 0;
             // 
+            // tabPageAbsolutePosition
+            // 
+            this.tabPageAbsolutePosition.Controls.Add(this.absolutePositionControl1);
+            this.tabPageAbsolutePosition.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAbsolutePosition.Name = "tabPageAbsolutePosition";
+            this.tabPageAbsolutePosition.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAbsolutePosition.Size = new System.Drawing.Size(1125, 564);
+            this.tabPageAbsolutePosition.TabIndex = 4;
+            this.tabPageAbsolutePosition.Text = "Absolute Position Check";
+            this.tabPageAbsolutePosition.UseVisualStyleBackColor = true;
+            // 
+            // absolutePositionControl1
+            // 
+            this.absolutePositionControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.absolutePositionControl1.Location = new System.Drawing.Point(3, 3);
+            this.absolutePositionControl1.Name = "absolutePositionControl1";
+            this.absolutePositionControl1.Size = new System.Drawing.Size(1119, 558);
+            this.absolutePositionControl1.TabIndex = 0;
+            // 
             // tabPageCommunicationHistory
             // 
             this.tabPageCommunicationHistory.Controls.Add(this.communicationHistoryControl1);
@@ -912,24 +871,78 @@ namespace Alturos.PanTilt.TestUI
             this.communicationHistoryControl1.Size = new System.Drawing.Size(1119, 558);
             this.communicationHistoryControl1.TabIndex = 0;
             // 
-            // tabPageAbsolutePosition
+            // tabPageEneo
             // 
-            this.tabPageAbsolutePosition.Controls.Add(this.absolutePositionControl1);
-            this.tabPageAbsolutePosition.Location = new System.Drawing.Point(4, 22);
-            this.tabPageAbsolutePosition.Name = "tabPageAbsolutePosition";
-            this.tabPageAbsolutePosition.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAbsolutePosition.Size = new System.Drawing.Size(1125, 564);
-            this.tabPageAbsolutePosition.TabIndex = 4;
-            this.tabPageAbsolutePosition.Text = "Absolute Position Check";
-            this.tabPageAbsolutePosition.UseVisualStyleBackColor = true;
+            this.tabPageEneo.Controls.Add(this.groupBox1);
+            this.tabPageEneo.Location = new System.Drawing.Point(4, 22);
+            this.tabPageEneo.Name = "tabPageEneo";
+            this.tabPageEneo.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageEneo.Size = new System.Drawing.Size(512, 222);
+            this.tabPageEneo.TabIndex = 5;
+            this.tabPageEneo.Text = "Eneo";
+            this.tabPageEneo.UseVisualStyleBackColor = true;
             // 
-            // absolutePositionControl1
+            // groupBox1
             // 
-            this.absolutePositionControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.absolutePositionControl1.Location = new System.Drawing.Point(3, 3);
-            this.absolutePositionControl1.Name = "absolutePositionControl1";
-            this.absolutePositionControl1.Size = new System.Drawing.Size(1119, 558);
-            this.absolutePositionControl1.TabIndex = 0;
+            this.groupBox1.Controls.Add(this.labelGain);
+            this.groupBox1.Controls.Add(this.buttonSmoothingHigh);
+            this.groupBox1.Controls.Add(this.labelAccleration);
+            this.groupBox1.Controls.Add(this.buttonSmoothingNormal);
+            this.groupBox1.Controls.Add(this.buttonSmoothingLow);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(228, 70);
+            this.groupBox1.TabIndex = 23;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Smooting (Absolute)";
+            // 
+            // labelGain
+            // 
+            this.labelGain.AutoSize = true;
+            this.labelGain.Location = new System.Drawing.Point(127, 17);
+            this.labelGain.Name = "labelGain";
+            this.labelGain.Size = new System.Drawing.Size(51, 13);
+            this.labelGain.TabIndex = 1;
+            this.labelGain.Text = "labelGain";
+            // 
+            // buttonSmoothingHigh
+            // 
+            this.buttonSmoothingHigh.Location = new System.Drawing.Point(147, 36);
+            this.buttonSmoothingHigh.Name = "buttonSmoothingHigh";
+            this.buttonSmoothingHigh.Size = new System.Drawing.Size(63, 23);
+            this.buttonSmoothingHigh.TabIndex = 21;
+            this.buttonSmoothingHigh.Text = "High";
+            this.buttonSmoothingHigh.UseVisualStyleBackColor = true;
+            this.buttonSmoothingHigh.Click += new System.EventHandler(this.buttonSmoothingHigh_Click);
+            // 
+            // labelAccleration
+            // 
+            this.labelAccleration.AutoSize = true;
+            this.labelAccleration.Location = new System.Drawing.Point(6, 17);
+            this.labelAccleration.Name = "labelAccleration";
+            this.labelAccleration.Size = new System.Drawing.Size(88, 13);
+            this.labelAccleration.TabIndex = 0;
+            this.labelAccleration.Text = "labelAcceleration";
+            // 
+            // buttonSmoothingNormal
+            // 
+            this.buttonSmoothingNormal.Location = new System.Drawing.Point(78, 36);
+            this.buttonSmoothingNormal.Name = "buttonSmoothingNormal";
+            this.buttonSmoothingNormal.Size = new System.Drawing.Size(63, 23);
+            this.buttonSmoothingNormal.TabIndex = 20;
+            this.buttonSmoothingNormal.Text = "Normal";
+            this.buttonSmoothingNormal.UseVisualStyleBackColor = true;
+            this.buttonSmoothingNormal.Click += new System.EventHandler(this.buttonSmoothingNormal_Click);
+            // 
+            // buttonSmoothingLow
+            // 
+            this.buttonSmoothingLow.Location = new System.Drawing.Point(9, 36);
+            this.buttonSmoothingLow.Name = "buttonSmoothingLow";
+            this.buttonSmoothingLow.Size = new System.Drawing.Size(63, 23);
+            this.buttonSmoothingLow.TabIndex = 19;
+            this.buttonSmoothingLow.Text = "Low";
+            this.buttonSmoothingLow.UseVisualStyleBackColor = true;
+            this.buttonSmoothingLow.Click += new System.EventHandler(this.buttonSmoothingLow_Click);
             // 
             // Main
             // 
@@ -954,8 +967,6 @@ namespace Alturos.PanTilt.TestUI
             this.groupBoxSpeed.PerformLayout();
             this.tabPageManualControl.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.tabPageLimits.ResumeLayout(false);
@@ -975,8 +986,11 @@ namespace Alturos.PanTilt.TestUI
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CameraPos)).EndInit();
             this.tabPageMovementCheck.ResumeLayout(false);
             this.tabPageFastMovement.ResumeLayout(false);
-            this.tabPageCommunicationHistory.ResumeLayout(false);
             this.tabPageAbsolutePosition.ResumeLayout(false);
+            this.tabPageCommunicationHistory.ResumeLayout(false);
+            this.tabPageEneo.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1013,9 +1027,6 @@ namespace Alturos.PanTilt.TestUI
         private System.Windows.Forms.TextBox textBoxTilt;
         private System.Windows.Forms.Button buttonTiltRelative;
         private System.Windows.Forms.Button buttonTiltAbsolute;
-        private System.Windows.Forms.Button buttonSmoothingLow;
-        private System.Windows.Forms.Button buttonSmoothingNormal;
-        private System.Windows.Forms.Button buttonSmoothingHigh;
         private CustomControl.ContiniousMovementControl continiousMovementControl1;
         private System.Windows.Forms.TabControl mainTabControl;
         private System.Windows.Forms.TabPage tabPageLiveView;
@@ -1027,9 +1038,6 @@ namespace Alturos.PanTilt.TestUI
         private System.Windows.Forms.Label labelLimitDown;
         private System.Windows.Forms.Label labelLimitRight;
         private System.Windows.Forms.Button buttonRefreshLimitInfos;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label labelGain;
-        private System.Windows.Forms.Label labelAccleration;
         private System.Windows.Forms.GroupBox groupBoxSpeed;
         private System.Windows.Forms.PictureBox pictureBox_CameraPos;
         private System.Windows.Forms.TabPage tabPageFastMovement;
@@ -1057,6 +1065,13 @@ namespace Alturos.PanTilt.TestUI
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TabPage tabPageAbsolutePosition;
         private CustomControl.AbsolutePositionControl absolutePositionControl1;
+        private System.Windows.Forms.TabPage tabPageEneo;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label labelGain;
+        private System.Windows.Forms.Button buttonSmoothingHigh;
+        private System.Windows.Forms.Label labelAccleration;
+        private System.Windows.Forms.Button buttonSmoothingNormal;
+        private System.Windows.Forms.Button buttonSmoothingLow;
     }
 }
 

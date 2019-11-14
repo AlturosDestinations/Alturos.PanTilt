@@ -1,6 +1,7 @@
 ﻿using log4net;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Alturos.PanTilt
 {
@@ -48,6 +49,44 @@ namespace Alturos.PanTilt
                 }
 
                 Thread.Sleep(timeout);
+                retry--;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> ComparePositionAsync(PanTiltPosition position, double tolerance = 0.5, int retry = 5, int timeout = 500, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (this._debug)
+            {
+                Log.Debug($"{nameof(ComparePositionAsync)} - Pan:{position.Pan} Tilt:{position.Tilt} Tolerance: {tolerance}");
+            }
+
+            while (retry > 0 && !cancellationToken.IsCancellationRequested)
+            {
+                var ptHeadPosition = this._panTiltControl.GetPosition();
+
+                if (ptHeadPosition == null)
+                {
+                    await Task.Delay(timeout, cancellationToken);
+                    retry--;
+                    continue;
+                }
+
+                var panDifference = Math.Abs(position.Pan - ptHeadPosition.Pan);
+                var tiltDifference = Math.Abs(position.Tilt - ptHeadPosition.Tilt);
+
+                if (panDifference <= tolerance && tiltDifference <= tolerance)
+                {
+                    return true;
+                }
+
+                if (this._debug)
+                {
+                    Log.Debug($"{nameof(ComparePositionAsync)} - Difference, Pan:{panDifference} Tilt:{tiltDifference} Retry:{retry}");
+                }
+
+                await Task.Delay(timeout, cancellationToken);
                 retry--;
             }
 

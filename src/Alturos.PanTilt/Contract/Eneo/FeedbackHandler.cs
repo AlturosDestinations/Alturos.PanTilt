@@ -7,8 +7,7 @@ using System.Collections.Generic;
 namespace Alturos.PanTilt.Contract.Eneo
 {
     /// <summary>
-    /// Understands the feedback the head sends back to the application and 
-    /// converts them into application domain knowledge
+    /// Understands the pt head feedback and converts them into application domain knowledge
     /// </summary>
     public class FeedbackHandler
     {

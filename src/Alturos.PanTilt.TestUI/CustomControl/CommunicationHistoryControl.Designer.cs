@@ -216,7 +216,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.checkBoxRefresh.TabIndex = 0;
             this.checkBoxRefresh.Text = "Automatic Refresh";
             this.checkBoxRefresh.UseVisualStyleBackColor = true;
-            this.checkBoxRefresh.CheckedChanged += new System.EventHandler(this.checkBoxRefresh_CheckedChanged);
+            this.checkBoxRefresh.CheckedChanged += new System.EventHandler(this.CheckBoxRefreshCheckedChanged);
             // 
             // CommunicationHistoryControl
             // 

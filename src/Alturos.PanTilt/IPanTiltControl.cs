@@ -17,19 +17,25 @@ namespace Alturos.PanTilt
         bool Stop();
 
         /// <summary>
+        /// Reinitialize the pt head
+        /// </summary>
+        /// <returns></returns>
+        bool ReinitializePosition();
+
+        #region Position
+
+        /// <summary>
         /// Event triggers new pt head position received
         /// </summary>
         event Action<PanTiltPosition> PositionChanged;
 
         /// <summary>
-        /// Event triggers pt head limits changed
+        /// Get the current pt position
         /// </summary>
-        event Action LimitChanged;
+        /// <returns></returns>
+        PanTiltPosition GetPosition();
 
-        /// <summary>
-        /// Event triggers pt head detect a failure on limit 
-        /// </summary>
-        event Action LimitOverrun;
+        #endregion
 
         #region Absolute
 
@@ -86,11 +92,12 @@ namespace Alturos.PanTilt
 
         #endregion
 
+        #region Limits
+
         /// <summary>
-        /// Get the current pt position
+        /// Event triggers pt head limits changed
         /// </summary>
-        /// <returns></returns>
-        PanTiltPosition GetPosition();
+        event Action LimitChanged;
 
         /// <summary>
         /// Get the limits of the pt head
@@ -104,10 +111,6 @@ namespace Alturos.PanTilt
         /// <returns></returns>
         bool SetLimits(PanTiltLimit panTiltLimit);
 
-        /// <summary>
-        /// Reinitialize the pt head
-        /// </summary>
-        /// <returns></returns>
-        bool ReinitializePosition();
+        #endregion
     }
 }

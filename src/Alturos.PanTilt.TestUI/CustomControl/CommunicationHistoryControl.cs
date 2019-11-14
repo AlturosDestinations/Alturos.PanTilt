@@ -59,22 +59,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.RefreshGrids();
         }
 
-        private void CleanupSendQueue()
-        {
-            while (this._tempQueueSend.Count > this._limitSend)
-            {
-                this._tempQueueSend.TryDequeue(out DataPackage temp);
-            }
-        }
-
-        private void CleanupReceiveQueue()
-        {
-            while (this._tempQueueReceive.Count > this._limitReceive)
-            {
-                this._tempQueueReceive.TryDequeue(out DataPackage temp);
-            }
-        }
-
         public void AddReceivePackage(DataPackage item)
         {
             #region Get Type of feedback
@@ -105,22 +89,22 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.RefreshGrids();
         }
 
-        private void RefreshGrids()
+        #region Cleanup
+
+        private void CleanupSendQueue()
         {
-            if (!this.checkBoxRefresh.Checked)
+            while (this._tempQueueSend.Count > this._limitSend)
             {
-                return;
+                this._tempQueueSend.TryDequeue(out DataPackage temp);
             }
+        }
 
-            if (this._lastRefresh > DateTime.Now.AddMilliseconds(-500))
+        private void CleanupReceiveQueue()
+        {
+            while (this._tempQueueReceive.Count > this._limitReceive)
             {
-                return;
+                this._tempQueueReceive.TryDequeue(out DataPackage temp);
             }
-
-            this._lastRefresh = DateTime.Now;
-
-            this.dataGridViewReceive.Invoke(o => this._bindingSourceReceive.ResetBindings(false));
-            this.dataGridViewSend.Invoke(o => this._bindingSourceSend.ResetBindings(false));
         }
 
         private void CleanupSend()
@@ -145,6 +129,26 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             }
 
             this._receivedData.RemoveRange(this._limitReceive - removeSize, removeSize);
+        }
+
+        #endregion
+
+        private void RefreshGrids()
+        {
+            if (!this.checkBoxRefresh.Checked)
+            {
+                return;
+            }
+
+            if (this._lastRefresh > DateTime.Now.AddMilliseconds(-500))
+            {
+                return;
+            }
+
+            this._lastRefresh = DateTime.Now;
+
+            this.dataGridViewReceive.Invoke(o => this._bindingSourceReceive.ResetBindings(false));
+            this.dataGridViewSend.Invoke(o => this._bindingSourceSend.ResetBindings(false));
         }
 
         private void MoveDataFromBuffer()
@@ -178,7 +182,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.RefreshGrids();
         }
 
-        private void checkBoxRefresh_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxRefreshCheckedChanged(object sender, EventArgs e)
         {
             if (!this.checkBoxRefresh.Checked)
             {

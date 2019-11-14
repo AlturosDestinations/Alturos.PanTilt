@@ -11,7 +11,6 @@ namespace Alturos.PanTilt.Contract
 
         public event Action<PanTiltPosition> PositionChanged;
         public event Action LimitChanged;
-        public event Action LimitOverrun;
 
         private PanTiltPosition _position;
         private readonly bool _debug;
@@ -22,6 +21,11 @@ namespace Alturos.PanTilt.Contract
 
         public AlturosPanTiltControl(ICommunication communication, bool debug = false)
         {
+            if (!(communication is UdpNetworkCommunication))
+            {
+                throw new NotSupportedException("Only upd communication is supported");
+            }
+
             this._communication = communication;
             this._communication.ReceiveData += PackageReceived;
 
@@ -97,6 +101,11 @@ namespace Alturos.PanTilt.Contract
             return new PanTiltLimit();
         }
 
+        public bool SetLimits(PanTiltLimit panTiltLimit)
+        {
+            return false;
+        }
+
         public PanTiltPosition GetPosition()
         {
             //this.Send("GP", "GetPosition");
@@ -164,11 +173,6 @@ namespace Alturos.PanTilt.Contract
         public bool ReinitializePosition()
         {
             return this.Send($"RST", "ReinitializePosition");
-        }
-
-        public bool SetLimits(PanTiltLimit panTiltLimit)
-        {
-            return false;
         }
 
         public bool Start()
