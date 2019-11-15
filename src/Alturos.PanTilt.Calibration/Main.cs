@@ -1,5 +1,6 @@
 ﻿using Alturos.PanTilt.Calibration.Extension;
 using Alturos.PanTilt.Calibration.Model;
+using Alturos.PanTilt.Communication;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

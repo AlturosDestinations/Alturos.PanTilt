@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Alturos.PanTilt.Communication;
 
 namespace Alturos.PanTilt.TestUI.Model
 {

@@ -1,3 +1,4 @@
+using Alturos.PanTilt.Communication;
 using Alturos.PanTilt.TestUI.Model;
 using System;
 using System.IO.Ports;

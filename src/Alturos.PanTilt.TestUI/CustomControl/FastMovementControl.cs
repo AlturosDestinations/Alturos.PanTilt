@@ -1,6 +1,7 @@
 using Alturos.PanTilt.Diagnostic;
 using Alturos.PanTilt.TestUI.Extension;
 using Alturos.PanTilt.TestUI.Model;
+using Alturos.PanTilt.Tools;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

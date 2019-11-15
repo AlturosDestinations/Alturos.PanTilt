@@ -1,4 +1,4 @@
-﻿namespace Alturos.PanTilt.Contract.Eneo.Response
+﻿namespace Alturos.PanTilt.Eneo.Response
 {
     public class TemperatureResponse : BaseResponse
     {

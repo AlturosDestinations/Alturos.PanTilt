@@ -1,16 +1,18 @@
-using Alturos.PanTilt.Contract.Eneo;
-using Alturos.PanTilt.Contract.Eneo.Response;
+using Alturos.PanTilt.Communication;
+using Alturos.PanTilt.Eneo;
+using Alturos.PanTilt.Eneo.Response;
 using Alturos.PanTilt.Eneo;
 using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Alturos.PanTilt.Contract
+namespace Alturos.PanTilt
 {
-    public class EneoPanTiltControl : IPanTiltControl
+    public class EneoPanTiltControl : IPanTiltControl, IFirmwareReader
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(EneoPanTiltControl));
 
@@ -940,5 +942,25 @@ namespace Alturos.PanTilt.Contract
         }
 
         #endregion
+
+        public async Task<string> GetFirmwareAsync()
+        {
+            this.DeactivateFeedback();
+
+            await Task.Delay(100);
+
+            var firmware = string.Empty;
+            var receiveData = new Action<byte[]>(delegate (byte[] data) { firmware += Encoding.ASCII.GetString(data); });
+
+            this._communication.ReceiveData += receiveData;
+            var firmwareCommand = new byte[] { 0x50, 0x80, 0x81, 0x69, 0x00 };
+            this._communication.Send(firmwareCommand, "GetFirmware");
+            await Task.Delay(500);
+            this._communication.ReceiveData -= receiveData;
+
+            this.ActivateFeedback();
+
+            return firmware;
+        }
     }
 }

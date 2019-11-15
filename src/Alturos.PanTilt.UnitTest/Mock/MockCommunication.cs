@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alturos.PanTilt.Communication;
+using System;
 using System.Text;
 
 namespace Alturos.PanTilt.UnitTest.Mock

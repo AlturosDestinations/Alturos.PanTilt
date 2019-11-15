@@ -1,4 +1,5 @@
-﻿using Alturos.PanTilt.Contract;
+﻿using Alturos.PanTilt.Communication;
+using Alturos.PanTilt.Tools;
 using System;
 using System.Threading;
 

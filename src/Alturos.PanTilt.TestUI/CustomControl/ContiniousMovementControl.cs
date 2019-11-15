@@ -1,5 +1,6 @@
 using Alturos.PanTilt.Diagnostic;
 using Alturos.PanTilt.TestUI.Extension;
+using Alturos.PanTilt.Tools;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,7 +20,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         private PanTiltPosition _lastPosition;
         private DrawEngine _drawEngine;
         private PanTiltLimit _ptLimit;
-        private bool _limitOverrunDetected;
         private bool _deviationOverrunDetected;
         private bool _stoppedManually;
         private AutoResetEvent _waitMovementResetEvent = new AutoResetEvent(false);
@@ -310,7 +310,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             }
             else
             {
-                this.labelError.Invoke(o => o.Text = String.Empty);
+                this.labelError.Invoke(o => o.Text = string.Empty);
             }
         }
 
@@ -323,8 +323,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private void SaveCircleTestImageToFile(int radius, int detailLevel)
         {
-            var limitOverrunText = this._limitOverrunDetected ? "Fail" : "Success";
-            var fileName = $"MovementTest_{DateTime.Now:yyyy-MM-dd_hh-mm-ss}_R{radius}_D{detailLevel}_PT{this._ptLimit}_{limitOverrunText}.jpg";
+            var fileName = $"MovementTest_{DateTime.Now:yyyy-MM-dd_hh-mm-ss}_R{radius}_D{detailLevel}_PT{this._ptLimit}.jpg";
             var dirName = "CircleMovementTestImages";
             this.SaveTestImageToFile(dirName, fileName);
         }

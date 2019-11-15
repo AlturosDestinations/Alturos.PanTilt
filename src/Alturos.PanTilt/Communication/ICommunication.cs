@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Alturos.PanTilt
+namespace Alturos.PanTilt.Communication
 {
     public interface ICommunication : IDisposable
     {

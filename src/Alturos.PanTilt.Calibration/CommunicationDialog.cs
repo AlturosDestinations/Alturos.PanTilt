@@ -1,3 +1,4 @@
+using Alturos.PanTilt.Communication;
 using System;
 using System.Net;
 using System.Windows.Forms;

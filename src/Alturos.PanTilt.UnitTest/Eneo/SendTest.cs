@@ -1,5 +1,4 @@
-﻿using Alturos.PanTilt.Contract;
-using Alturos.PanTilt.UnitTest.Mock;
+﻿using Alturos.PanTilt.UnitTest.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
 

@@ -1,9 +1,10 @@
-﻿using log4net;
+﻿using Alturos.PanTilt.Communication;
+using log4net;
 using System;
 using System.Text;
 using System.Threading;
 
-namespace Alturos.PanTilt.Contract
+namespace Alturos.PanTilt
 {
     public class AlturosPanTiltControl : IPanTiltControl
     {
@@ -13,6 +14,7 @@ namespace Alturos.PanTilt.Contract
         public event Action LimitChanged;
 
         private PanTiltPosition _position;
+        private PanTiltLimit _panTiltlimit;
         private readonly bool _debug;
         private readonly ICommunication _communication;
 
@@ -25,6 +27,15 @@ namespace Alturos.PanTilt.Contract
             {
                 throw new NotSupportedException("Only upd communication is supported");
             }
+
+            //Add default limits
+            this._panTiltlimit = new PanTiltLimit
+            {
+                PanMin = -170,
+                PanMax = 170,
+                TiltMin = -50,
+                TiltMax = 50
+            };
 
             this._communication = communication;
             this._communication.ReceiveData += PackageReceived;
@@ -93,16 +104,6 @@ namespace Alturos.PanTilt.Contract
                 Log.Error(nameof(Send), exception);
             }
 
-            return false;
-        }
-
-        public PanTiltLimit GetLimits()
-        {
-            return new PanTiltLimit();
-        }
-
-        public bool SetLimits(PanTiltLimit panTiltLimit)
-        {
             return false;
         }
 
@@ -184,6 +185,19 @@ namespace Alturos.PanTilt.Contract
         public bool Stop()
         {
             this.Send("SGP0000", "DisableFeedback");
+            return true;
+        }
+
+        public PanTiltLimit GetLimits()
+        {
+            return this._panTiltlimit;
+        }
+
+        public bool SetLimits(PanTiltLimit panTiltLimit)
+        {
+            this.LimitChanged?.Invoke();
+
+            this._panTiltlimit = panTiltLimit;
             return true;
         }
     }

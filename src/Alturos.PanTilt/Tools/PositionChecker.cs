@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Alturos.PanTilt
+namespace Alturos.PanTilt.Tools
 {
     public class PositionChecker : IPositionChecker
     {

@@ -1,4 +1,4 @@
-namespace Alturos.PanTilt
+namespace Alturos.PanTilt.Communication
 {
     public enum CommunicationType
     {

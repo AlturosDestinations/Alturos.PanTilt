@@ -1,11 +1,11 @@
 using Accord.Video;
-using Alturos.PanTilt.Contract;
-using Alturos.PanTilt.Contract.Eneo;
+using Alturos.PanTilt.Communication;
 using Alturos.PanTilt.Diagnostic;
 using Alturos.PanTilt.TestUI.Contract;
 using Alturos.PanTilt.TestUI.Dialog;
 using Alturos.PanTilt.TestUI.Extension;
 using Alturos.PanTilt.TestUI.Model;
+using Alturos.PanTilt.Tools;
 using System;
 using System.Drawing;
 using System.Net;
@@ -193,14 +193,20 @@ namespace Alturos.PanTilt.TestUI
                     this._panTiltControl = new AlturosPanTiltControl(this._communication);
                     break;
                 case PanTiltControlType.Eneo:
-                    using (var firmwareReader = new FirmwareReader(this._communication))
-                    {
-                        this.labelFirmware.Invoke(o => o.Text = $"Firmware: {firmwareReader.Firmware}");
-                        await Task.Delay(100).ConfigureAwait(false);
-                    }
                     this._panTiltControl = new EneoPanTiltControl(this._communication);
                     break;
             }
+
+            if (this._panTiltControl is IFirmwareReader firmwareReader)
+            {
+                var firmware = await firmwareReader.GetFirmwareAsync();
+                this.labelFirmware.Invoke(o => o.Text = $"Firmware: {firmware}");
+            }
+            else
+            {
+                this.labelFirmware.Invoke(o => o.Text = $"Cannot get firmware info");
+            }
+
             this._panTiltControl.PositionChanged += OnPositionChanged;
             this._positionChecker = new PositionChecker(this._panTiltControl);
 

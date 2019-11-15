@@ -42,22 +42,22 @@ namespace Alturos.PanTilt
         /// <summary>
         /// Pan move to an absolute position
         /// </summary>
-        /// <param name="pan"></param>
+        /// <param name="pan">degree</param>
         /// <returns></returns>
         bool PanAbsolute(double pan);
 
         /// <summary>
         /// Tilt move to an absolute position
         /// </summary>
-        /// <param name="tilt"></param>
+        /// <param name="tilt">degree</param>
         /// <returns></returns>
         bool TiltAbsolute(double tilt);
 
         /// <summary>
         /// Pan Tilt move to an absolute position
         /// </summary>
-        /// <param name="pan"></param>
-        /// <param name="tilt"></param>
+        /// <param name="pan">degree</param>
+        /// <param name="tilt">degree</param>
         /// <returns></returns>
         bool PanTiltAbsolute(double pan, double tilt);
 
@@ -68,20 +68,20 @@ namespace Alturos.PanTilt
         /// <summary>
         /// Pan move of the pt head with a relative speed
         /// </summary>
-        /// <param name="panSpeed">degree per second</param>
+        /// <param name="panSpeed">degree/s</param>
         bool PanRelative(double panSpeed);
 
         /// <summary>
         /// Tilt move of the pt head with a relative speed
         /// </summary>
-        /// <param name="tiltSpeed">degree per second</param>
+        /// <param name="tiltSpeed">degree/s</param>
         bool TiltRelative(double tiltSpeed);
 
         /// <summary>
         /// Pan Tilt move of the pt head with a relative speed
         /// </summary>
-        /// <param name="panSpeed">degree per second</param>
-        /// <param name="tiltSpeed">degree per second</param>
+        /// <param name="panSpeed">degree/s</param>
+        /// <param name="tiltSpeed">degree/s</param>
         bool PanTiltRelative(double panSpeed, double tiltSpeed);
 
         /// <summary>

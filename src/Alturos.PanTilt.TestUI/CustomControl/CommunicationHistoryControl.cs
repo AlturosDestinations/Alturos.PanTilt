@@ -1,4 +1,4 @@
-using Alturos.PanTilt.Contract.Eneo;
+using Alturos.PanTilt.Eneo;
 using Alturos.PanTilt.TestUI.Extension;
 using Alturos.PanTilt.TestUI.Model;
 using System;

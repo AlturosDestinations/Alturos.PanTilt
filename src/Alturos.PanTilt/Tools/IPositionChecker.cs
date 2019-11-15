@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Alturos.PanTilt
+namespace Alturos.PanTilt.Tools
 {
     public interface IPositionChecker
     {

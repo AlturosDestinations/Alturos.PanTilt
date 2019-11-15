@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 
-namespace Alturos.PanTilt
+namespace Alturos.PanTilt.Communication
 {
     public class UdpNetworkCommunication : ICommunication
     {

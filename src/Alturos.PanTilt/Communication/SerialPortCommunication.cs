@@ -3,7 +3,7 @@ using System;
 using System.IO.Ports;
 using System.Linq;
 
-namespace Alturos.PanTilt
+namespace Alturos.PanTilt.Communication
 {
     public class SerialPortCommunication : ICommunication
     {
