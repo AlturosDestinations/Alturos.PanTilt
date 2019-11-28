@@ -1,7 +1,6 @@
 using Accord.Video;
 using Alturos.PanTilt.Communication;
 using Alturos.PanTilt.Diagnostic;
-using Alturos.PanTilt.TestUI.Contract;
 using Alturos.PanTilt.TestUI.Dialog;
 using Alturos.PanTilt.TestUI.Extension;
 using Alturos.PanTilt.TestUI.Model;
@@ -19,7 +18,6 @@ namespace Alturos.PanTilt.TestUI
     {
         private ICommunication _communication;
         private IPanTiltControl _panTiltControl;
-        private IZoomProvider _zoomProvider;
         private bool _mouseControlActive;
         private Accord.Controls.VideoSourcePlayer _videoSourcePlayer;
         private DateTime _lastRefresh;
@@ -58,11 +56,6 @@ namespace Alturos.PanTilt.TestUI
             var startPtHeadCommunication = Task.Run(() => this.StartPanTiltCommunication());
 
             this.UpdateMousePanel();
-            this.panelMouseControl.MouseWheel += MouseWheelZoom;
-
-            this._zoomProvider = new MockZoomProvider();
-            this._zoomProvider.SetZoomAsync(0);
-            this._zoomProvider.ZoomChanged += CameraControlZoomChanged;
 
             if (this._deviceConfiguration.CameraActive)
             {
@@ -95,6 +88,9 @@ namespace Alturos.PanTilt.TestUI
                 this.continiousMovementControl1.SetPanTiltControl(this._panTiltControl);
                 this.fastMovementControl1.SetPanTiltControl(this._panTiltControl);
                 this.absolutePositionControl1.SetPanTiltControl(this._panTiltControl);
+                this.eneoUserControl1.SetPanTiltControl(this._panTiltControl);
+                this.alturosUserControl1.SetPanTiltControl(this._panTiltControl);
+                this.alturosUserControl1.SetDeviceConfiguration(this._deviceConfiguration);
                 this._panTiltControl.PanTiltAbsolute(0,0);
             }
         }
@@ -107,8 +103,6 @@ namespace Alturos.PanTilt.TestUI
                 this._videoSourcePlayer.Dispose();
             }
 
-            this.panelMouseControl.MouseWheel -= MouseWheelZoom;
-
             if (this._panTiltControl != null)
             {
                 this._panTiltControl.Stop();
@@ -117,12 +111,6 @@ namespace Alturos.PanTilt.TestUI
             }
 
             this._communication?.Dispose();
-
-            if (this._zoomProvider != null)
-            {
-                this._zoomProvider.ZoomChanged -= CameraControlZoomChanged;
-                this._zoomProvider?.Dispose();
-            }
         }
 
         private void Main_Resize(object sender, EventArgs e)
@@ -132,6 +120,7 @@ namespace Alturos.PanTilt.TestUI
 
         private void SetConfigurationInfo()
         {
+            this.labelCameraIpAddress.Text = $"No Camera available";
             if (this._deviceConfiguration.CameraActive)
             {
                 this.labelCameraIpAddress.Text = $"Camera: {this._deviceConfiguration.CameraIpAddress}";
@@ -189,10 +178,11 @@ namespace Alturos.PanTilt.TestUI
             switch (this._deviceConfiguration.PanTiltControlType)
             {
                 case PanTiltControlType.Alturos:
-                    this.tabControl1.TabPages.Remove(this.tabPageEneo);
+                    this.mainTabControl.TabPages.Remove(this.tabPageEneo);
                     this._panTiltControl = new AlturosPanTiltControl(this._communication);
                     break;
                 case PanTiltControlType.Eneo:
+                    this.mainTabControl.TabPages.Remove(this.tabPageAlturos);
                     this._panTiltControl = new EneoPanTiltControl(this._communication);
                     break;
             }
@@ -211,7 +201,6 @@ namespace Alturos.PanTilt.TestUI
             this._positionChecker = new PositionChecker(this._panTiltControl);
 
             this._panTiltControl.Start();
-            this.SetSmoothing(100, 50);
 
             Thread.Sleep(500);
             this.GetLimitInfos();
@@ -260,14 +249,19 @@ namespace Alturos.PanTilt.TestUI
             this._panTiltControl.StopMoving();
         }
 
+        private void buttonMoveToStartPosition_Click(object sender, EventArgs e)
+        {
+            this._panTiltControl.PanTiltAbsolute(0, 0);
+        }
+
         #endregion
 
         #region Mouse Control
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
-            var zoom = this._zoomProvider.GetZoom();
-            var factor = zoom / 10;
+            var sesnitive = 100 - this.trackBarSesnitive.Value;
+            var factor = sesnitive / 10.0;
 
             var width = this.panelMouseControl.Width;
             var height = this.panelMouseControl.Height;
@@ -329,66 +323,7 @@ namespace Alturos.PanTilt.TestUI
 
         #endregion
 
-        #region Zoom
-
-        private async void MouseWheelZoom(object sender, MouseEventArgs e)
-        {
-            if (this._zoomProvider == null)
-            {
-                return;
-            }
-
-            var currentZoom = this._zoomProvider.GetZoom();
-            var zoomJump = 5;
-
-            if (e.Delta == 120)
-            {
-                await this._zoomProvider.SetZoomAsync(currentZoom + zoomJump);
-                return;
-            }
-
-            await this._zoomProvider.SetZoomAsync(currentZoom - zoomJump);
-        }
-
-        private void buttonZoom0_Click(object sender, EventArgs e)
-        {
-            this.trackBarZoom.Value = 0;
-        }
-
-        private void buttonZoom100_Click(object sender, EventArgs e)
-        {
-            this.trackBarZoom.Value = 100;
-        }
-
-        private void trackBarZoom_ValueChanged(object sender, EventArgs e)
-        {
-            this._zoomProvider?.SetZoomAsync(this.trackBarZoom.Value);
-        }
-
-        private void CameraControlZoomChanged(double zoom)
-        {
-            this.trackBarCurrentZoom.Invoke(o => o.Value = (int)zoom);
-        }
-
-        #endregion
-
         #region Pan Tilt Head Limits
-
-        private void buttonEnableLimits_Click(object sender, EventArgs e)
-        {
-            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
-            {
-                eneoPanTiltControl.EnableLimit();
-            }
-        }
-
-        private void buttonDisableLimits_Click(object sender, EventArgs e)
-        {
-            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
-            {
-                eneoPanTiltControl.DisableLimit();
-            }
-        }
 
         private async void buttonRefreshLimitInfos_Click(object sender, EventArgs e)
         {
@@ -401,45 +336,14 @@ namespace Alturos.PanTilt.TestUI
             {
                 eneoPanTiltControl.QueryLimits();
                 await Task.Delay(1000);
-                this.GetLimitInfos();
             }
-        }
-
-        private void buttonLimitUp_Click(object sender, EventArgs e)
-        {
-            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
-            {
-                eneoPanTiltControl.SetLimitUp();
-            }
-        }
-
-        private void buttonSetLimitDown_Click(object sender, EventArgs e)
-        {
-            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
-            {
-                eneoPanTiltControl.SetLimitDown();
-            }
-        }
-
-        private void buttonLimitLeft_Click(object sender, EventArgs e)
-        {
-            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
-            {
-                eneoPanTiltControl.SetLimitLeft();
-            }
-        }
-
-        private void buttonSetLimitRight_Click(object sender, EventArgs e)
-        {
-            if (this._panTiltControl is EneoPanTiltControl eneoPanTiltControl)
-            {
-                eneoPanTiltControl.SetLimitRigth();
-            }
+            
+            this.GetLimitInfos();
         }
 
         private void buttonReinitialize_Click(object sender, EventArgs e)
         {
-            this._panTiltControl.ReinitializePosition();
+            this._panTiltControl.ReinitializePtHead();
         }
 
         private void GetLimitInfos()
@@ -451,68 +355,9 @@ namespace Alturos.PanTilt.TestUI
             this.labelLimitDown.Text = $"Min:{limits.TiltMin}";
         }
 
-        private async Task SetLimits(PanTiltLimit limits)
+        private void SetLimits(PanTiltLimit limits)
         {
-            //Notice:
-            //Pt head cannot move with absolute commands to a position outside the limits we must change the limits before with a relative command
-            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
-            if (eneoPanTiltControl == null)
-            {
-                return;
-            }
-
-            await Task.Run(() =>
-            {
-                //Disable limits
-                eneoPanTiltControl.DisableLimit();
-
-                //Move to zero position
-                this._panTiltControl.PanTiltAbsolute(0, 0);
-                this._positionChecker.ComparePosition(new PanTiltPosition(0, 0));
-
-                //PanMin
-                this._panTiltControl.PanRelative(-30);
-                this._positionChecker.ComparePosition(new PanTiltPosition(limits.PanMin - 10, 0), tolerance: 5, timeout: 50, retry: 200);
-                eneoPanTiltControl.SetLimitLeft();
-                this._panTiltControl.PanAbsolute(limits.PanMin);
-                this._positionChecker.ComparePosition(new PanTiltPosition(limits.PanMin, 0));
-                eneoPanTiltControl.SetLimitLeft();
-
-                //PanMax
-                this._panTiltControl.PanRelative(30);
-                this._positionChecker.ComparePosition(new PanTiltPosition(limits.PanMax + 10, 0), tolerance: 5, timeout: 50, retry: 200);
-                eneoPanTiltControl.SetLimitRigth();
-                this._panTiltControl.PanAbsolute(limits.PanMax);
-                this._positionChecker.ComparePosition(new PanTiltPosition(limits.PanMax, 0));
-                eneoPanTiltControl.SetLimitRigth();
-
-                //Move to zero position
-                this._panTiltControl.PanTiltAbsolute(0, 0);
-                this._positionChecker.ComparePosition(new PanTiltPosition(0, 0));
-
-                //TiltMin
-                this._panTiltControl.TiltRelative(-20);
-                this._positionChecker.ComparePosition(new PanTiltPosition(0, limits.TiltMin - 10), tolerance: 5, timeout: 50, retry: 200);
-                eneoPanTiltControl.SetLimitDown();
-                this._panTiltControl.TiltAbsolute(limits.TiltMin);
-                this._positionChecker.ComparePosition(new PanTiltPosition(0, limits.TiltMin));
-                eneoPanTiltControl.SetLimitDown();
-
-                //TiltMax
-                this._panTiltControl.TiltRelative(20);
-                this._positionChecker.ComparePosition(new PanTiltPosition(0, limits.TiltMax + 10), tolerance: 5, timeout: 50, retry: 200);
-                eneoPanTiltControl.SetLimitUp();
-                this._panTiltControl.TiltAbsolute(limits.TiltMax);
-                this._positionChecker.ComparePosition(new PanTiltPosition(0, limits.TiltMax));
-                eneoPanTiltControl.SetLimitUp();
-
-                //Enable limits
-                eneoPanTiltControl.EnableLimit();
-
-                //Move to zero position
-                this._panTiltControl.PanTiltAbsolute(0, 0);
-                this._positionChecker.ComparePosition(new PanTiltPosition(0, 0));
-            });
+            this._panTiltControl.SetLimits(limits);
         }
 
         private async void buttonSetLimits_Click(object sender, EventArgs e)
@@ -523,41 +368,10 @@ namespace Alturos.PanTilt.TestUI
             double.TryParse(this.textBoxLimitDown.Text, out var tiltMin);
 
             this.buttonSetLimits.Enabled = false;
-            await this.SetLimits(new PanTiltLimit { PanMin = panMin, PanMax = panMax, TiltMin = tiltMin, TiltMax = tiltMax });
+            this.SetLimits(new PanTiltLimit { PanMin = panMin, PanMax = panMax, TiltMin = tiltMin, TiltMax = tiltMax });
             this.buttonSetLimits.Enabled = true;
 
             await this.RefreshLimits();
-        }
-
-        #endregion
-
-        #region Smoothing (Only Eneo)
-
-        private void buttonSmoothingLow_Click(object sender, EventArgs e)
-        {
-            this.SetSmoothing(50, 25);
-        }
-
-        private void buttonSmoothingNormal_Click(object sender, EventArgs e)
-        {
-            this.SetSmoothing(100, 50);
-        }
-
-        private void buttonSmoothingHigh_Click(object sender, EventArgs e)
-        {
-            this.SetSmoothing(200, 100);
-        }
-
-        private void SetSmoothing(byte acceleration, byte gain)
-        {
-            var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
-            if (eneoPanTiltControl != null)
-            {
-                this.labelAccleration.Text = $"Acceleration: {acceleration}";
-                this.labelGain.Text = $"Gain: {gain}";
-
-                eneoPanTiltControl.SetSmoothing(acceleration, gain);
-            }
         }
 
         #endregion
@@ -608,6 +422,38 @@ namespace Alturos.PanTilt.TestUI
                     canvas.DrawLine(pen, this.panelMouseControl.Width / 2, 0, this.panelMouseControl.Width / 2, this.panelMouseControl.Height);
                 }
             }
+        }
+
+        #endregion
+
+        #region Increase / Decrease buttons
+
+        private void buttonDecreaseP_Click(object sender, EventArgs e)
+        {
+            int.TryParse(this.textBoxPan.Text, out var pan);
+            pan--;
+            this.textBoxPan.Text = pan.ToString();
+        }
+
+        private void buttonIncreaseP_Click(object sender, EventArgs e)
+        {
+            int.TryParse(this.textBoxPan.Text, out var pan);
+            pan++;
+            this.textBoxPan.Text = pan.ToString();
+        }
+
+        private void buttonDecreaseT_Click(object sender, EventArgs e)
+        {
+            int.TryParse(this.textBoxTilt.Text, out var tilt);
+            tilt--;
+            this.textBoxTilt.Text = tilt.ToString();
+        }
+
+        private void buttonIncreaseT_Click(object sender, EventArgs e)
+        {
+            int.TryParse(this.textBoxTilt.Text, out var tilt);
+            tilt++;
+            this.textBoxTilt.Text = tilt.ToString();
         }
 
         #endregion

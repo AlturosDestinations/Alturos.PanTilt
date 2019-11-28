@@ -63,6 +63,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,6 +73,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Tftp.Net, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tftp.Net.1.1.0.0\lib\Tftp.Net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contract\IZoomProvider.cs" />
@@ -81,6 +85,18 @@
     </Compile>
     <Compile Include="CustomControl\AbsolutePositionControl.Designer.cs">
       <DependentUpon>AbsolutePositionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\AlturosUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\AlturosUserControl.Designer.cs">
+      <DependentUpon>AlturosUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\EneoUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\EneoUserControl.Designer.cs">
+      <DependentUpon>EneoUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\FastMovementControl.cs">
       <SubType>UserControl</SubType>
@@ -123,6 +139,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CustomControl\AbsolutePositionControl.resx">
       <DependentUpon>AbsolutePositionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControl\AlturosUserControl.resx">
+      <DependentUpon>AlturosUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControl\EneoUserControl.resx">
+      <DependentUpon>EneoUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControl\FastMovementControl.resx">
       <DependentUpon>FastMovementControl.cs</DependentUpon>

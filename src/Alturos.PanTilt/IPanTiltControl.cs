@@ -20,7 +20,7 @@ namespace Alturos.PanTilt
         /// Reinitialize the pt head
         /// </summary>
         /// <returns></returns>
-        bool ReinitializePosition();
+        bool ReinitializePtHead();
 
         #region Position
 

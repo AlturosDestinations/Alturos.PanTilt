@@ -171,9 +171,9 @@ namespace Alturos.PanTilt
             return this.Send($"SSS", "StopMoving");
         }
 
-        public bool ReinitializePosition()
+        public bool ReinitializePtHead()
         {
-            return this.Send($"RST", "ReinitializePosition");
+            return this.Send($"RST", "ReinitializePtHead");
         }
 
         public bool Start()
@@ -195,9 +195,9 @@ namespace Alturos.PanTilt
 
         public bool SetLimits(PanTiltLimit panTiltLimit)
         {
-            this.LimitChanged?.Invoke();
-
             this._panTiltlimit = panTiltLimit;
+
+            this.LimitChanged?.Invoke();
             return true;
         }
     }

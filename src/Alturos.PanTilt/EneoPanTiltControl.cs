@@ -1,7 +1,7 @@
 using Alturos.PanTilt.Communication;
 using Alturos.PanTilt.Eneo;
 using Alturos.PanTilt.Eneo.Response;
-using Alturos.PanTilt.Eneo;
+using Alturos.PanTilt.Tools;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -464,7 +464,7 @@ namespace Alturos.PanTilt
             this.DeactivateFeedback();
         }
 
-        public bool ReinitializePosition()
+        public bool ReinitializePtHead()
         {
             //Firmware request command need to commands for start the reinitialize
 
@@ -758,6 +758,71 @@ namespace Alturos.PanTilt
             this.Send(command, "DisableLimit");
         }
 
+        public PanTiltLimit GetLimits()
+        {
+            return this._limits;
+        }
+
+        public bool SetLimits(PanTiltLimit panTiltLimit)
+        {
+            Task.Run(() =>
+            {
+                var positionChecker = new PositionChecker(this);
+
+                //Disable limits
+                this.DisableLimit();
+
+                //Move to zero position
+                this.PanTiltAbsolute(0, 0);
+                positionChecker.ComparePosition(new PanTiltPosition(0, 0));
+
+                //PanMin
+                this.PanRelative(-30);
+                positionChecker.ComparePosition(new PanTiltPosition(panTiltLimit.PanMin - 10, 0), tolerance: 5, timeout: 50, retry: 200);
+                this.SetLimitLeft();
+                this.PanAbsolute(panTiltLimit.PanMin);
+                positionChecker.ComparePosition(new PanTiltPosition(panTiltLimit.PanMin, 0));
+                this.SetLimitLeft();
+
+                //PanMax
+                this.PanRelative(30);
+                positionChecker.ComparePosition(new PanTiltPosition(panTiltLimit.PanMax + 10, 0), tolerance: 5, timeout: 50, retry: 200);
+                this.SetLimitRigth();
+                this.PanAbsolute(panTiltLimit.PanMax);
+                positionChecker.ComparePosition(new PanTiltPosition(panTiltLimit.PanMax, 0));
+                this.SetLimitRigth();
+
+                //Move to zero position
+                this.PanTiltAbsolute(0, 0);
+                positionChecker.ComparePosition(new PanTiltPosition(0, 0));
+
+                //TiltMin
+                this.TiltRelative(-20);
+                positionChecker.ComparePosition(new PanTiltPosition(0, panTiltLimit.TiltMin - 10), tolerance: 5, timeout: 50, retry: 200);
+                this.SetLimitDown();
+                this.TiltAbsolute(panTiltLimit.TiltMin);
+                positionChecker.ComparePosition(new PanTiltPosition(0, panTiltLimit.TiltMin));
+                this.SetLimitDown();
+
+                //TiltMax
+                this.TiltRelative(20);
+                positionChecker.ComparePosition(new PanTiltPosition(0, panTiltLimit.TiltMax + 10), tolerance: 5, timeout: 50, retry: 200);
+                this.SetLimitUp();
+                this.TiltAbsolute(panTiltLimit.TiltMax);
+                positionChecker.ComparePosition(new PanTiltPosition(0, panTiltLimit.TiltMax));
+                this.SetLimitUp();
+
+                //Enable limits
+                this.EnableLimit();
+
+                //Move to zero position
+                this.PanTiltAbsolute(0, 0);
+                positionChecker.ComparePosition(new PanTiltPosition(0, 0));
+            });
+
+            return true;
+        }
+
         #endregion
 
         #region Relay
@@ -928,17 +993,6 @@ namespace Alturos.PanTilt
         public PanTiltPosition GetPosition()
         {
             return this._position;
-        }
-
-        public PanTiltLimit GetLimits()
-        {
-            return this._limits;
-        }
-
-        public bool SetLimits(PanTiltLimit panTiltLimit)
-        {
-            //TODO: Move logic from TestUI project
-            return false;
         }
 
         #endregion
