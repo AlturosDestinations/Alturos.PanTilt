@@ -40,26 +40,26 @@ namespace Alturos.PanTilt
         #region Absolute
 
         /// <summary>
-        /// Pan move to an absolute position
+        /// Move Pan to an absolute position
         /// </summary>
-        /// <param name="pan">degree</param>
+        /// <param name="degree">degree</param>
         /// <returns></returns>
-        bool PanAbsolute(double pan);
+        bool PanAbsolute(double degree);
 
         /// <summary>
-        /// Tilt move to an absolute position
+        /// Move Tilt to an absolute position
         /// </summary>
-        /// <param name="tilt">degree</param>
+        /// <param name="degree">degree</param>
         /// <returns></returns>
-        bool TiltAbsolute(double tilt);
+        bool TiltAbsolute(double degree);
 
         /// <summary>
-        /// Pan Tilt move to an absolute position
+        /// Move Pan and Tilt to an absolute position
         /// </summary>
-        /// <param name="pan">degree</param>
-        /// <param name="tilt">degree</param>
+        /// <param name="panDegree">degree</param>
+        /// <param name="tiltDegree">degree</param>
         /// <returns></returns>
-        bool PanTiltAbsolute(double pan, double tilt);
+        bool PanTiltAbsolute(double panDegree, double tiltDegree);
 
         #endregion
 
@@ -68,21 +68,21 @@ namespace Alturos.PanTilt
         /// <summary>
         /// Pan move of the pt head with a relative speed
         /// </summary>
-        /// <param name="panSpeed">degree/s</param>
-        bool PanRelative(double panSpeed);
+        /// <param name="degreePerSecond">degree/s</param>
+        bool PanRelative(double degreePerSecond);
 
         /// <summary>
         /// Tilt move of the pt head with a relative speed
         /// </summary>
-        /// <param name="tiltSpeed">degree/s</param>
-        bool TiltRelative(double tiltSpeed);
+        /// <param name="degreePerSecond">degree/s</param>
+        bool TiltRelative(double degreePerSecond);
 
         /// <summary>
         /// Pan Tilt move of the pt head with a relative speed
         /// </summary>
-        /// <param name="panSpeed">degree/s</param>
-        /// <param name="tiltSpeed">degree/s</param>
-        bool PanTiltRelative(double panSpeed, double tiltSpeed);
+        /// <param name="panDegreePerSecond">degree/s</param>
+        /// <param name="tiltDegreePerSecond">degree/s</param>
+        bool PanTiltRelative(double panDegreePerSecond, double tiltDegreePerSecond);
 
         /// <summary>
         /// Stop Relative movement

@@ -38,10 +38,19 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
             this.labelUpdateStatus.Invoke((MethodInvoker)delegate { this.labelUpdateStatus.Text = "download package"; });
             using (var httpClient = new HttpClient())
-            using (var stream = await httpClient.GetStreamAsync(packageUrl))
+            using (var response = await httpClient.GetAsync(packageUrl))
             using (var file = File.Create("pt-head.zip"))
             {
-                await stream.CopyToAsync(file);
+                if (!response.IsSuccessStatusCode)
+                {
+                    this.labelUpdateStatus.Invoke((MethodInvoker)delegate { this.labelUpdateStatus.Text = "download failure"; });
+                    return;
+                }
+
+                using (var stream = await response.Content.ReadAsStreamAsync())
+                {
+                    await stream.CopyToAsync(file);
+                }
             }
 
             if (Directory.Exists("tmp"))

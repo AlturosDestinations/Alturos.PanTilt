@@ -1,9 +1,13 @@
+using Alturos.DeviceDiscovery;
 using Alturos.PanTilt.Communication;
 using Alturos.PanTilt.TestUI.Model;
 using System;
+using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Alturos.PanTilt.TestUI.Extension;
 
 namespace Alturos.PanTilt.TestUI.Dialog
 {
@@ -41,6 +45,25 @@ namespace Alturos.PanTilt.TestUI.Dialog
                 this.comboBoxCameraImageUrl.Text = this.DeviceConfiguration.CameraJpegUrl;
                 this.textBoxCameraIpAddress.Text = this.DeviceConfiguration.CameraIpAddress;
             }
+
+            this.comboBoxDiscoverd.DisplayMember = "Name";
+            this.comboBoxDiscoverd.ValueMember = "IpAddress";
+            _ = Task.Run(async () => await this.DiscoverDevicesAsync());
+        }
+
+        private async Task DiscoverDevicesAsync()
+        {
+            var detection = new UdpDeviceDetection();
+
+            var packagesAlturos = await detection.GetDeviceInfoPackagesAsync(5555, new byte[] { 0x43, 0x30, 0x32 }, timeout: 1000);
+            var packagesEneo = await detection.GetDeviceInfoPackagesAsync(4800, new byte[] { 0x01, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00 }, timeout: 1000);
+
+            var discoveredDevices = new List<DiscoveredDevice>();
+            discoveredDevices.Add(new DiscoveredDevice { Manufacturer = "Choose a device" });
+            discoveredDevices.AddRange(packagesAlturos.Select(o => new DiscoveredDevice { Manufacturer = "Alturos", IpAddress = o.DeviceIpAddress }));
+            discoveredDevices.AddRange(packagesEneo.GroupBy(o => o.DeviceIpAddress).Select(o => new DiscoveredDevice { Manufacturer = "Eneo", IpAddress = o.First().DeviceIpAddress }));
+
+            this.comboBoxDiscoverd.Invoke(o => o.DataSource = discoveredDevices);
         }
 
         private void buttonContinue_Click(object sender, EventArgs e)
@@ -64,9 +87,30 @@ namespace Alturos.PanTilt.TestUI.Dialog
             var serialPortSelected = selectedValue.Equals(CommunicationType.SerialPort);
 
             this.comboBoxPort.Visible = serialPortSelected;
-            this.labelCOMPort.Visible = serialPortSelected;
+            this.labelComPort.Visible = serialPortSelected;
             this.textBoxPanTilt.Visible = !serialPortSelected;
-            this.labelPTIP.Visible = !serialPortSelected;
+            this.labelPanTiltIpAddress.Visible = !serialPortSelected;
+        }
+
+        private void comboBoxDiscoverd_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var device = this.comboBoxDiscoverd.SelectedItem as DiscoveredDevice;
+            if (string.IsNullOrEmpty(device.IpAddress))
+            {
+                return;
+            }
+
+            if (device.Manufacturer.Equals("Eneo", StringComparison.OrdinalIgnoreCase))
+            {
+                this.comboBoxPanTiltControl.SelectedItem = PanTiltControlType.Eneo;
+            }
+            else
+            {
+                this.comboBoxPanTiltControl.SelectedItem = PanTiltControlType.Alturos;
+            }
+            
+            this.comboBoxComType.SelectedItem = CommunicationType.NetworkUdp;
+            this.textBoxPanTilt.Text = device.IpAddress;
         }
     }
 }

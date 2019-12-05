@@ -250,14 +250,15 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             // 
             // numericUpDownSeconds
             // 
+            this.numericUpDownSeconds.DecimalPlaces = 1;
+            this.numericUpDownSeconds.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.numericUpDownSeconds.Location = new System.Drawing.Point(512, 4);
             this.numericUpDownSeconds.Maximum = new decimal(new int[] {
             15,
-            0,
-            0,
-            0});
-            this.numericUpDownSeconds.Minimum = new decimal(new int[] {
-            1,
             0,
             0,
             0});
@@ -284,7 +285,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             // 
             this.numericUpDownDegrees.Location = new System.Drawing.Point(330, 4);
             this.numericUpDownDegrees.Maximum = new decimal(new int[] {
-            10,
+            120,
             0,
             0,
             0});

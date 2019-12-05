@@ -1,6 +1,7 @@
 using Alturos.PanTilt.Eneo;
 using Alturos.PanTilt.TestUI.Extension;
 using Alturos.PanTilt.TestUI.Model;
+using Alturos.PanTilt.Translator;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
     {
         private int _limitSend = 1000;
         private int _limitReceive = 1000;
-        private FeedbackHandler _feedbackHandler;
+        private IFeedbackTranslator _feedbackTranslator;
         private List<DataPackage> _receivedData;
         private List<DataPackage> _sendData;
         private BindingSource _bindingSourceReceive = new BindingSource();
@@ -28,7 +29,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         {
             this.InitializeComponent();
 
-            this._feedbackHandler = new FeedbackHandler();
             this._receivedData = new List<DataPackage>();
             this._sendData = new List<DataPackage>();
 
@@ -39,6 +39,11 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this._bindingSourceSend.DataSource = this._sendData;
             this.dataGridViewSend.AutoGenerateColumns = false;
             this.dataGridViewSend.DataSource = this._bindingSourceSend;
+        }
+
+        public void SetTranslator(IFeedbackTranslator feedbackTranslator)
+        {
+            this._feedbackTranslator = feedbackTranslator;
         }
 
         public void AddSendPackage(DataPackage item)
@@ -61,17 +66,10 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         public void AddReceivePackage(DataPackage item)
         {
-            #region Get Type of feedback
-
-            var sb = new StringBuilder();
-            var responses = this._feedbackHandler.HandleResponse(item.Data);
-            foreach (var response in responses)
+            if (this._feedbackTranslator != null)
             {
-                sb.Append($"{response.ResponseType},");
+                item.Type = this._feedbackTranslator.Translate(item.Data);
             }
-            item.Type = sb.ToString();
-
-            #endregion
 
             if (!this.checkBoxRefresh.Checked)
             {

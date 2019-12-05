@@ -2,7 +2,7 @@
 {
     public static class PanTiltPositionExtension
     {
-        public static PanTiltPosition AddRelativePosition(this PanTiltPosition currentPanTiltPosition, PanTiltPosition panTiltPosition, int seconds)
+        public static PanTiltPosition AddRelativePosition(this PanTiltPosition currentPanTiltPosition, PanTiltPosition panTiltPosition, double seconds)
         {
             var pan = currentPanTiltPosition.Pan + panTiltPosition.Pan * seconds;
             var tilt = currentPanTiltPosition.Tilt + panTiltPosition.Tilt * seconds;

@@ -55,6 +55,9 @@
     <Reference Include="Accord.Video, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <HintPath>..\packages\Accord.Video.3.8.0\lib\net46\Accord.Video.dll</HintPath>
     </Reference>
+    <Reference Include="Alturos.DeviceDiscovery, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Alturos.DeviceDiscovery.1.0.1\lib\net461\Alturos.DeviceDiscovery.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -133,6 +136,7 @@
     <Compile Include="Model\DataPackage.cs" />
     <Compile Include="Model\DeviceConfiguration.cs" />
     <Compile Include="Model\DeviceConfigurationHelper.cs" />
+    <Compile Include="Model\DiscoveredDevice.cs" />
     <Compile Include="Model\FastMovementInfo.cs" />
     <Compile Include="Model\PositionCompare.cs" />
     <Compile Include="Program.cs" />

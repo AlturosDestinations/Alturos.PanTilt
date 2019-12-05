@@ -5,6 +5,7 @@ using Alturos.PanTilt.TestUI.Dialog;
 using Alturos.PanTilt.TestUI.Extension;
 using Alturos.PanTilt.TestUI.Model;
 using Alturos.PanTilt.Tools;
+using Alturos.PanTilt.Translator;
 using System;
 using System.Drawing;
 using System.Net;
@@ -51,6 +52,9 @@ namespace Alturos.PanTilt.TestUI
             }
 
             this.Text = $"Alturos PanTilt TestUI ({Application.ProductVersion})";
+            this.labelPositionPan.Text = "Pan: 0,00";
+            this.labelPositionTilt.Text = "Tilt: 0,00";
+
             this.SetConfigurationInfo();
 
             var startPtHeadCommunication = Task.Run(() => this.StartPanTiltCommunication());
@@ -180,10 +184,12 @@ namespace Alturos.PanTilt.TestUI
                 case PanTiltControlType.Alturos:
                     this.mainTabControl.TabPages.Remove(this.tabPageEneo);
                     this._panTiltControl = new AlturosPanTiltControl(this._communication);
+                    this.communicationHistoryControl1.SetTranslator(new AlturosFeedbackTranslator());
                     break;
                 case PanTiltControlType.Eneo:
                     this.mainTabControl.TabPages.Remove(this.tabPageAlturos);
                     this._panTiltControl = new EneoPanTiltControl(this._communication);
+                    this.communicationHistoryControl1.SetTranslator(new EneoFeedbackTranslator());
                     break;
             }
 
@@ -430,28 +436,28 @@ namespace Alturos.PanTilt.TestUI
 
         private void buttonDecreaseP_Click(object sender, EventArgs e)
         {
-            int.TryParse(this.textBoxPan.Text, out var pan);
+            double.TryParse(this.textBoxPan.Text, out var pan);
             pan--;
             this.textBoxPan.Text = pan.ToString();
         }
 
         private void buttonIncreaseP_Click(object sender, EventArgs e)
         {
-            int.TryParse(this.textBoxPan.Text, out var pan);
+            double.TryParse(this.textBoxPan.Text, out var pan);
             pan++;
             this.textBoxPan.Text = pan.ToString();
         }
 
         private void buttonDecreaseT_Click(object sender, EventArgs e)
         {
-            int.TryParse(this.textBoxTilt.Text, out var tilt);
+            double.TryParse(this.textBoxTilt.Text, out var tilt);
             tilt--;
             this.textBoxTilt.Text = tilt.ToString();
         }
 
         private void buttonIncreaseT_Click(object sender, EventArgs e)
         {
-            int.TryParse(this.textBoxTilt.Text, out var tilt);
+            double.TryParse(this.textBoxTilt.Text, out var tilt);
             tilt++;
             this.textBoxTilt.Text = tilt.ToString();
         }

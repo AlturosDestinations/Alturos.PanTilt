@@ -32,7 +32,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelError = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.numericUpDownTime = new System.Windows.Forms.NumericUpDown();
@@ -40,12 +39,12 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.label6 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridViewFastMovement = new System.Windows.Forms.DataGridView();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ColumnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTimestamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRequest = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTilt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -81,7 +80,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             // panel1
             // 
             this.panel1.Controls.Add(this.labelError);
-            this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 508);
             this.panel1.Name = "panel1";
@@ -93,20 +91,11 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.labelError.AutoSize = true;
             this.labelError.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelError.ForeColor = System.Drawing.Color.Red;
-            this.labelError.Location = new System.Drawing.Point(199, 4);
+            this.labelError.Location = new System.Drawing.Point(4, 6);
             this.labelError.Name = "labelError";
             this.labelError.Size = new System.Drawing.Size(98, 13);
             this.labelError.TabIndex = 1;
             this.labelError.Text = "change by code";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "change by code";
             // 
             // panel2
             // 
@@ -138,7 +127,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             0});
             this.numericUpDownTime.Location = new System.Drawing.Point(272, 4);
             this.numericUpDownTime.Maximum = new decimal(new int[] {
-            1000,
+            3000,
             0,
             0,
             0});
@@ -215,16 +204,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.dataGridViewFastMovement.TabIndex = 0;
             this.dataGridViewFastMovement.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridViewFastMovement_RowPostPaint);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(629, 464);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
             // ColumnType
             // 
             this.ColumnType.DataPropertyName = "Type";
@@ -267,6 +246,16 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.ColumnTilt.ReadOnly = true;
             this.ColumnTilt.Width = 50;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(629, 464);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // FastMovementControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,7 +282,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         #endregion
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelError;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button buttonStartFast;

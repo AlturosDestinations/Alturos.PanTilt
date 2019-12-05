@@ -24,6 +24,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         private bool _stoppedManually;
         private AutoResetEvent _waitMovementResetEvent = new AutoResetEvent(false);
         private int _multiplier = 4;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public ContiniousMovementControl()
         {
@@ -84,24 +85,32 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private async void buttonStartRelative_Click(object sender, EventArgs e)
         {
+            this._cancellationTokenSource = new CancellationTokenSource();
             this._stoppedManually = false;
             this.buttonStart.Enabled = false;
             this.buttonStartRelative.Enabled = false;
             this.buttonStop.Enabled = true;
 
-            if (this.checkBoxRelativeLoop.Checked)
+            try
             {
-                await this.MoveRectangleRelative(2, 15);
-                await this.MoveRectangleRelative(5, 10);
-                await this.MoveRectangleRelative(7, 7);
-                await this.MoveRectangleRelative(10, 4);
-            }
-            else
-            {
-                var degreePerSeconds = (int)this.numericUpDownDegrees.Value;
-                var seconds = (int)this.numericUpDownSeconds.Value;
+                if (this.checkBoxRelativeLoop.Checked)
+                {
+                    await this.MoveRectangleRelative(2, 15);
+                    await this.MoveRectangleRelative(5, 10);
+                    await this.MoveRectangleRelative(7, 7);
+                    await this.MoveRectangleRelative(10, 4);
+                }
+                else
+                {
+                    var degreePerSeconds = (double)this.numericUpDownDegrees.Value;
+                    var seconds = (double)this.numericUpDownSeconds.Value;
 
-                await this.MoveRectangleRelative(degreePerSeconds, seconds);
+                    await this.MoveRectangleRelative(degreePerSeconds, seconds);
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
             }
 
             this.buttonStart.Enabled = true;
@@ -125,6 +134,11 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         {
             this._waitMovementResetEvent.Set();
             this._stoppedManually = true;
+
+            if (this._cancellationTokenSource != null)
+            {
+                this._cancellationTokenSource.Cancel();
+            }
 
             this.buttonStart.Enabled = true;
             this.buttonStartRelative.Enabled = true;
@@ -184,7 +198,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                     this._drawEngine.DrawLine(this._lastPosition, this._currentPosition, Color.HotPink, 2);
                 }
 
-                this._lastPosition = this._currentPosition;
+                this._lastPosition = new PanTiltPosition(this._currentPosition.Pan, this._currentPosition.Tilt);
 
                 this.labelPanTiltPosition.Text = $"Pan:{currentPt.Pan:0.00} Tilt:{currentPt.Tilt:0.00}";
                 this.UpdateCurrentImage();
@@ -222,7 +236,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this._currentPosition = position;
         }
 
-        private async Task MoveRectangleRelative(double degreePerSeconds, int seconds)
+        private async Task MoveRectangleRelative(double degreePerSeconds, double seconds)
         {
             if (this._stoppedManually)
             {
@@ -234,21 +248,24 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             await Task.Run(() =>
             {
                 this._panTiltControl.PanTiltAbsolute(0, 0);
-                this._waitMovementResetEvent.WaitOne(1000);
-                this._positionChecker.ComparePosition(new PanTiltPosition(0, 0), 0.1, 20, 40);
+                this._positionChecker.ComparePosition(new PanTiltPosition(0, 0), 0.1, 100, 100);
             });
 
-            this._currentPosition = _panTiltControl.GetPosition();
+            this._currentPosition = this._panTiltControl.GetPosition();
+            this._lastPosition = new PanTiltPosition(this._currentPosition.Pan, this._currentPosition.Tilt);
+
             this._deviationOverrunDetected = false;
 
-            var items = new List<PanTiltPosition>();
-            items.Add(new PanTiltPosition(0, 0));
-            items.Add(new PanTiltPosition(0, degreePerSeconds / 2));
-            items.Add(new PanTiltPosition(degreePerSeconds / 2, 0));
-            items.Add(new PanTiltPosition(0, -degreePerSeconds));
-            items.Add(new PanTiltPosition(-degreePerSeconds, 0));
-            items.Add(new PanTiltPosition(0, degreePerSeconds));
-            items.Add(new PanTiltPosition(degreePerSeconds / 2, 0));
+            var items = new List<PanTiltPosition>
+            {
+                new PanTiltPosition(0, 0),
+                new PanTiltPosition(0, degreePerSeconds / 2),
+                new PanTiltPosition(degreePerSeconds / 2, 0),
+                new PanTiltPosition(0, -degreePerSeconds),
+                new PanTiltPosition(-degreePerSeconds, 0),
+                new PanTiltPosition(0, degreePerSeconds),
+                new PanTiltPosition(degreePerSeconds / 2, 0)
+            };
 
             var absoluteCurrentPt = this._currentPosition;
             var absolutePreviousPt = this._currentPosition;
@@ -257,32 +274,38 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this._lastPosition = null;
             int i = 1;
 
-            while (!_stoppedManually && i < items.Count)
+            while (!this._stoppedManually && i < items.Count)
             {
                 var relativePreviousPt = items[i - 1];
                 var relativeCurrentPt = items[i];
 
+                //Draw expected route
                 absolutePreviousPt = absolutePreviousPt.AddRelativePosition(relativePreviousPt, seconds);
                 absoluteCurrentPt = absoluteCurrentPt.AddRelativePosition(relativeCurrentPt, seconds);
                 this._drawEngine.DrawLine(absolutePreviousPt, absoluteCurrentPt, Color.DarkGreen, 4);
 
-                this.labelPanTiltPosition.Text = $"Pan:{this._currentPosition.Pan:0.00} Tilt:{this._currentPosition.Tilt:0.00}";
-
+                //Draw actual route
                 if (this._lastPosition != null)
                 {
                     this._drawEngine.DrawLine(this._lastPosition, this._currentPosition, Color.HotPink, 3);
                 }
+
                 this.UpdateCurrentImage();
 
-                this._lastPosition = this._currentPosition;
+                this.labelPanTiltPosition.Text = $"Pan:{this._currentPosition.Pan:0.00} Tilt:{this._currentPosition.Tilt:0.00}";
+                this._lastPosition = new PanTiltPosition(this._currentPosition.Pan, this._currentPosition.Tilt);
 
-                await Task.Run(() =>
-                {
-                    this._panTiltControl.PanTiltRelative(relativeCurrentPt.Pan, relativeCurrentPt.Tilt);
-                    this._waitMovementResetEvent.WaitOne(seconds * 1000);
-                    this._panTiltControl.StopMoving();
-                    this.ProveDeriviation(absoluteCurrentPt, allowedDeriviation);
-                });
+                this._panTiltControl.PanTiltRelative(relativeCurrentPt.Pan, relativeCurrentPt.Tilt);
+
+                var delay = seconds * 1000.0;
+                await Task.Delay((int)delay, this._cancellationTokenSource.Token).ContinueWith(tsk => { /* TaskCanceledException */ });
+
+                this._panTiltControl.StopMoving();
+                await Task.Delay((int)Math.Abs((this._currentPosition.Pan + this._currentPosition.Tilt) * 35));
+                
+
+                this.ProveDeriviation(absoluteCurrentPt, allowedDeriviation);
+
                 i++;
             }
 
@@ -290,6 +313,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             {
                 this._drawEngine.DrawLine(this._lastPosition, this._currentPosition, Color.HotPink, 3);
             }
+
             this.UpdateCurrentImage();
             this.SaveRectangleTestImageToFile(degreePerSeconds, seconds);
         }
@@ -328,7 +352,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.SaveTestImageToFile(dirName, fileName);
         }
 
-        private void SaveRectangleTestImageToFile(double degrees, int seconds)
+        private void SaveRectangleTestImageToFile(double degrees, double seconds)
         {
             var deviationOverrunText = this._deviationOverrunDetected ? "Fail" : "Success";
             var fileName = $"MovementTest_{DateTime.Now:yyyy-MM-dd_hh-mm-ss}_D{degrees}_S{seconds}_PT{this._ptLimit}_{deviationOverrunText}.jpg";

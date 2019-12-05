@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Translator\AlturosFeedbackTranslator.cs" />
+    <Compile Include="Translator\EneoFeedbackTranslator.cs" />
+    <Compile Include="Translator\IFeedbackTranslator.cs" />
     <Compile Include="IFirmwareReader.cs" />
     <Compile Include="PanTiltControlType.cs" />
     <Compile Include="AlturosPanTiltControl.cs" />

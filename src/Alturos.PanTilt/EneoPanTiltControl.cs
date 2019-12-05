@@ -446,7 +446,14 @@ namespace Alturos.PanTilt
 
             if (this._position == null || !this._position.Equals(position))
             {
-                this.PositionChanged?.Invoke(position);
+                try
+                {
+                    this.PositionChanged?.Invoke(this._position);
+                }
+                catch (Exception exception)
+                {
+                    Log.Error($"{nameof(PackageReceived)}", exception);
+                }
             }
             this._position = position;
         }
@@ -955,19 +962,19 @@ namespace Alturos.PanTilt
 
         #region IPanTiltControl
 
-        public bool PanAbsolute(double pan)
+        public bool PanAbsolute(double degree)
         {
-            return this.MovePanAbsolute(pan);
+            return this.MovePanAbsolute(degree);
         }
 
-        public bool TiltAbsolute(double tilt)
+        public bool TiltAbsolute(double degree)
         {
-            return this.MoveTiltAbsolute(tilt);
+            return this.MoveTiltAbsolute(degree);
         }
 
-        public bool PanTiltAbsolute(double pan, double tilt)
+        public bool PanTiltAbsolute(double panDegree, double tiltDegree)
         {
-            if (this.MovePanAbsolute(pan) && this.MoveTiltAbsolute(tilt))
+            if (this.MovePanAbsolute(panDegree) && this.MoveTiltAbsolute(tiltDegree))
             {
                 return true;
             }
@@ -975,19 +982,19 @@ namespace Alturos.PanTilt
             return false;
         }
 
-        public bool PanRelative(double panSpeed)
+        public bool PanRelative(double degreePerSecond)
         {
-            return this.MoveRelative(panSpeed, 0);
+            return this.MoveRelative(degreePerSecond, 0);
         }
 
-        public bool TiltRelative(double tiltSpeed)
+        public bool TiltRelative(double degreePerSecond)
         {
-            return this.MoveRelative(0, tiltSpeed);
+            return this.MoveRelative(0, degreePerSecond);
         }
 
-        public bool PanTiltRelative(double panSpeed, double tiltSpeed)
+        public bool PanTiltRelative(double panDegreePerSecond, double tiltDegreePerSecond)
         {
-            return this.MoveRelative(panSpeed, tiltSpeed);
+            return this.MoveRelative(panDegreePerSecond, tiltDegreePerSecond);
         }
 
         public PanTiltPosition GetPosition()

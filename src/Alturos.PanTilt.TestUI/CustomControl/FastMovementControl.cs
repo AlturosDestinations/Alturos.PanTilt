@@ -4,6 +4,7 @@ using Alturos.PanTilt.TestUI.Model;
 using Alturos.PanTilt.Tools;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
@@ -37,12 +38,9 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.InitializeComponent();
             this._drawEngine = new DrawEngine(this._drawEngineMultiplier);
 
-            this.label1.Text = string.Empty;
             this.labelError.Text = string.Empty;
-
-            this.PreparePositions();
+            this._lastPosition = new PanTiltPosition();
             this._currentPtIndices = 0;
-
             this._movementInfos = new List<FastMovementInfo>();
 
             this._bindingSource.DataSource = this._movementInfos;
@@ -56,10 +54,12 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private void PreparePositions()
         {
-            this._panTiltPositions = new List<PanTiltPosition>();
-            this._panTiltPositions.Add(new PanTiltPosition(0, 0));
-            this._panTiltPositions.Add(new PanTiltPosition(50, 30));
-            this._panTiltPositions.Add(new PanTiltPosition(-50, -30));
+            this._panTiltPositions = new List<PanTiltPosition>
+            {
+                new PanTiltPosition(0, 0),
+                new PanTiltPosition(this._ptLimit.PanMax - 10, this._ptLimit.TiltMax - 10),
+                new PanTiltPosition(this._ptLimit.PanMin + 10, this._ptLimit.TiltMin + 10)
+            };
         }
 
         private void UpdateTimerElapsed(object sender, ElapsedEventArgs e)
@@ -80,17 +80,18 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 var info = new FastMovementInfo(DateTime.Now, this._currentPtIndices, "CurrentPosition", currentPosition.Pan, currentPosition.Tilt);
                 this.AddMovementInfo(info);
 
-                if (this._lastPosition != null)
+                lock (this._syncObject)
                 {
-                    lock (this._syncObject)
-                    {
-                        this._drawEngine.DrawLine(currentPosition, this._lastPosition, new Pen(Brushes.HotPink).Color, 4);
-                        this._drawEngine.DrawCircle(new PanTiltPosition(currentPosition.Pan, currentPosition.Tilt), 5, Brushes.HotPink);
-                    }
-                    this.UpdateCurrentImage();
+                    this._drawEngine.DrawLine(currentPosition, this._lastPosition, new Pen(Brushes.HotPink).Color, 4);
+                    this._drawEngine.DrawCircle(new PanTiltPosition(currentPosition.Pan, currentPosition.Tilt), 5, Brushes.HotPink);
                 }
+                this.UpdateCurrentImage();
 
-                this._lastPosition = currentPosition;
+                Debug.WriteLine(currentPosition);
+                Debug.WriteLine(this._lastPosition);
+
+                this._lastPosition.Pan = currentPosition.Pan;
+                this._lastPosition.Tilt = currentPosition.Tilt;
 
                 this.RefreshGrid();
             }
@@ -125,7 +126,9 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
             await Task.Delay(1000).ConfigureAwait(false);
             this._ptLimit = this._panTiltControl.GetLimits();
+
             this.PrepareDrawing();
+            this.PreparePositions();
         }
 
         public void AddMovementInfo(FastMovementInfo item)
@@ -156,30 +159,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             oldImage?.Dispose();
         }
 
-        //private void SaveRectangleTestImageToFile(double degrees, int seconds)
-        //{
-        //    var deviationOverrunText = this._deviationOverrunDetected ? "Fail" : "Success";
-        //    var fileName = $"MovementTest_{DateTime.Now:yyyy-MM-dd_hh-mm-ss}_D{degrees}_S{seconds}_PT{this._ptLimit}_{deviationOverrunText}.jpg";
-        //    var dirName = "RectangleMovementTestImages";
-        //    this.SaveTestImageToFile(dirName, fileName);
-        //}
-
-        //private void SaveTestImageToFile(string dirName, string fileName)
-        //{
-        //    if (!Directory.Exists(dirName))
-        //    {
-        //        Directory.CreateDirectory(dirName);
-        //    }
-
-        //    var directory = Path.Combine(dirName, fileName);
-        //    var format = ImageFormat.Jpeg;
-
-        //    using (var bitmap = this._drawEngine.GetImage())
-        //    {
-        //        bitmap.Save(directory, format);
-        //    }
-        //}
-
         private async void buttonStartFast_Click(object sender, EventArgs e)
         {
             this.buttonStartFast.Enabled = false;
@@ -189,9 +168,14 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private async Task RunTest()
         {
+            this._panTiltControl.PanTiltAbsolute(0, 0);
+            this._positionChecker?.ComparePosition(new PanTiltPosition(0,0), tolerance: 0.5, retry: 50);
+
+            this._lastPosition.Pan = this._currentPosition.Pan;
+            this._lastPosition.Tilt = this._currentPosition.Tilt;
+
             this._movementInfos.Clear();
             this.PrepareDrawing();
-            this._lastPosition = null;
             this._currentPtIndices = -1;
             this._ptUpdateTimer.Enabled = true;
             this._ptUpdateTimer.Start();
@@ -224,7 +208,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
             await Task.Run(() =>
             {
-                this._positionChecker?.ComparePosition(this._panTiltPositions.Last());
+                this._positionChecker?.ComparePosition(this._panTiltPositions.Last(), tolerance: 0.5, retry: 50);
             });
 
             this._ptUpdateTimer.Stop();

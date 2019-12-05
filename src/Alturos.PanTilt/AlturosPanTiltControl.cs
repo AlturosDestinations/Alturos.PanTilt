@@ -13,7 +13,7 @@ namespace Alturos.PanTilt
         public event Action<PanTiltPosition> PositionChanged;
         public event Action LimitChanged;
 
-        private PanTiltPosition _position;
+        private readonly PanTiltPosition _position;
         private PanTiltLimit _panTiltlimit;
         private readonly bool _debug;
         private readonly ICommunication _communication;
@@ -31,11 +31,13 @@ namespace Alturos.PanTilt
             //Add default limits
             this._panTiltlimit = new PanTiltLimit
             {
-                PanMin = -170,
-                PanMax = 170,
-                TiltMin = -50,
-                TiltMax = 50
+                PanMin = -100,
+                PanMax = 100,
+                TiltMin = -60,
+                TiltMax = 25
             };
+
+            this._position = new PanTiltPosition(0, 0);
 
             this._communication = communication;
             this._communication.ReceiveData += PackageReceived;
@@ -56,6 +58,7 @@ namespace Alturos.PanTilt
 
         private void PackageReceived(byte[] data)
         {
+
             if (this._debug)
             {
                 var hex = BitConverter.ToString(data);
@@ -65,13 +68,25 @@ namespace Alturos.PanTilt
             Interlocked.Increment(ref this._receiveCount);
 
             var message = Encoding.ASCII.GetString(data);
-            if (message.Length == 14)
+            if (message.StartsWith("GP", StringComparison.OrdinalIgnoreCase) && message.Length == 14)
             {
                 int.TryParse(message.Substring(2, 6), out var tempPan);
                 int.TryParse(message.Substring(8, 6), out var tempTilt);
 
-                this._position = new PanTiltPosition(tempPan / 100.0, tempTilt / 100.0);
-                this.PositionChanged?.Invoke(this._position);
+                var pan = tempPan / 100.0;
+                var tilt = tempTilt / 100.0;
+
+                this._position.Pan = pan;
+                this._position.Tilt = tilt;
+
+                try
+                {
+                    this.PositionChanged?.Invoke(this._position);
+                }
+                catch (Exception exception)
+                {
+                    Log.Error($"{nameof(PackageReceived)}", exception);
+                }
             }
         }
 
@@ -113,41 +128,59 @@ namespace Alturos.PanTilt
             return this._position;
         }
 
-        public bool PanAbsolute(double pan)
+        public bool PanAbsolute(double degree)
         {
-            return this.Send($"MAP{pan * 100:+00000;-00000;+00000}", "PanAbsolute");
+            //Set a default speed of 30°
+            var degreePerSecond = 30;
+            this.Send($"SSP{Math.Abs(degreePerSecond * 100):00000}", "PanSpeed");
+
+            return this.Send($"MAP{degree * 100:+00000;-00000;+00000}", "PanAbsolute");
         }
 
-        public bool TiltAbsolute(double tilt)
+        public bool TiltAbsolute(double degree)
         {
-            return this.Send($"MAT{tilt * 100:+00000;-00000;+00000}", "TiltAbsolute");
+            //Set a default speed of 30°
+            var degreePerSecond = 30;
+            this.Send($"SST{Math.Abs(degreePerSecond * 100):00000}", "TiltSpeed");
+
+            return this.Send($"MAT{degree * 100:+00000;-00000;+00000}", "TiltAbsolute");
         }
 
-        public bool PanRelative(double panSpeed)
+        public bool PanRelative(double degreePerSecond)
         {
-            this.Send($"SSP{Math.Abs(panSpeed * 100):00000}", "PanSpeed");
-            if (panSpeed > 0)
+            this.Send($"SSP{Math.Abs(degreePerSecond * 100):00000}", "PanSpeed");
+            if (degreePerSecond == 0)
             {
-                return this.Send($"MRP{180 * 100:+00000;-00000;+00000}", "PanRelative");
+                return true;
             }
 
-            return this.Send($"MRP{-180 * 100:+00000;-00000;+00000}", "PanRelative");
-        }
-
-        public bool TiltRelative(double tiltSpeed)
-        {
-            this.Send($"SST{Math.Abs(tiltSpeed * 100):00000}", "TiltSpeed");
-            if (tiltSpeed > 0)
+            if (degreePerSecond > 0)
             {
-                return this.Send($"MRT{180 * 100:+00000;-00000;+00000}", "PanRelative");
+                return this.Send($"MAP{this._panTiltlimit.PanMax * 100:+00000;-00000;+00000}", "PanRelative");
             }
 
-            return this.Send($"MRT{-180 * 100:+00000;-00000;+00000}", "PanRelative");
+            return this.Send($"MAP{this._panTiltlimit.PanMin * 100:+00000;-00000;+00000}", "PanRelative");
         }
 
-        public bool PanTiltAbsolute(double pan, double tilt)
+        public bool TiltRelative(double degreePerSecond)
         {
-            if (this.PanAbsolute(pan) && this.TiltAbsolute(tilt))
+            this.Send($"SST{Math.Abs(degreePerSecond * 100):00000}", "TiltSpeed");
+            if (degreePerSecond == 0)
+            {
+                return true;
+            }
+
+            if (degreePerSecond > 0)
+            {
+                return this.Send($"MAT{this._panTiltlimit.TiltMax * 100:+00000;-00000;+00000}", "PanRelative");
+            }
+
+            return this.Send($"MAT{this._panTiltlimit.TiltMin * 100:+00000;-00000;+00000}", "PanRelative");
+        }
+
+        public bool PanTiltAbsolute(double panDegree, double tiltDegree)
+        {
+            if (this.PanAbsolute(panDegree) && this.TiltAbsolute(tiltDegree))
             {
                 return true;
             }
@@ -155,9 +188,9 @@ namespace Alturos.PanTilt
             return false;
         }
 
-        public bool PanTiltRelative(double panSpeed, double tiltSpeed)
+        public bool PanTiltRelative(double panDegreePerSecond, double tiltDegreePerSecond)
         {
-            if (this.PanRelative(panSpeed) && this.TiltRelative(tiltSpeed))
+            if (this.PanRelative(panDegreePerSecond) && this.TiltRelative(tiltDegreePerSecond))
             {
                 return true;
             }
@@ -168,7 +201,7 @@ namespace Alturos.PanTilt
         public bool StopMoving()
         {
             return this.PanTiltRelative(0, 0);
-            return this.Send($"SSS", "StopMoving");
+            //return this.Send($"SSS", "StopMoving");
         }
 
         public bool ReinitializePtHead()
