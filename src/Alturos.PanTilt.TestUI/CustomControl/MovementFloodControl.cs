@@ -46,6 +46,8 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
             for (var delay = 0; delay < 200; delay += 10)
             {
+                this.textBoxHistory.Invoke(o => o.Text += $"Start test case with {delay}ms delay\r\n");
+
                 for (var i = 0; i < 10; i++)
                 {
                     this._panTiltControl.PanRelative(degreePerSecond);
