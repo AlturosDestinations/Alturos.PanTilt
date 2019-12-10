@@ -119,6 +119,12 @@
     <Compile Include="CustomControl\CommunicationHistoryControl.Designer.cs">
       <DependentUpon>CommunicationHistoryControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\MovementFloodControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\MovementFloodControl.Designer.cs">
+      <DependentUpon>MovementFloodControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialog\ConfigDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControl\CommunicationHistoryControl.resx">
       <DependentUpon>CommunicationHistoryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControl\MovementFloodControl.resx">
+      <DependentUpon>MovementFloodControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\ConfigDialog.resx">
       <DependentUpon>ConfigDialog.cs</DependentUpon>

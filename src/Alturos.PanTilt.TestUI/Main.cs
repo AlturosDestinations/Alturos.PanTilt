@@ -52,8 +52,8 @@ namespace Alturos.PanTilt.TestUI
             }
 
             this.Text = $"Alturos PanTilt TestUI ({Application.ProductVersion})";
-            this.labelPositionPan.Text = "Pan: 0,00";
-            this.labelPositionTilt.Text = "Tilt: 0,00";
+            this.labelPositionPan.Text = "Pan: ?,??";
+            this.labelPositionTilt.Text = "Tilt: ?,??";
 
             this.SetConfigurationInfo();
 
@@ -94,6 +94,7 @@ namespace Alturos.PanTilt.TestUI
                 this.absolutePositionControl1.SetPanTiltControl(this._panTiltControl);
                 this.eneoUserControl1.SetPanTiltControl(this._panTiltControl);
                 this.alturosUserControl1.SetPanTiltControl(this._panTiltControl);
+                this.movementFloodControl1.SetPanTiltControl(this._panTiltControl);
                 this.alturosUserControl1.SetDeviceConfiguration(this._deviceConfiguration);
                 this._panTiltControl.PanTiltAbsolute(0,0);
             }
