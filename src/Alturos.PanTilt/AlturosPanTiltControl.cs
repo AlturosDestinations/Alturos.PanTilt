@@ -3,10 +3,11 @@ using log4net;
 using System;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Alturos.PanTilt
 {
-    public class AlturosPanTiltControl : IPanTiltControl
+    public class AlturosPanTiltControl : IPanTiltControl, IFirmwareReader
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(AlturosPanTiltControl));
 
@@ -17,6 +18,7 @@ namespace Alturos.PanTilt
         private PanTiltLimit _panTiltlimit;
         private readonly bool _debug;
         private readonly ICommunication _communication;
+        private event Action<string> _firmwareVersionReceived;
 
         private int _sendCount;
         private int _receiveCount;
@@ -58,7 +60,6 @@ namespace Alturos.PanTilt
 
         private void PackageReceived(byte[] data)
         {
-
             if (this._debug)
             {
                 var hex = BitConverter.ToString(data);
@@ -87,6 +88,24 @@ namespace Alturos.PanTilt
                 {
                     Log.Error($"{nameof(PackageReceived)}", exception);
                 }
+            }
+            else if (message.StartsWith("ANC", StringComparison.OrdinalIgnoreCase))
+            {
+                //Announce in application mode
+                //Ip
+                //Mac
+                //Name
+                //Serial
+            }
+            else if (message.StartsWith("GS07", StringComparison.OrdinalIgnoreCase))
+            {
+                var firmwareVersion = message.Substring(4);
+                this._firmwareVersionReceived?.Invoke(firmwareVersion);
+            }
+            else
+            {
+                var hex = BitConverter.ToString(data);
+                Log.Debug($"{nameof(PackageReceived)} - {hex}");
             }
         }
 
@@ -232,6 +251,28 @@ namespace Alturos.PanTilt
 
             this.LimitChanged?.Invoke();
             return true;
+        }
+
+        public async Task<string> GetFirmwareAsync()
+        {
+            var command = Encoding.ASCII.GetBytes("GS07");
+
+            using (var cannelationTokenSource = new CancellationTokenSource())
+            {
+                var firmwareVersion = string.Empty;
+                void GetFirmware(string data)
+                {
+                    firmwareVersion = data;
+                    cannelationTokenSource.Cancel();
+                }
+
+                this._firmwareVersionReceived += GetFirmware;
+                this.Send(command, "GetFirmware");
+                await Task.Delay(2000, cannelationTokenSource.Token).ContinueWith(tsk => { });
+                this._firmwareVersionReceived -= GetFirmware;
+
+                return firmwareVersion;
+            }
         }
     }
 }

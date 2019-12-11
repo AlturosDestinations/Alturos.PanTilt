@@ -46,9 +46,18 @@ namespace Alturos.PanTilt.TestUI.Dialog
                 this.textBoxCameraIpAddress.Text = this.DeviceConfiguration.CameraIpAddress;
             }
 
+            #region Discover devices
+
             this.comboBoxDiscoverd.DisplayMember = "Name";
             this.comboBoxDiscoverd.ValueMember = "IpAddress";
+            var discoveredDevices = new List<DiscoveredDevice>
+            {
+                new DiscoveredDevice { Manufacturer = "Discover network ..." }
+            };
+            this.comboBoxDiscoverd.DataSource = discoveredDevices;
             _ = Task.Run(async () => await this.DiscoverDevicesAsync());
+
+            #endregion
         }
 
         private async Task DiscoverDevicesAsync()
@@ -58,8 +67,10 @@ namespace Alturos.PanTilt.TestUI.Dialog
             var packagesAlturos = await detection.GetDeviceInfoPackagesAsync(5555, new byte[] { 0x43, 0x30, 0x32 }, timeout: 1000);
             var packagesEneo = await detection.GetDeviceInfoPackagesAsync(4800, new byte[] { 0x01, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00 }, timeout: 1000);
 
-            var discoveredDevices = new List<DiscoveredDevice>();
-            discoveredDevices.Add(new DiscoveredDevice { Manufacturer = "Choose a device" });
+            var discoveredDevices = new List<DiscoveredDevice>
+            {
+                new DiscoveredDevice { Manufacturer = "Choose a device" }
+            };
             discoveredDevices.AddRange(packagesAlturos.Select(o => new DiscoveredDevice { Manufacturer = "Alturos", IpAddress = o.DeviceIpAddress }));
             discoveredDevices.AddRange(packagesEneo.GroupBy(o => o.DeviceIpAddress).Select(o => new DiscoveredDevice { Manufacturer = "Eneo", IpAddress = o.First().DeviceIpAddress }));
 
