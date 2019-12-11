@@ -16,6 +16,8 @@ namespace Alturos.PanTilt.Calibration
             this.InitializeComponent();
             this.comboBoxCommunicationType.DataSource = Enum.GetValues(typeof(CommunicationType));
             this.comboBoxPanTiltControl.DataSource = ((PanTiltControlType[])Enum.GetValues(typeof(PanTiltControlType))).OrderBy(x => x.ToString()).ToList();
+
+            this.comboBoxCommunicationType.SelectedItem = CommunicationType.NetworkUdp;
         }
 
         private void comboBoxConnectionType_SelectedIndexChanged(object sender, EventArgs e)

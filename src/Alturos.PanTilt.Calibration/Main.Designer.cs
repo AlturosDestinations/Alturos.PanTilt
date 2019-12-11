@@ -44,7 +44,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxAxisType = new System.Windows.Forms.ComboBox();
-            this.tabPageSpeed = new System.Windows.Forms.TabPage();
+            this.tabPageAnalysis = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -54,7 +54,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.tabPageSpeed.SuspendLayout();
+            this.tabPageAnalysis.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,7 +79,7 @@
             this.buttonSpeedLogicPan.Name = "buttonSpeedLogicPan";
             this.buttonSpeedLogicPan.Size = new System.Drawing.Size(194, 23);
             this.buttonSpeedLogicPan.TabIndex = 1;
-            this.buttonSpeedLogicPan.Text = "SpeedLogicPan";
+            this.buttonSpeedLogicPan.Text = "Start Pan analysis";
             this.buttonSpeedLogicPan.UseVisualStyleBackColor = true;
             this.buttonSpeedLogicPan.Click += new System.EventHandler(this.buttonSpeedLogicPan_Click);
             // 
@@ -89,7 +89,7 @@
             this.buttonSpeedLogicTilt.Name = "buttonSpeedLogicTilt";
             this.buttonSpeedLogicTilt.Size = new System.Drawing.Size(194, 23);
             this.buttonSpeedLogicTilt.TabIndex = 3;
-            this.buttonSpeedLogicTilt.Text = "SpeedLogicTilt";
+            this.buttonSpeedLogicTilt.Text = "Start Tilit analysis";
             this.buttonSpeedLogicTilt.UseVisualStyleBackColor = true;
             this.buttonSpeedLogicTilt.Click += new System.EventHandler(this.buttonSpeedLogicTilt_Click);
             // 
@@ -170,7 +170,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPageCheck);
-            this.tabControl1.Controls.Add(this.tabPageSpeed);
+            this.tabControl1.Controls.Add(this.tabPageAnalysis);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -186,7 +186,7 @@
             this.tabPageCheck.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageCheck.Size = new System.Drawing.Size(957, 534);
             this.tabPageCheck.TabIndex = 1;
-            this.tabPageCheck.Text = "Check";
+            this.tabPageCheck.Text = "Quick Check";
             this.tabPageCheck.UseVisualStyleBackColor = true;
             // 
             // splitContainer2
@@ -233,16 +233,16 @@
             this.comboBoxAxisType.Size = new System.Drawing.Size(83, 21);
             this.comboBoxAxisType.TabIndex = 14;
             // 
-            // tabPageSpeed
+            // tabPageAnalysis
             // 
-            this.tabPageSpeed.Controls.Add(this.splitContainer1);
-            this.tabPageSpeed.Location = new System.Drawing.Point(4, 22);
-            this.tabPageSpeed.Name = "tabPageSpeed";
-            this.tabPageSpeed.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSpeed.Size = new System.Drawing.Size(957, 534);
-            this.tabPageSpeed.TabIndex = 0;
-            this.tabPageSpeed.Text = "Speed";
-            this.tabPageSpeed.UseVisualStyleBackColor = true;
+            this.tabPageAnalysis.Controls.Add(this.splitContainer1);
+            this.tabPageAnalysis.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAnalysis.Name = "tabPageAnalysis";
+            this.tabPageAnalysis.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAnalysis.Size = new System.Drawing.Size(957, 534);
+            this.tabPageAnalysis.TabIndex = 0;
+            this.tabPageAnalysis.Text = "Axis Analysis";
+            this.tabPageAnalysis.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
@@ -281,7 +281,7 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.tabPageSpeed.ResumeLayout(false);
+            this.tabPageAnalysis.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -304,7 +304,7 @@
         private System.Windows.Forms.TextBox textBoxStartPosition;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPageSpeed;
+        private System.Windows.Forms.TabPage tabPageAnalysis;
         private System.Windows.Forms.TabPage tabPageCheck;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer1;
