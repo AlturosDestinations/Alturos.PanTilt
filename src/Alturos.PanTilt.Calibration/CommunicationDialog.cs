@@ -1,5 +1,6 @@
 using Alturos.PanTilt.Communication;
 using System;
+using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 
@@ -8,11 +9,13 @@ namespace Alturos.PanTilt.Calibration
     public partial class CommunicationDialog : Form
     {
         public ICommunication Communication { get; private set; }
+        public PanTiltControlType PanTiltControlType { get; private set; }
 
         public CommunicationDialog()
         {
             this.InitializeComponent();
             this.comboBoxCommunicationType.DataSource = Enum.GetValues(typeof(CommunicationType));
+            this.comboBoxPanTiltControl.DataSource = ((PanTiltControlType[])Enum.GetValues(typeof(PanTiltControlType))).OrderBy(x => x.ToString()).ToList();
         }
 
         private void comboBoxConnectionType_SelectedIndexChanged(object sender, EventArgs e)
@@ -35,11 +38,12 @@ namespace Alturos.PanTilt.Calibration
             }
         }
 
-        private async void buttonConnect_Click(object sender, EventArgs e)
+        private void buttonConnect_Click(object sender, EventArgs e)
         {
-            this.buttonConnect.Enabled = false;
-
             var connectionType = (CommunicationType)this.comboBoxCommunicationType.SelectedItem;
+            var panTiltControlType = (PanTiltControlType)this.comboBoxPanTiltControl.SelectedItem;
+
+            this.PanTiltControlType = panTiltControlType;
 
             try
             {
@@ -52,7 +56,13 @@ namespace Alturos.PanTilt.Calibration
                         this.Communication = new TcpNetworkCommunication(new IPEndPoint(IPAddress.Parse(this.textBoxValue.Text), 4003));
                         break;
                     case CommunicationType.NetworkUdp:
-                        this.Communication = new UdpNetworkCommunication(IPAddress.Parse(this.textBoxValue.Text));
+                        var port = 4003;
+                        if (panTiltControlType == PanTiltControlType.Alturos)
+                        {
+                            port = 5555;
+                        }
+
+                        this.Communication = new UdpNetworkCommunication(IPAddress.Parse(this.textBoxValue.Text), port, port);
                         break;
                     default:
                         break;
@@ -64,8 +74,6 @@ namespace Alturos.PanTilt.Calibration
             {
                 MessageBox.Show($"Cannot connect {exception}", "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            this.buttonConnect.Enabled = true;
         }
     }
 }

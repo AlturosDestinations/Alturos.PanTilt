@@ -14,11 +14,18 @@ namespace Alturos.PanTilt.Calibration
         private bool _active = false;
         private readonly AutoResetEvent _resetEvent = new AutoResetEvent(false);
 
-        public SpeedDetectionLogicTilt(ICommunication communication)
+        public SpeedDetectionLogicTilt(ICommunication communication, PanTiltControlType panTiltControlType)
         {
             this._communication = communication;
 
-            this._panTiltControl = new EneoPanTiltControl(this._communication);
+            if (panTiltControlType == PanTiltControlType.Eneo)
+            {
+                this._panTiltControl = new EneoPanTiltControl(this._communication);
+            }
+            else
+            {
+                this._panTiltControl = new AlturosPanTiltControl(this._communication);
+            }
             this._panTiltControl.PositionChanged += OnPositionChanged;
             this._positionChecker = new PositionChecker(this._panTiltControl);
 

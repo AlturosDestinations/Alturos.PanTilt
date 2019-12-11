@@ -17,6 +17,7 @@ namespace Alturos.PanTilt.Calibration
         private List<SpeedReport> _speedReports = new List<SpeedReport>();
         private BindingSource _bindingSource = new BindingSource();
         private ICommunication _communication;
+        private PanTiltControlType _panTiltControlType;
 
         public Main()
         {
@@ -27,12 +28,15 @@ namespace Alturos.PanTilt.Calibration
             this.comboBoxAxisType.DataSource = Enum.GetValues(typeof(AxisType));
             this.comboBoxAxisType.SelectedIndex = 0;
 
-            var dialog = new CommunicationDialog();
-            dialog.StartPosition = FormStartPosition.CenterScreen;
+            var dialog = new CommunicationDialog
+            {
+                StartPosition = FormStartPosition.CenterScreen
+            };
             var dialogResult = dialog.ShowDialog(this);
             if (dialogResult == DialogResult.OK)
             {
                 this._communication = dialog.Communication;
+                this._panTiltControlType = dialog.PanTiltControlType;
             }
         }
 
@@ -50,7 +54,7 @@ namespace Alturos.PanTilt.Calibration
 
         private void StartPanTest()
         {
-            using (var logic = new SpeedDetectionLogicPan(this._communication))
+            using (var logic = new SpeedDetectionLogicPan(this._communication, this._panTiltControlType))
             {
                 var sw = new Stopwatch();
                 var startPosition = -100;
@@ -97,7 +101,7 @@ namespace Alturos.PanTilt.Calibration
 
         private void StartTiltTest()
         {
-            using (var logic = new SpeedDetectionLogicTilt(this._communication))
+            using (var logic = new SpeedDetectionLogicTilt(this._communication, this._panTiltControlType))
             {
                 var sw = new Stopwatch();
                 var startPosition = -15;
@@ -149,20 +153,22 @@ namespace Alturos.PanTilt.Calibration
             int.TryParse(this.textBoxStartPosition.Text, out var startPosition);
 
             var items = new List<PositionCompare>();
-            var bindingSource = new BindingSource();
-            bindingSource.DataSource = items;
+            var bindingSource = new BindingSource
+            {
+                DataSource = items
+            };
             this.dataGridView2.DataSource = bindingSource;
 
             var axisType = (AxisType)this.comboBoxAxisType.SelectedItem;
 
             await Task.Run(() =>
             {
-                using (var logic = new SpeedTestLogic(this._communication, axisType))
+                using (var logic = new SpeedTestLogic(this._communication, this._panTiltControlType, axisType))
                 {
-                    logic.LoadSpeedTableEneo();
+                    logic.GoToStartPosition(startPosition);
 
                     var breakpoints = new List<double>();
-                    for (var j = 0; j < 10; j++)
+                    for (var j = 0; j < 80; j++)
                     {
                         var destinationPosition = startPosition + (degreePerSecond * driveMilliseconds / 1000);
 
@@ -180,7 +186,7 @@ namespace Alturos.PanTilt.Calibration
                         var item = new PositionCompare();
                         item.DegreePerSecond = degreePerSecond;
                         item.MoveTime = driveMilliseconds;
-                        item.ActualPosition = breakpoints.Average();
+                        item.ActualPosition = Math.Round(breakpoints.Average(), 2);
                         item.TargetPosition = destinationPosition;
                         items.Add(item);
 
