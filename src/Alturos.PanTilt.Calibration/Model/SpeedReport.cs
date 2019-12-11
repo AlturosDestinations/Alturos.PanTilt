@@ -27,5 +27,14 @@ namespace Alturos.PanTilt.Calibration.Model
                 return Math.Round(this.Distance / (this.Elapsed / 1000), 3);
             }
         }
+
+
+        public double Diff
+        {
+            get
+            {
+                return Math.Round(Math.Abs(this.Speed - this.DegreePerSecond), 3);
+            }
+        }
     }
 }
