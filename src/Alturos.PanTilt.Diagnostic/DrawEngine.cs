@@ -9,14 +9,15 @@ namespace Alturos.PanTilt.Diagnostic
 {
     public class DrawEngine : IDisposable
     {
-        private Bitmap _drawImage;
-        private Bitmap _backgroundImage;
-        private Bitmap _finalImage;
-        private float _multiplier;
-        private int _width;
-        private int _originalWidth;
-        private int _height;
-        private int _originalHeight;
+        private readonly Bitmap _drawImage;
+        private readonly Bitmap _backgroundImage;
+        private readonly Bitmap _finalImage;
+        private readonly float _multiplier;
+        private readonly int _width;
+        private readonly int _originalWidth;
+        private readonly int _height;
+        private readonly int _originalHeight;
+        private readonly object _syncLock = new object();
 
         public DrawEngine(int multiplier)
         {
@@ -34,10 +35,16 @@ namespace Alturos.PanTilt.Diagnostic
             this._backgroundImage = new Bitmap(imageWidth,imageHeight);
             this._drawImage = new Bitmap(imageWidth, imageHeight);
             this._finalImage = new Bitmap(imageWidth, imageHeight);
-            DrawRaster(5);
+            this.DrawRaster(5);
         }
 
         public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             this._finalImage.Dispose();
             this._drawImage.Dispose();
@@ -46,21 +53,27 @@ namespace Alturos.PanTilt.Diagnostic
 
         public void Clear()
         {
-            using (var graphics = Graphics.FromImage(this._drawImage))
+            lock (this._syncLock)
             {
-                graphics.Clear(Color.Transparent);
+                using (var graphics = Graphics.FromImage(this._drawImage))
+                {
+                    graphics.Clear(Color.Transparent);
+                }
             }
         }
 
         public Bitmap GetImage()
         {
-            using (var graphics = Graphics.FromImage(this._finalImage))
+            lock (this._syncLock)
             {
-                graphics.DrawImage(this._backgroundImage, 0, 0);
-                graphics.DrawImage(this._drawImage, 0, 0);
-            }
+                using (var graphics = Graphics.FromImage(this._finalImage))
+                {
+                    graphics.DrawImage(this._backgroundImage, 0, 0);
+                    graphics.DrawImage(this._drawImage, 0, 0);
+                }
 
-            return new Bitmap(this._finalImage);
+                return new Bitmap(this._finalImage);
+            }
         }
      
         public void DrawPtHeadLimits(PanTiltLimit panTiltLimit)
@@ -233,7 +246,7 @@ namespace Alturos.PanTilt.Diagnostic
         private PointF ConvertPanTilt2Point(PanTiltPosition item)
         {
             var x = (item.Pan + this._originalWidth) * this._multiplier;
-            var y = -((item.Tilt - this._originalHeight)) * this._multiplier;
+            var y = -(item.Tilt - this._originalHeight) * this._multiplier;
 
             return new PointF((float) x, (float) y);
         }

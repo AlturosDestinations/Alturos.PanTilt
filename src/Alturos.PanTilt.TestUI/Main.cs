@@ -112,6 +112,7 @@ namespace Alturos.PanTilt.TestUI
             {
                 this._panTiltControl.Stop();
                 this._panTiltControl.PositionChanged -= OnPositionChanged;
+                this._panTiltControl.LimitChanged -= OnLimitChanged;
                 this._panTiltControl.Dispose();
             }
 
@@ -205,6 +206,8 @@ namespace Alturos.PanTilt.TestUI
             }
 
             this._panTiltControl.PositionChanged += OnPositionChanged;
+            this._panTiltControl.LimitChanged += OnLimitChanged;
+
             this._positionChecker = new PositionChecker(this._panTiltControl);
 
             this._panTiltControl.Start();
@@ -356,10 +359,10 @@ namespace Alturos.PanTilt.TestUI
         private void GetLimitInfos()
         {
             var limits = this._panTiltControl.GetLimits();
-            this.labelLimitLeft.Text = $"Min:{limits.PanMin}";
-            this.labelLimitRight.Text = $"Max:{limits.PanMax}";
-            this.labelLimitUp.Text = $"Max:{limits.TiltMax}";
-            this.labelLimitDown.Text = $"Min:{limits.TiltMin}";
+            this.labelLimitLeft.Invoke(o => o.Text = $"Min:{limits.PanMin}");
+            this.labelLimitRight.Invoke(o => o.Text = $"Max:{limits.PanMax}");
+            this.labelLimitUp.Invoke(o => o.Text = $"Max:{limits.TiltMax}");
+            this.labelLimitDown.Invoke(o => o.Text = $"Min:{limits.TiltMin}");
         }
 
         private void SetLimits(PanTiltLimit limits)
@@ -374,6 +377,34 @@ namespace Alturos.PanTilt.TestUI
             double.TryParse(this.textBoxLimitUp.Text, out var tiltMax);
             double.TryParse(this.textBoxLimitDown.Text, out var tiltMin);
 
+            #region Validation
+
+            if (panMin >= 0)
+            {
+                MessageBox.Show("Invalid pan limit", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (panMax <= 0)
+            {
+                MessageBox.Show("Invalid pan limit", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (tiltMin >= 0)
+            {
+                MessageBox.Show("Invalid tilt limit", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (tiltMax <= 0)
+            {
+                MessageBox.Show("Invalid tilt limit", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            #endregion
+
             this.buttonSetLimits.Enabled = false;
             this.SetLimits(new PanTiltLimit { PanMin = panMin, PanMax = panMax, TiltMin = tiltMin, TiltMax = tiltMax });
             this.buttonSetLimits.Enabled = true;
@@ -381,9 +412,111 @@ namespace Alturos.PanTilt.TestUI
             await this.RefreshLimits();
         }
 
+        private void textBoxLimit_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                if (!double.TryParse(textBox.Text, out var temp))
+                {
+                    return;
+                }
+
+                if (e.KeyCode == Keys.Down)
+                {
+                    var newValue = temp -= 5;
+                    textBox.Text = newValue.ToString();
+                }
+
+                if (e.KeyCode == Keys.Up)
+                {
+                    var newValue = temp += 5;
+                    textBox.Text = newValue.ToString();
+                }
+
+                if (e.KeyCode == Keys.F1)
+                {
+                    this.textBoxLimitLeft.Text = "-40";
+                    this.textBoxLimitRight.Text = "40";
+                }
+
+                if (e.KeyCode == Keys.F2)
+                {
+                    this.textBoxLimitLeft.Text = "-50";
+                    this.textBoxLimitRight.Text = "50";
+                }
+
+                if (e.KeyCode == Keys.F3)
+                {
+                    this.textBoxLimitLeft.Text = "-60";
+                    this.textBoxLimitRight.Text = "60";
+                }
+
+                if (e.KeyCode == Keys.F4)
+                {
+                    this.textBoxLimitLeft.Text = "-70";
+                    this.textBoxLimitRight.Text = "70";
+                }
+
+                if (e.KeyCode == Keys.F5)
+                {
+                    this.textBoxLimitLeft.Text = "-80";
+                    this.textBoxLimitRight.Text = "80";
+                }
+
+                if (e.KeyCode == Keys.F6)
+                {
+                    this.textBoxLimitLeft.Text = "-90";
+                    this.textBoxLimitRight.Text = "90";
+                }
+
+                if (e.KeyCode == Keys.F7)
+                {
+                    this.textBoxLimitLeft.Text = "-100";
+                    this.textBoxLimitRight.Text = "100";
+                }
+
+                if (e.KeyCode == Keys.F8)
+                {
+                    this.textBoxLimitLeft.Text = "-110";
+                    this.textBoxLimitRight.Text = "110";
+                }
+
+                if (e.KeyCode == Keys.F9)
+                {
+                    this.textBoxLimitLeft.Text = "-120";
+                    this.textBoxLimitRight.Text = "120";
+                }
+
+                if (e.KeyCode == Keys.F10)
+                {
+                    this.textBoxLimitLeft.Text = "-130";
+                    this.textBoxLimitRight.Text = "130";
+                }
+
+                if (e.KeyCode == Keys.F11)
+                {
+                    this.textBoxLimitLeft.Text = "-140";
+                    this.textBoxLimitRight.Text = "140";
+                }
+
+                if (e.KeyCode == Keys.F12)
+                {
+                    this.textBoxLimitLeft.Text = "-150";
+                    this.textBoxLimitRight.Text = "150";
+                }
+            }
+        }
+
         #endregion
 
         #region Other
+
+        private void OnLimitChanged()
+        {
+            this.GetLimitInfos();
+            var position = this._panTiltControl.GetPosition();
+            this.Redraw(position);
+        }
 
         private void OnPositionChanged(PanTiltPosition position)
         {
@@ -405,11 +538,16 @@ namespace Alturos.PanTilt.TestUI
             if (this._panTiltControl != null)
             {
                 //TODO:Optimize render image does not block position changed event
-                this._cameraDrawEngine.Clear();
-                this._cameraDrawEngine.DrawPtHeadLimits(this._panTiltControl.GetLimits());
-                this._cameraDrawEngine.DrawCrossHair(position, Brushes.Black);
-                this.UpdateCurrentImage();
+                this.Redraw(position);
             }
+        }
+
+        private void Redraw(PanTiltPosition position)
+        {
+            this._cameraDrawEngine.Clear();
+            this._cameraDrawEngine.DrawPtHeadLimits(this._panTiltControl.GetLimits());
+            this._cameraDrawEngine.DrawCrossHair(position, Brushes.Black);
+            this.UpdateCurrentImage();
         }
 
         private void UpdateCurrentImage()
