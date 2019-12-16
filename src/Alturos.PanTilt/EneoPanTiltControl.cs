@@ -16,7 +16,7 @@ namespace Alturos.PanTilt
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(EneoPanTiltControl));
 
-        private PanTiltPosition _position;
+        private readonly PanTiltPosition _position;
         private readonly PanTiltLimit _limits;
         private readonly FeedbackHandler _handler;
         private readonly ManualResetEvent _resetEvent;
@@ -42,7 +42,7 @@ namespace Alturos.PanTilt
 
             this._positionConverter = new PositionConverter();
 
-            this._position = null;
+            this._position = new PanTiltPosition(0, 0);
             this._limits = new PanTiltLimit();
             this._handler = new FeedbackHandler();
 
@@ -331,8 +331,11 @@ namespace Alturos.PanTilt
 
             this.SetSmoothing();
             this.QueryLimits();
-            
-            Task.Run(() => this.Heartbeat());
+
+            Task.Run(() =>
+            {
+                this.Heartbeat();
+            });
 
             return true;
         }
@@ -354,32 +357,47 @@ namespace Alturos.PanTilt
                 Log.Debug($"{nameof(PackageReceived)} - {hex}");
             }
 
+            if (this._receiveCount == int.MaxValue)
+            {
+                Interlocked.Exchange(ref this._receiveCount, 0);
+            }
+
             Interlocked.Increment(ref this._receiveCount);
             var responses = this._handler.HandleResponse(data);
 
             #region Pan Tilt Position
 
-            //Set last position is possible only tilt or pan information is receive
-            PanTiltPosition position;
-            if (this._position == null)
-            {
-                position = new PanTiltPosition(0, 0);
-            }
-            else
-            {
-                position = new PanTiltPosition(this._position.Pan, this._position.Tilt);
-            }
-
+            var positionHasChanged = false;
             var groupResponses = responses.GroupBy(o => o.ResponseType).ToDictionary(o => o.Key, o => o.ToList());
 
+            double pan;
             if (groupResponses.ContainsKey(ResponseType.PanInfo))
             {
-                position.Pan = groupResponses[ResponseType.PanInfo].Select(o => ((PanInfoResponse)o).Pan).FirstOrDefault();
+                pan = groupResponses[ResponseType.PanInfo].Select(o => ((PanInfoResponse)o).Pan).FirstOrDefault();
+                if (!double.IsNaN(pan))
+                {
+                    if (pan != this._position.Pan)
+                    {
+                        positionHasChanged = true;
+                    }
+
+                    this._position.Pan = pan;
+                }
             }
 
+            double tilt;
             if (groupResponses.ContainsKey(ResponseType.TiltInfo))
             {
-                position.Tilt = groupResponses[ResponseType.TiltInfo].Select(o => ((TiltInfoResponse)o).Tilt).FirstOrDefault();
+                tilt = groupResponses[ResponseType.TiltInfo].Select(o => ((TiltInfoResponse)o).Tilt).FirstOrDefault();
+                if (!double.IsNaN(tilt))
+                {
+                    if (tilt != this._position.Tilt)
+                    {
+                        positionHasChanged = true;
+                    }
+
+                    this._position.Tilt = tilt;
+                }
             }
 
             #endregion
@@ -418,6 +436,8 @@ namespace Alturos.PanTilt
                 {
                     this._limits.TiltMax = maxLimit.Value;
                 }
+
+                this.LimitChanged?.Invoke();
             }
 
             if (groupResponses.ContainsKey(ResponseType.LimitOverrun))
@@ -444,7 +464,7 @@ namespace Alturos.PanTilt
                 }
             }
 
-            if (this._position == null || !this._position.Equals(position))
+            if (this._position == null || positionHasChanged || this._receiveCount < 5)
             {
                 try
                 {
@@ -455,7 +475,8 @@ namespace Alturos.PanTilt
                     Log.Error($"{nameof(PackageReceived)}", exception);
                 }
             }
-            this._position = position;
+
+            //this._position = position;
         }
 
         private void Heartbeat()
@@ -772,7 +793,7 @@ namespace Alturos.PanTilt
 
         public bool SetLimits(PanTiltLimit panTiltLimit)
         {
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 var positionChecker = new PositionChecker(this);
 
@@ -783,51 +804,96 @@ namespace Alturos.PanTilt
                 this.PanTiltAbsolute(0, 0);
                 positionChecker.ComparePosition(new PanTiltPosition(0, 0));
 
+                var tempPanMin = panTiltLimit.PanMin - 10;
+                var tempTiltMin = panTiltLimit.TiltMin - 10;
+
                 //PanMin
                 this.PanRelative(-30);
-                positionChecker.ComparePosition(new PanTiltPosition(panTiltLimit.PanMin - 10, 0), tolerance: 5, timeout: 50, retry: 200);
-                this.SetLimitLeft();
-                this.PanAbsolute(panTiltLimit.PanMin);
-                positionChecker.ComparePosition(new PanTiltPosition(panTiltLimit.PanMin, 0));
-                this.SetLimitLeft();
-
-                //PanMax
-                this.PanRelative(30);
-                positionChecker.ComparePosition(new PanTiltPosition(panTiltLimit.PanMax + 10, 0), tolerance: 5, timeout: 50, retry: 200);
-                this.SetLimitRigth();
-                this.PanAbsolute(panTiltLimit.PanMax);
-                positionChecker.ComparePosition(new PanTiltPosition(panTiltLimit.PanMax, 0));
-                this.SetLimitRigth();
-
-                //Move to zero position
-                this.PanTiltAbsolute(0, 0);
-                positionChecker.ComparePosition(new PanTiltPosition(0, 0));
+                await positionChecker.ComparePositionAsync(new PanTiltPosition(tempPanMin, 0), tolerance: 5, timeout: 50, retry: 200);
 
                 //TiltMin
                 this.TiltRelative(-20);
-                positionChecker.ComparePosition(new PanTiltPosition(0, panTiltLimit.TiltMin - 10), tolerance: 5, timeout: 50, retry: 200);
+                await positionChecker.ComparePositionAsync(new PanTiltPosition(tempPanMin, tempTiltMin), tolerance: 5, timeout: 50, retry: 200);
+
+                //Set temp limits
+                this.SetLimitLeft();
                 this.SetLimitDown();
-                this.TiltAbsolute(panTiltLimit.TiltMin);
-                positionChecker.ComparePosition(new PanTiltPosition(0, panTiltLimit.TiltMin));
+
+                //Drive to absolute position
+                this.PanTiltAbsolute(panTiltLimit.PanMin, panTiltLimit.TiltMin);
+                await positionChecker.ComparePositionAsync(new PanTiltPosition(panTiltLimit.PanMin, panTiltLimit.TiltMin));
+
+                //Set real limits
+                this.SetLimitLeft();
                 this.SetLimitDown();
+
+                var tempPanMax = panTiltLimit.PanMax + 10;
+                var tempTiltMax = panTiltLimit.TiltMax + 10;
+
+                //PanMax
+                this.PanRelative(30);
+                await positionChecker.ComparePositionAsync(new PanTiltPosition(tempPanMax, panTiltLimit.TiltMin), tolerance: 5, timeout: 50, retry: 200);
 
                 //TiltMax
                 this.TiltRelative(20);
-                positionChecker.ComparePosition(new PanTiltPosition(0, panTiltLimit.TiltMax + 10), tolerance: 5, timeout: 50, retry: 200);
+                await positionChecker.ComparePositionAsync(new PanTiltPosition(tempPanMax, tempTiltMax), tolerance: 5, timeout: 50, retry: 200);
+
+                //Set temp limits
+                this.SetLimitRigth();
                 this.SetLimitUp();
-                this.TiltAbsolute(panTiltLimit.TiltMax);
-                positionChecker.ComparePosition(new PanTiltPosition(0, panTiltLimit.TiltMax));
+
+                //Drive to absolute position
+                this.PanTiltAbsolute(panTiltLimit.PanMax, panTiltLimit.TiltMax);
+                await positionChecker.ComparePositionAsync(new PanTiltPosition(panTiltLimit.PanMax, panTiltLimit.TiltMax));
+
+                //Set real limits
+                this.SetLimitRigth();
                 this.SetLimitUp();
 
                 //Enable limits
                 this.EnableLimit();
+            }).ContinueWith(async o =>
+            {
+                this.QueryLimits();
 
                 //Move to zero position
+                var positionChecker = new PositionChecker(this);
                 this.PanTiltAbsolute(0, 0);
-                positionChecker.ComparePosition(new PanTiltPosition(0, 0));
+                await positionChecker.ComparePositionAsync(new PanTiltPosition(0, 0));
+
+                this.LimitChanged?.Invoke();
             });
 
             return true;
+        }
+
+        public void QueryLimits()
+        {
+            var firstPanLimitCmd = new byte[1];
+            firstPanLimitCmd[0] = 0xAA;
+
+            var command = this.CreateCommand(firstPanLimitCmd);
+            this.Send(command, "GetLimitPanMin");
+
+            var secondPanLimitCmd = new byte[1];
+            secondPanLimitCmd[0] = 0xAB;
+
+            command = this.CreateCommand(secondPanLimitCmd);
+            this.Send(command, "GetLimitPanMax");
+
+            var firstTiltLimitCmd = new byte[1];
+            firstTiltLimitCmd[0] = 0xAC;
+
+            command = this.CreateCommand(firstTiltLimitCmd);
+            this.Send(command, "GetLimitTiltMin");
+
+            var secondTiltLimitCmd = new byte[1];
+            secondTiltLimitCmd[0] = 0xAD;
+
+            command = this.CreateCommand(secondTiltLimitCmd);
+            this.Send(command, "GetLimitTiltMax");
+
+            this.LimitChanged?.Invoke();
         }
 
         #endregion
@@ -883,35 +949,6 @@ namespace Alturos.PanTilt
 
             var command = this.CreateCommand(data);
             this.Send(command, "DeactivateFeedback");
-        }
-
-        public void QueryLimits()
-        {
-            var firstPanLimitCmd = new byte[1];
-            firstPanLimitCmd[0] = 0xAA;
-
-            var command = this.CreateCommand(firstPanLimitCmd);
-            this.Send(command, "GetLimitPanMin");
-
-            var secondPanLimitCmd = new byte[1];
-            secondPanLimitCmd[0] = 0xAB;
-
-            command = this.CreateCommand(secondPanLimitCmd);
-            this.Send(command, "GetLimitPanMax");
-
-            var firstTiltLimitCmd = new byte[1];
-            firstTiltLimitCmd[0] = 0xAC;
-
-            command = this.CreateCommand(firstTiltLimitCmd);
-            this.Send(command, "GetLimitTiltMin");
-
-            var secondTiltLimitCmd = new byte[1];
-            secondTiltLimitCmd[0] = 0xAD;
-
-            command = this.CreateCommand(secondTiltLimitCmd);
-            this.Send(command, "GetLimitTiltMax");
-
-            this.LimitChanged?.Invoke();
         }
 
         #endregion
