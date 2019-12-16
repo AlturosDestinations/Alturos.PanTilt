@@ -60,13 +60,15 @@ namespace Alturos.PanTilt.Calibration
                 var startPosition = -100;
                 var endPosition = startPosition + 2;
                 var timeout = 4000;
-                for (var speed = 1; speed < 255; speed++)
+                for (var i = 1; i < 1000; i++)
                 {
-                    if (speed == 200)
-                    {
-                        endPosition = 0;
-                        timeout = 2000;
-                    }
+                    var speed = i / 10.0;
+
+                    //if (i == 200)
+                    //{
+                    //    endPosition = 0;
+                    //    timeout = 2000;
+                    //}
 
                     try
                     {

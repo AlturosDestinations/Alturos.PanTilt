@@ -67,7 +67,7 @@ namespace Alturos.PanTilt.Calibration
             this._panTiltControl.PanRelative(speed);
         }
 
-        public void Start(int speed, int stop)
+        public void Start(double speed, int stop)
         {
             this._stop = stop;
             this._panTiltControl.PanRelative(speed);

@@ -6,7 +6,7 @@ namespace Alturos.PanTilt.Calibration.Model
     {
         private double _elapsed;
 
-        public int Speed { get; set; }
+        public double Speed { get; set; }
         public int Distance { get; set; }
         public double Elapsed
         {
