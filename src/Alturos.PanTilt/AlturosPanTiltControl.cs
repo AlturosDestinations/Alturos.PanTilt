@@ -25,7 +25,7 @@ namespace Alturos.PanTilt
 
         public AlturosPanTiltControl(ICommunication communication, bool debug = false)
         {
-            if (!(communication is UdpNetworkCommunication))
+            if (communication is TcpNetworkCommunication || communication is SerialPortCommunication)
             {
                 throw new NotSupportedException("Only upd communication is supported");
             }
