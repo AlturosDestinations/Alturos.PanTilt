@@ -34,7 +34,7 @@ namespace Alturos.PanTilt.UnitTest.Alturos
                 communication.SendData -= this.SendData;
             }
 
-            Assert.AreEqual(10, this._counter);
+            Assert.AreEqual(12, this._counter);
         }
 
         private void SendData(byte[] data, string description)
