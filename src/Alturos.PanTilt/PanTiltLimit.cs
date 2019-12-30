@@ -11,7 +11,7 @@ namespace Alturos.PanTilt
 
         public override string ToString()
         {
-            return $"{Math.Round(PanMin, 0)}_{Math.Round(PanMax, 0)}_{Math.Round(TiltMin, 0)}_{Math.Round(TiltMax, 0)}";
+            return $"PanMin:{Math.Round(this.PanMin, 2)} PanMax:{Math.Round(this.PanMax, 2)} TiltMin:{Math.Round(this.TiltMin, 2)} TiltMax:{Math.Round(this.TiltMax, 2)}";
         }
     }
 }
