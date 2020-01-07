@@ -51,7 +51,7 @@ namespace Alturos.PanTilt.TestUI
                 }
             }
 
-            this.Text = $"Alturos PanTilt TestUI ({Application.ProductVersion})";
+            this.Text = $"Alturos PanTilt TestUI - v{Application.ProductVersion}";
             this.labelPositionPan.Text = "Pan: ?,??";
             this.labelPositionTilt.Text = "Tilt: ?,??";
 
@@ -95,6 +95,7 @@ namespace Alturos.PanTilt.TestUI
                 this.eneoUserControl1.SetPanTiltControl(this._panTiltControl);
                 this.alturosUserControl1.SetPanTiltControl(this._panTiltControl);
                 this.movementFloodControl1.SetPanTiltControl(this._panTiltControl);
+                this.commandSequenceControl1.SetPanTiltControl(this._panTiltControl);
                 this.alturosUserControl1.SetDeviceConfiguration(this._deviceConfiguration);
                 this._panTiltControl.PanTiltAbsolute(0,0);
             }
@@ -544,6 +545,11 @@ namespace Alturos.PanTilt.TestUI
 
         private void Redraw(PanTiltPosition position)
         {
+            if (this._cameraDrawEngine == null)
+            {
+                return;
+            }
+
             this._cameraDrawEngine.Clear();
             this._cameraDrawEngine.DrawPtHeadLimits(this._panTiltControl.GetLimits());
             this._cameraDrawEngine.DrawCrossHair(position, Brushes.Black);
@@ -602,5 +608,23 @@ namespace Alturos.PanTilt.TestUI
         }
 
         #endregion
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            var panTiltPosition = new PanTiltPosition(0, 0);
+
+            this._panTiltControl.PanTiltAbsolute(panTiltPosition);
+            await this._positionChecker.ComparePositionAsync(panTiltPosition);
+
+            this._panTiltControl.PanTiltAbsolute(-14.25, 10.95);
+            await Task.Delay(150);
+            this._panTiltControl.PanTiltRelative(10, 5);
+            await Task.Delay(40);
+            this._panTiltControl.PanTiltRelative(10.2, 5.5);
+            await Task.Delay(40);
+            this._panTiltControl.PanTiltRelative(10.5, 6);
+            await Task.Delay(40);
+            this._panTiltControl.PanTiltAbsolute(-14.25, 8.95);
+        }
     }
 }

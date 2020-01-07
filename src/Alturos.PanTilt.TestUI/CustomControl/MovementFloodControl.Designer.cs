@@ -111,7 +111,7 @@
             this.Controls.Add(this.textBoxHistory);
             this.Controls.Add(this.buttonStart);
             this.Name = "MovementFloodControl";
-            this.Size = new System.Drawing.Size(568, 327);
+            this.Size = new System.Drawing.Size(600, 350);
             this.ResumeLayout(false);
             this.PerformLayout();
 

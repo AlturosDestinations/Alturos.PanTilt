@@ -55,8 +55,8 @@
     <Reference Include="Accord.Video, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <HintPath>..\packages\Accord.Video.3.8.0\lib\net46\Accord.Video.dll</HintPath>
     </Reference>
-    <Reference Include="Alturos.DeviceDiscovery, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Alturos.DeviceDiscovery.1.0.1\lib\net461\Alturos.DeviceDiscovery.dll</HintPath>
+    <Reference Include="Alturos.DeviceDiscovery, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Alturos.DeviceDiscovery.1.0.3\lib\net461\Alturos.DeviceDiscovery.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -94,6 +94,12 @@
     </Compile>
     <Compile Include="CustomControl\AlturosUserControl.Designer.cs">
       <DependentUpon>AlturosUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CommandSequenceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\CommandSequenceControl.Designer.cs">
+      <DependentUpon>CommandSequenceControl.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\EneoUserControl.cs">
       <SubType>UserControl</SubType>
@@ -139,6 +145,12 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\CommandSequenceResult.cs" />
+    <Compile Include="Model\CommandSequenceStepAbsolute.cs" />
+    <Compile Include="Model\CommandSequenceStepRelative.cs" />
+    <Compile Include="Model\CommandSequenceStep.cs" />
+    <Compile Include="Model\CommandSequence.cs" />
+    <Compile Include="Model\CommandSequenceType.cs" />
     <Compile Include="Model\DataPackage.cs" />
     <Compile Include="Model\DeviceConfiguration.cs" />
     <Compile Include="Model\DeviceConfigurationHelper.cs" />
@@ -152,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControl\AlturosUserControl.resx">
       <DependentUpon>AlturosUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControl\CommandSequenceControl.resx">
+      <DependentUpon>CommandSequenceControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControl\EneoUserControl.resx">
       <DependentUpon>EneoUserControl.cs</DependentUpon>

@@ -2,11 +2,22 @@ namespace Alturos.PanTilt
 {
     public class PanTiltPosition
     {
+        /// <summary>
+        /// Pan (degree)
+        /// </summary>
         public double Pan { get; set; }
+        /// <summary>
+        /// Tilt (degree)
+        /// </summary>
         public double Tilt { get; set; }
 
         public PanTiltPosition() { }
 
+        /// <summary>
+        /// PanTiltPosition
+        /// </summary>
+        /// <param name="pan">degree</param>
+        /// <param name="tilt">degree</param>
         public PanTiltPosition(double pan, double tilt)
         {
             this.Pan = pan;

@@ -91,12 +91,15 @@ namespace Alturos.PanTilt.TestUI
             this.absolutePositionControl1 = new Alturos.PanTilt.TestUI.CustomControl.AbsolutePositionControl();
             this.tabPageMovementFlood = new System.Windows.Forms.TabPage();
             this.movementFloodControl1 = new Alturos.PanTilt.TestUI.CustomControl.MovementFloodControl();
+            this.tabPageCommandSequence = new System.Windows.Forms.TabPage();
+            this.commandSequenceControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommandSequenceControl();
             this.tabPageCommunicationHistory = new System.Windows.Forms.TabPage();
             this.communicationHistoryControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommunicationHistoryControl();
             this.tabPageEneo = new System.Windows.Forms.TabPage();
             this.eneoUserControl1 = new Alturos.PanTilt.TestUI.CustomControl.EneoUserControl();
             this.tabPageAlturos = new System.Windows.Forms.TabPage();
             this.alturosUserControl1 = new Alturos.PanTilt.TestUI.CustomControl.AlturosUserControl();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBoxControls.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -121,6 +124,7 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageFastMovement.SuspendLayout();
             this.tabPageAbsolutePosition.SuspendLayout();
             this.tabPageMovementFlood.SuspendLayout();
+            this.tabPageCommandSequence.SuspendLayout();
             this.tabPageCommunicationHistory.SuspendLayout();
             this.tabPageEneo.SuspendLayout();
             this.tabPageAlturos.SuspendLayout();
@@ -317,6 +321,7 @@ namespace Alturos.PanTilt.TestUI
             // 
             // tabPageManualControl
             // 
+            this.tabPageManualControl.Controls.Add(this.button1);
             this.tabPageManualControl.Controls.Add(this.label10);
             this.tabPageManualControl.Controls.Add(this.label9);
             this.tabPageManualControl.Controls.Add(this.label7);
@@ -699,6 +704,7 @@ namespace Alturos.PanTilt.TestUI
             this.mainTabControl.Controls.Add(this.tabPageFastMovement);
             this.mainTabControl.Controls.Add(this.tabPageAbsolutePosition);
             this.mainTabControl.Controls.Add(this.tabPageMovementFlood);
+            this.mainTabControl.Controls.Add(this.tabPageCommandSequence);
             this.mainTabControl.Controls.Add(this.tabPageCommunicationHistory);
             this.mainTabControl.Controls.Add(this.tabPageEneo);
             this.mainTabControl.Controls.Add(this.tabPageAlturos);
@@ -810,6 +816,25 @@ namespace Alturos.PanTilt.TestUI
             this.movementFloodControl1.Size = new System.Drawing.Size(1119, 558);
             this.movementFloodControl1.TabIndex = 0;
             // 
+            // tabPageCommandSequence
+            // 
+            this.tabPageCommandSequence.Controls.Add(this.commandSequenceControl1);
+            this.tabPageCommandSequence.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCommandSequence.Name = "tabPageCommandSequence";
+            this.tabPageCommandSequence.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCommandSequence.Size = new System.Drawing.Size(1125, 564);
+            this.tabPageCommandSequence.TabIndex = 8;
+            this.tabPageCommandSequence.Text = "Command Sequence";
+            this.tabPageCommandSequence.UseVisualStyleBackColor = true;
+            // 
+            // commandSequenceControl1
+            // 
+            this.commandSequenceControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.commandSequenceControl1.Location = new System.Drawing.Point(3, 3);
+            this.commandSequenceControl1.Name = "commandSequenceControl1";
+            this.commandSequenceControl1.Size = new System.Drawing.Size(1119, 558);
+            this.commandSequenceControl1.TabIndex = 0;
+            // 
             // tabPageCommunicationHistory
             // 
             this.tabPageCommunicationHistory.Controls.Add(this.communicationHistoryControl1);
@@ -867,6 +892,16 @@ namespace Alturos.PanTilt.TestUI
             this.alturosUserControl1.Size = new System.Drawing.Size(1119, 558);
             this.alturosUserControl1.TabIndex = 0;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(237, 87);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(39, 48);
+            this.button1.TabIndex = 27;
+            this.button1.Text = "Stop";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -910,6 +945,7 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageFastMovement.ResumeLayout(false);
             this.tabPageAbsolutePosition.ResumeLayout(false);
             this.tabPageMovementFlood.ResumeLayout(false);
+            this.tabPageCommandSequence.ResumeLayout(false);
             this.tabPageCommunicationHistory.ResumeLayout(false);
             this.tabPageEneo.ResumeLayout(false);
             this.tabPageAlturos.ResumeLayout(false);
@@ -987,6 +1023,9 @@ namespace Alturos.PanTilt.TestUI
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TabPage tabPageMovementFlood;
         private CustomControl.MovementFloodControl movementFloodControl1;
+        private System.Windows.Forms.TabPage tabPageCommandSequence;
+        private CustomControl.CommandSequenceControl commandSequenceControl1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

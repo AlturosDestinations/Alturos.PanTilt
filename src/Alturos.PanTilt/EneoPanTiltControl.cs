@@ -1019,6 +1019,11 @@ namespace Alturos.PanTilt
             return false;
         }
 
+        public bool PanTiltAbsolute(PanTiltPosition position)
+        {
+            return this.PanTiltAbsolute(position.Pan, position.Tilt);
+        }
+
         public bool PanRelative(double degreePerSecond)
         {
             return this.MoveRelative(degreePerSecond, 0);

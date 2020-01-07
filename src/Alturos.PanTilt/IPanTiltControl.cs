@@ -61,6 +61,13 @@ namespace Alturos.PanTilt
         /// <returns></returns>
         bool PanTiltAbsolute(double panDegree, double tiltDegree);
 
+        /// <summary>
+        /// Move Pan and Tilt to an absolute position
+        /// </summary>
+        /// <param name="panTiltPosition"></param>
+        /// <returns></returns>
+        bool PanTiltAbsolute(PanTiltPosition position);
+
         #endregion
 
         #region Relative
