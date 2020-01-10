@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewAxis = new System.Windows.Forms.DataGridView();
             this.buttonSpeedLogicPan = new System.Windows.Forms.Button();
             this.buttonSpeedLogicTilt = new System.Windows.Forms.Button();
             this.buttonCheck = new System.Windows.Forms.Button();
@@ -36,7 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxDriveMilliseconds = new System.Windows.Forms.TextBox();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewQuickCheck = new System.Windows.Forms.DataGridView();
             this.textBoxStartPosition = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -46,8 +46,9 @@
             this.comboBoxAxisType = new System.Windows.Forms.ComboBox();
             this.tabPageAnalysis = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.buttonAbortQuickCheck = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAxis)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewQuickCheck)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPageCheck.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -61,17 +62,17 @@
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridViewAxis
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(747, 528);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridViewAxis.AllowUserToAddRows = false;
+            this.dataGridViewAxis.AllowUserToDeleteRows = false;
+            this.dataGridViewAxis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewAxis.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewAxis.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewAxis.Name = "dataGridViewAxis";
+            this.dataGridViewAxis.ReadOnly = true;
+            this.dataGridViewAxis.Size = new System.Drawing.Size(747, 528);
+            this.dataGridViewAxis.TabIndex = 0;
             // 
             // buttonSpeedLogicPan
             // 
@@ -137,18 +138,18 @@
             this.textBoxDriveMilliseconds.TabIndex = 8;
             this.textBoxDriveMilliseconds.Text = "1000";
             // 
-            // dataGridView2
+            // dataGridViewQuickCheck
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView2.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.Size = new System.Drawing.Size(747, 528);
-            this.dataGridView2.TabIndex = 11;
-            this.dataGridView2.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridView2_RowPrePaint);
+            this.dataGridViewQuickCheck.AllowUserToAddRows = false;
+            this.dataGridViewQuickCheck.AllowUserToDeleteRows = false;
+            this.dataGridViewQuickCheck.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewQuickCheck.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewQuickCheck.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewQuickCheck.Name = "dataGridViewQuickCheck";
+            this.dataGridViewQuickCheck.ReadOnly = true;
+            this.dataGridViewQuickCheck.Size = new System.Drawing.Size(747, 528);
+            this.dataGridViewQuickCheck.TabIndex = 11;
+            this.dataGridViewQuickCheck.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridView2_RowPrePaint);
             // 
             // textBoxStartPosition
             // 
@@ -199,6 +200,7 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.buttonAbortQuickCheck);
             this.splitContainer2.Panel1.Controls.Add(this.label3);
             this.splitContainer2.Panel1.Controls.Add(this.comboBoxAxisType);
             this.splitContainer2.Panel1.Controls.Add(this.textBoxDegreePerSecond);
@@ -211,7 +213,7 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.dataGridView2);
+            this.splitContainer2.Panel2.Controls.Add(this.dataGridViewQuickCheck);
             this.splitContainer2.Size = new System.Drawing.Size(951, 528);
             this.splitContainer2.SplitterDistance = 200;
             this.splitContainer2.TabIndex = 14;
@@ -227,6 +229,7 @@
             // 
             // comboBoxAxisType
             // 
+            this.comboBoxAxisType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAxisType.FormattingEnabled = true;
             this.comboBoxAxisType.Location = new System.Drawing.Point(111, 3);
             this.comboBoxAxisType.Name = "comboBoxAxisType";
@@ -258,10 +261,20 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridViewAxis);
             this.splitContainer1.Size = new System.Drawing.Size(951, 528);
             this.splitContainer1.SplitterDistance = 200;
             this.splitContainer1.TabIndex = 4;
+            // 
+            // buttonAbortQuickCheck
+            // 
+            this.buttonAbortQuickCheck.Location = new System.Drawing.Point(111, 137);
+            this.buttonAbortQuickCheck.Name = "buttonAbortQuickCheck";
+            this.buttonAbortQuickCheck.Size = new System.Drawing.Size(83, 23);
+            this.buttonAbortQuickCheck.TabIndex = 16;
+            this.buttonAbortQuickCheck.Text = "Abort";
+            this.buttonAbortQuickCheck.UseVisualStyleBackColor = true;
+            this.buttonAbortQuickCheck.Click += new System.EventHandler(this.buttonAbortQuickCheck_Click);
             // 
             // Main
             // 
@@ -272,8 +285,8 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Alturos.PanTilt.Calibration";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAxis)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewQuickCheck)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPageCheck.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -292,7 +305,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridViewAxis;
         private System.Windows.Forms.Button buttonSpeedLogicPan;
         private System.Windows.Forms.Button buttonSpeedLogicTilt;
         private System.Windows.Forms.Button buttonCheck;
@@ -300,7 +313,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxDriveMilliseconds;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGridViewQuickCheck;
         private System.Windows.Forms.TextBox textBoxStartPosition;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TabControl tabControl1;
@@ -310,6 +323,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBoxAxisType;
+        private System.Windows.Forms.Button buttonAbortQuickCheck;
     }
 }
 

@@ -17,12 +17,18 @@ namespace Alturos.PanTilt
         bool Stop();
 
         /// <summary>
+        /// Get pan tilt head infos
+        /// </summary>
+        /// <returns></returns>
+        PanTiltInfo GetPanTiltInfo();
+
+        /// <summary>
         /// Reinitialize the pt head
         /// </summary>
         /// <returns></returns>
         bool ReinitializePtHead();
 
-        #region Position
+        #region Position Info
 
         /// <summary>
         /// Event triggers new pt head position received
@@ -37,7 +43,7 @@ namespace Alturos.PanTilt
 
         #endregion
 
-        #region Absolute
+        #region Move Absolute
 
         /// <summary>
         /// Move Pan to an absolute position
@@ -70,7 +76,7 @@ namespace Alturos.PanTilt
 
         #endregion
 
-        #region Relative
+        #region Move Relative
 
         /// <summary>
         /// Pan move of the pt head with a relative speed

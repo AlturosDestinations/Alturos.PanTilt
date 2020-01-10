@@ -112,6 +112,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBoxCommunicationType);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "CommunicationDialog";
             this.Text = "Communication";
             this.ResumeLayout(false);

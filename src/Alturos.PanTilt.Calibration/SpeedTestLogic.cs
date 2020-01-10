@@ -2,7 +2,6 @@
 using Alturos.PanTilt.Communication;
 using Alturos.PanTilt.Tools;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace Alturos.PanTilt.Calibration
@@ -83,15 +82,6 @@ namespace Alturos.PanTilt.Calibration
 
         public void Move(double degreePerSecond, int durationMilliseconds)
         {
-            switch (this._axisType)
-            {
-                case AxisType.Tilt:
-                    degreePerSecond = degreePerSecond * 2;
-                    break;
-            }
-
-            //var nearest = this._speed.OrderBy(x => Math.Abs(x.Key - degreePerSecond)).First();
-
             switch (this._axisType)
             {
                 case AxisType.Pan:

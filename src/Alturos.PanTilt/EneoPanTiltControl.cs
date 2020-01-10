@@ -475,8 +475,6 @@ namespace Alturos.PanTilt
                     Log.Error($"{nameof(PackageReceived)}", exception);
                 }
             }
-
-            //this._position = position;
         }
 
         private void Heartbeat()
@@ -1042,6 +1040,15 @@ namespace Alturos.PanTilt
         public PanTiltPosition GetPosition()
         {
             return this._position;
+        }
+
+        public PanTiltInfo GetPanTiltInfo()
+        {
+            return new PanTiltInfo
+            {
+                PanSpeedMax = 98.56,
+                TiltSpeedMax = 49.28
+            };
         }
 
         #endregion

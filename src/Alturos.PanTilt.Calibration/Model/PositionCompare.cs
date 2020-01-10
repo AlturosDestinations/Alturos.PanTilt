@@ -12,7 +12,8 @@ namespace Alturos.PanTilt.Calibration.Model
         {
             get
             {
-                return Math.Abs(Math.Round(this.TargetPosition - this.ActualPosition, 2)) / (this.MoveTime / 1000);
+                var positionDeviation = Math.Abs(Math.Round(this.TargetPosition - this.ActualPosition));
+                return positionDeviation / (this.MoveTime / 1000.0);
             }
         }
     }

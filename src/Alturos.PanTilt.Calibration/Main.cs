@@ -18,15 +18,17 @@ namespace Alturos.PanTilt.Calibration
         private BindingSource _bindingSource = new BindingSource();
         private ICommunication _communication;
         private PanTiltControlType _panTiltControlType;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public Main()
         {
             this.InitializeComponent();
             this._bindingSource.DataSource = this._speedReports;
-            this.dataGridView1.DataSource = this._bindingSource;
+            this.dataGridViewAxis.DataSource = this._bindingSource;
 
             this.comboBoxAxisType.DataSource = Enum.GetValues(typeof(AxisType));
             this.comboBoxAxisType.SelectedIndex = 0;
+            this.buttonAbortQuickCheck.Enabled = false;
 
             var dialog = new CommunicationDialog
             {
@@ -88,7 +90,7 @@ namespace Alturos.PanTilt.Calibration
                             var item = new SpeedReport { Speed = speed, Distance = endPosition + -startPosition, Elapsed = sw.Elapsed.TotalMilliseconds };
                             this._speedReports.Add(item);
 
-                            this.dataGridView1.Invoke((MethodInvoker)delegate { this._bindingSource.ResetBindings(false); });
+                            this.dataGridViewAxis.Invoke((MethodInvoker)delegate { this._bindingSource.ResetBindings(false); });
 
                             break;
                         }
@@ -135,7 +137,7 @@ namespace Alturos.PanTilt.Calibration
                             var item = new SpeedReport { Speed = speed, Distance = endPosition + -startPosition, Elapsed = sw.Elapsed.TotalMilliseconds };
                             this._speedReports.Add(item);
 
-                            this.dataGridView1.Invoke((MethodInvoker)delegate { this._bindingSource.ResetBindings(false); });
+                            this.dataGridViewAxis.Invoke((MethodInvoker)delegate { this._bindingSource.ResetBindings(false); });
 
                             break;
                         }
@@ -150,6 +152,12 @@ namespace Alturos.PanTilt.Calibration
 
         private async void buttonCheck_Click(object sender, EventArgs e)
         {
+            this.buttonCheck.Enabled = false;
+            this.buttonAbortQuickCheck.Enabled = true;
+
+            this._cancellationTokenSource?.Dispose();
+            this._cancellationTokenSource = new CancellationTokenSource();
+
             double.TryParse(this.textBoxDegreePerSecond.Text, out var degreePerSecond);
             int.TryParse(this.textBoxDriveMilliseconds.Text, out var driveMilliseconds);
             int.TryParse(this.textBoxStartPosition.Text, out var startPosition);
@@ -159,11 +167,11 @@ namespace Alturos.PanTilt.Calibration
             {
                 DataSource = items
             };
-            this.dataGridView2.DataSource = bindingSource;
+            this.dataGridViewQuickCheck.DataSource = bindingSource;
 
             var axisType = (AxisType)this.comboBoxAxisType.SelectedItem;
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 using (var logic = new SpeedTestLogic(this._communication, this._panTiltControlType, axisType))
                 {
@@ -172,6 +180,11 @@ namespace Alturos.PanTilt.Calibration
                     var breakpoints = new List<double>();
                     for (var j = 0; j < 80; j++)
                     {
+                        if (this._cancellationTokenSource.IsCancellationRequested)
+                        {
+                            return;
+                        }
+
                         var destinationPosition = startPosition + (degreePerSecond * driveMilliseconds / 1000);
 
                         for (var i = 0; i < 3; i++)
@@ -179,26 +192,37 @@ namespace Alturos.PanTilt.Calibration
                             logic.GoToStartPosition(startPosition);
                             logic.Move(degreePerSecond, driveMilliseconds);
 
-                            Thread.Sleep(300);
+                            await Task.Delay(300, this._cancellationTokenSource.Token);
 
                             var lastPosition = logic.LastPosition;
                             breakpoints.Add(lastPosition);
+
+                            if (this._cancellationTokenSource.IsCancellationRequested)
+                            {
+                                return;
+                            }
                         }
 
-                        var item = new PositionCompare();
-                        item.DegreePerSecond = degreePerSecond;
-                        item.MoveTime = driveMilliseconds;
-                        item.ActualPosition = Math.Round(breakpoints.Average(), 2);
-                        item.TargetPosition = destinationPosition;
+                        var item = new PositionCompare
+                        {
+                            DegreePerSecond = degreePerSecond,
+                            MoveTime = driveMilliseconds,
+                            ActualPosition = Math.Round(breakpoints.Average(), 2),
+                            TargetPosition = destinationPosition
+                        };
+
                         items.Add(item);
 
-                        this.dataGridView2.Invoke(o => ((BindingSource)o.DataSource).ResetBindings(true));
+                        this.dataGridViewQuickCheck.Invoke(o => ((BindingSource)o.DataSource).ResetBindings(true));
 
                         degreePerSecond += 0.5;
                         breakpoints.Clear();
                     }
                 }
-            });
+            }, this._cancellationTokenSource.Token).ContinueWith(t => { });
+
+            this.buttonCheck.Enabled = true;
+            this.buttonAbortQuickCheck.Enabled = false;
         }
 
         private void dataGridView2_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
@@ -216,6 +240,11 @@ namespace Alturos.PanTilt.Calibration
             {
                 datagrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.GreenYellow;
             }
+        }
+
+        private void buttonAbortQuickCheck_Click(object sender, EventArgs e)
+        {
+            this._cancellationTokenSource?.Cancel();
         }
     }
 }
