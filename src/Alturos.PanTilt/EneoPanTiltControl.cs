@@ -406,7 +406,7 @@ namespace Alturos.PanTilt
 
             if (groupResponses.ContainsKey(ResponseType.PanLimit))
             {
-                var limits = groupResponses[ResponseType.PanLimit].Select(o => ((PanLimitResponse)o)).ToList();
+                var limits = groupResponses[ResponseType.PanLimit].Select(o => (PanLimitResponse)o).ToList();
                 var minLimit = limits.FirstOrDefault(o => o.Type == LimitType.Min)?.Limit;
                 var maxLimit = limits.FirstOrDefault(o => o.Type == LimitType.Max)?.Limit;
 
@@ -423,7 +423,7 @@ namespace Alturos.PanTilt
 
             if (groupResponses.ContainsKey(ResponseType.TiltLimit))
             {
-                var limits = groupResponses[ResponseType.TiltLimit].Select(o => ((TiltLimitResponse)o)).ToList();
+                var limits = groupResponses[ResponseType.TiltLimit].Select(o => (TiltLimitResponse)o).ToList();
                 var minLimit = limits.FirstOrDefault(o => o.Type == LimitType.Min)?.Limit;
                 var maxLimit = limits.FirstOrDefault(o => o.Type == LimitType.Max)?.Limit;
 
@@ -442,7 +442,7 @@ namespace Alturos.PanTilt
 
             if (groupResponses.ContainsKey(ResponseType.LimitOverrun))
             {
-                var limitOverrun = groupResponses[ResponseType.LimitOverrun].Select(o => ((LimitOverrunResponse)o)).FirstOrDefault();
+                var limitOverrun = groupResponses[ResponseType.LimitOverrun].Select(o => (LimitOverrunResponse)o).FirstOrDefault();
                 Log.Warn($"{nameof(PackageReceived)} - LimitOverrun Type:{limitOverrun.LimitOverrunType}");
                 this.LimitOverrun?.Invoke();
             }
@@ -457,7 +457,7 @@ namespace Alturos.PanTilt
 
             if (groupResponses.ContainsKey(ResponseType.Potentiometer))
             {
-                var potentiometers = groupResponses[ResponseType.Potentiometer].Select(o => ((PotentiometerResponse)o)).ToList();
+                var potentiometers = groupResponses[ResponseType.Potentiometer].Select(o => (PotentiometerResponse)o).ToList();
                 foreach (var potentiometer in potentiometers)
                 {
                     Log.Info($"{nameof(PackageReceived)} - Potentiometer (Source:{potentiometer.Source} Voltage:{potentiometer.Voltage})");
