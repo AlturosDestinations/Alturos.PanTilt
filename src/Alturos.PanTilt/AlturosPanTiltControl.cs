@@ -207,6 +207,19 @@ namespace Alturos.PanTilt
 
         public bool PanAbsolute(double degree)
         {
+            #region Check limits
+
+            if (degree > 0 && degree > this._panTiltlimit.PanMax)
+            {
+                degree = this._panTiltlimit.PanMax;
+            }
+            else if (degree < 0 && degree < this._panTiltlimit.PanMin)
+            {
+                degree = this._panTiltlimit.PanMin;
+            }
+
+            #endregion
+
             //Set a default speed of 30°
             var degreePerSecond = 30;
             this.Send($"SSP{Math.Abs(degreePerSecond * 100):00000}", "PanSpeed");
@@ -216,6 +229,19 @@ namespace Alturos.PanTilt
 
         public bool TiltAbsolute(double degree)
         {
+            #region Check limits
+
+            if (degree > 0 && degree > this._panTiltlimit.TiltMax)
+            {
+                degree = this._panTiltlimit.TiltMax;
+            }
+            else if (degree < 0 && degree < this._panTiltlimit.TiltMin)
+            {
+                degree = this._panTiltlimit.TiltMin;
+            }
+
+            #endregion
+
             //Set a default speed of 30°
             var degreePerSecond = 30;
             this.Send($"SST{Math.Abs(degreePerSecond * 100):00000}", "TiltSpeed");
