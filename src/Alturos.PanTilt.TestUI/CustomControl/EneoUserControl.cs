@@ -10,37 +10,43 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         public EneoUserControl()
         {
             this.InitializeComponent();
+            this.SetSmootingValues("50", "25");
         }
 
         public void SetPanTiltControl(IPanTiltControl panTiltControl)
         {
             this._panTiltControl = panTiltControl;
-            this.SetSmoothing(100, 50);
         }
 
         private void buttonSmoothingLow_Click(object sender, EventArgs e)
         {
-            this.SetSmoothing(50, 25);
+            this.SetSmootingValues("50", "25");
         }
 
         private void buttonSmoothingNormal_Click(object sender, EventArgs e)
         {
-            this.SetSmoothing(100, 50);
+            this.SetSmootingValues("100", "50");
         }
 
         private void buttonSmoothingHigh_Click(object sender, EventArgs e)
         {
-            this.SetSmoothing(200, 100);
+            this.SetSmootingValues("200", "100");
         }
 
-        private void SetSmoothing(byte acceleration, byte gain)
+        private void SetSmootingValues(string acceleration, string gain)
         {
+            this.textBoxAcceleration.Text = acceleration;
+            this.textBoxGain.Text = gain;
+        }
+
+        private void buttonSetSmoothing_Click(object sender, EventArgs e)
+        {
+            byte.TryParse(this.textBoxAcceleration.Text, out var acceleration);
+            byte.TryParse(this.textBoxGain.Text, out var gain);
+
             var eneoPanTiltControl = this._panTiltControl as EneoPanTiltControl;
             if (eneoPanTiltControl != null)
             {
-                this.labelAccleration.Text = $"Acceleration: {acceleration}";
-                this.labelGain.Text = $"Gain: {gain}";
-
                 eneoPanTiltControl.SetSmoothing(acceleration, gain);
             }
         }

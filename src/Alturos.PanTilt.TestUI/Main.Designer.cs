@@ -99,7 +99,6 @@ namespace Alturos.PanTilt.TestUI
             this.eneoUserControl1 = new Alturos.PanTilt.TestUI.CustomControl.EneoUserControl();
             this.tabPageAlturos = new System.Windows.Forms.TabPage();
             this.alturosUserControl1 = new Alturos.PanTilt.TestUI.CustomControl.AlturosUserControl();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBoxControls.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -321,7 +320,6 @@ namespace Alturos.PanTilt.TestUI
             // 
             // tabPageManualControl
             // 
-            this.tabPageManualControl.Controls.Add(this.button1);
             this.tabPageManualControl.Controls.Add(this.label10);
             this.tabPageManualControl.Controls.Add(this.label9);
             this.tabPageManualControl.Controls.Add(this.label7);
@@ -549,12 +547,12 @@ namespace Alturos.PanTilt.TestUI
             this.groupBox4.Size = new System.Drawing.Size(175, 100);
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Update limits";
+            this.groupBox4.Text = "Change limits";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(87, 44);
+            this.label5.Location = new System.Drawing.Point(83, 44);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(38, 13);
             this.label5.TabIndex = 18;
@@ -562,9 +560,9 @@ namespace Alturos.PanTilt.TestUI
             // 
             // textBoxLimitDown
             // 
-            this.textBoxLimitDown.Location = new System.Drawing.Point(129, 41);
+            this.textBoxLimitDown.Location = new System.Drawing.Point(125, 41);
             this.textBoxLimitDown.Name = "textBoxLimitDown";
-            this.textBoxLimitDown.Size = new System.Drawing.Size(36, 20);
+            this.textBoxLimitDown.Size = new System.Drawing.Size(41, 20);
             this.textBoxLimitDown.TabIndex = 19;
             this.textBoxLimitDown.Text = "-40";
             this.textBoxLimitDown.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxLimit_KeyDown);
@@ -572,7 +570,7 @@ namespace Alturos.PanTilt.TestUI
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 44);
+            this.label4.Location = new System.Drawing.Point(11, 44);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(24, 13);
             this.label4.TabIndex = 16;
@@ -580,9 +578,9 @@ namespace Alturos.PanTilt.TestUI
             // 
             // textBoxLimitUp
             // 
-            this.textBoxLimitUp.Location = new System.Drawing.Point(43, 41);
+            this.textBoxLimitUp.Location = new System.Drawing.Point(39, 41);
             this.textBoxLimitUp.Name = "textBoxLimitUp";
-            this.textBoxLimitUp.Size = new System.Drawing.Size(36, 20);
+            this.textBoxLimitUp.Size = new System.Drawing.Size(41, 20);
             this.textBoxLimitUp.TabIndex = 17;
             this.textBoxLimitUp.Text = "40";
             this.textBoxLimitUp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxLimit_KeyDown);
@@ -590,7 +588,7 @@ namespace Alturos.PanTilt.TestUI
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(90, 19);
+            this.label1.Location = new System.Drawing.Point(86, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 14;
@@ -598,9 +596,9 @@ namespace Alturos.PanTilt.TestUI
             // 
             // textBoxLimitRight
             // 
-            this.textBoxLimitRight.Location = new System.Drawing.Point(129, 16);
+            this.textBoxLimitRight.Location = new System.Drawing.Point(125, 16);
             this.textBoxLimitRight.Name = "textBoxLimitRight";
-            this.textBoxLimitRight.Size = new System.Drawing.Size(36, 20);
+            this.textBoxLimitRight.Size = new System.Drawing.Size(41, 20);
             this.textBoxLimitRight.TabIndex = 15;
             this.textBoxLimitRight.Text = "70";
             this.textBoxLimitRight.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxLimit_KeyDown);
@@ -608,7 +606,7 @@ namespace Alturos.PanTilt.TestUI
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 19);
+            this.label3.Location = new System.Drawing.Point(7, 19);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(28, 13);
             this.label3.TabIndex = 12;
@@ -626,9 +624,9 @@ namespace Alturos.PanTilt.TestUI
             // 
             // textBoxLimitLeft
             // 
-            this.textBoxLimitLeft.Location = new System.Drawing.Point(43, 16);
+            this.textBoxLimitLeft.Location = new System.Drawing.Point(39, 16);
             this.textBoxLimitLeft.Name = "textBoxLimitLeft";
-            this.textBoxLimitLeft.Size = new System.Drawing.Size(36, 20);
+            this.textBoxLimitLeft.Size = new System.Drawing.Size(41, 20);
             this.textBoxLimitLeft.TabIndex = 13;
             this.textBoxLimitLeft.Text = "-70";
             this.textBoxLimitLeft.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxLimit_KeyDown);
@@ -892,16 +890,6 @@ namespace Alturos.PanTilt.TestUI
             this.alturosUserControl1.Size = new System.Drawing.Size(1119, 558);
             this.alturosUserControl1.TabIndex = 0;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(237, 87);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(39, 48);
-            this.button1.TabIndex = 27;
-            this.button1.Text = "Stop";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1025,7 +1013,6 @@ namespace Alturos.PanTilt.TestUI
         private CustomControl.MovementFloodControl movementFloodControl1;
         private System.Windows.Forms.TabPage tabPageCommandSequence;
         private CustomControl.CommandSequenceControl commandSequenceControl1;
-        private System.Windows.Forms.Button button1;
     }
 }
 

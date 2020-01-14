@@ -364,6 +364,11 @@ namespace Alturos.PanTilt.TestUI
             this.labelLimitRight.Invoke(o => o.Text = $"Max:{limits.PanMax}");
             this.labelLimitUp.Invoke(o => o.Text = $"Max:{limits.TiltMax}");
             this.labelLimitDown.Invoke(o => o.Text = $"Min:{limits.TiltMin}");
+
+            this.textBoxLimitLeft.Text = $"{limits.PanMin}";
+            this.textBoxLimitRight.Text = $"{limits.PanMax}";
+            this.textBoxLimitUp.Text = $"{limits.TiltMax}";
+            this.textBoxLimitDown.Text = $"{limits.TiltMin}";
         }
 
         private void SetLimits(PanTiltLimit limits)
@@ -515,6 +520,7 @@ namespace Alturos.PanTilt.TestUI
         private void OnLimitChanged()
         {
             this.GetLimitInfos();
+
             var position = this._panTiltControl.GetPosition();
             this.Redraw(position);
         }
@@ -608,23 +614,5 @@ namespace Alturos.PanTilt.TestUI
         }
 
         #endregion
-
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            var panTiltPosition = new PanTiltPosition(0, 0);
-
-            this._panTiltControl.PanTiltAbsolute(panTiltPosition);
-            await this._positionChecker.ComparePositionAsync(panTiltPosition);
-
-            this._panTiltControl.PanTiltAbsolute(-14.25, 10.95);
-            await Task.Delay(150);
-            this._panTiltControl.PanTiltRelative(10, 5);
-            await Task.Delay(40);
-            this._panTiltControl.PanTiltRelative(10.2, 5.5);
-            await Task.Delay(40);
-            this._panTiltControl.PanTiltRelative(10.5, 6);
-            await Task.Delay(40);
-            this._panTiltControl.PanTiltAbsolute(-14.25, 8.95);
-        }
     }
 }

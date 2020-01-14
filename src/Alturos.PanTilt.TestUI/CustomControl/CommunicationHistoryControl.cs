@@ -1,19 +1,17 @@
-using Alturos.PanTilt.Eneo;
 using Alturos.PanTilt.TestUI.Extension;
 using Alturos.PanTilt.TestUI.Model;
 using Alturos.PanTilt.Translator;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Alturos.PanTilt.TestUI.CustomControl
 {
     public partial class CommunicationHistoryControl : UserControl
     {
-        private int _limitSend = 1000;
-        private int _limitReceive = 1000;
+        private int _limitSend = 20000;
+        private int _limitReceive = 20000;
         private IFeedbackTranslator _feedbackTranslator;
         private List<DataPackage> _receivedData;
         private List<DataPackage> _sendData;

@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.labelGain = new System.Windows.Forms.Label();
             this.buttonSmoothingHigh = new System.Windows.Forms.Button();
-            this.labelAccleration = new System.Windows.Forms.Label();
             this.buttonSmoothingNormal = new System.Windows.Forms.Button();
             this.buttonSmoothingLow = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -42,6 +40,11 @@
             this.buttonSetLimitDown = new System.Windows.Forms.Button();
             this.buttonSetLimitRight = new System.Windows.Forms.Button();
             this.buttonDisableLimits = new System.Windows.Forms.Button();
+            this.textBoxAcceleration = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxGain = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.buttonSetSmoothing = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -49,30 +52,24 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.labelGain);
+            this.groupBox1.Controls.Add(this.buttonSetSmoothing);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.textBoxGain);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.textBoxAcceleration);
             this.groupBox1.Controls.Add(this.buttonSmoothingHigh);
-            this.groupBox1.Controls.Add(this.labelAccleration);
             this.groupBox1.Controls.Add(this.buttonSmoothingNormal);
             this.groupBox1.Controls.Add(this.buttonSmoothingLow);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(277, 70);
+            this.groupBox1.Size = new System.Drawing.Size(341, 111);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Smooting (Only has an effect on absolute movement)";
-            // 
-            // labelGain
-            // 
-            this.labelGain.AutoSize = true;
-            this.labelGain.Location = new System.Drawing.Point(127, 17);
-            this.labelGain.Name = "labelGain";
-            this.labelGain.Size = new System.Drawing.Size(51, 13);
-            this.labelGain.TabIndex = 1;
-            this.labelGain.Text = "labelGain";
+            this.groupBox1.Text = "Smoothing (Is only used for absolute movement)";
             // 
             // buttonSmoothingHigh
             // 
-            this.buttonSmoothingHigh.Location = new System.Drawing.Point(147, 36);
+            this.buttonSmoothingHigh.Location = new System.Drawing.Point(147, 19);
             this.buttonSmoothingHigh.Name = "buttonSmoothingHigh";
             this.buttonSmoothingHigh.Size = new System.Drawing.Size(63, 23);
             this.buttonSmoothingHigh.TabIndex = 21;
@@ -80,18 +77,9 @@
             this.buttonSmoothingHigh.UseVisualStyleBackColor = true;
             this.buttonSmoothingHigh.Click += new System.EventHandler(this.buttonSmoothingHigh_Click);
             // 
-            // labelAccleration
-            // 
-            this.labelAccleration.AutoSize = true;
-            this.labelAccleration.Location = new System.Drawing.Point(6, 17);
-            this.labelAccleration.Name = "labelAccleration";
-            this.labelAccleration.Size = new System.Drawing.Size(88, 13);
-            this.labelAccleration.TabIndex = 0;
-            this.labelAccleration.Text = "labelAcceleration";
-            // 
             // buttonSmoothingNormal
             // 
-            this.buttonSmoothingNormal.Location = new System.Drawing.Point(78, 36);
+            this.buttonSmoothingNormal.Location = new System.Drawing.Point(78, 19);
             this.buttonSmoothingNormal.Name = "buttonSmoothingNormal";
             this.buttonSmoothingNormal.Size = new System.Drawing.Size(63, 23);
             this.buttonSmoothingNormal.TabIndex = 20;
@@ -101,7 +89,7 @@
             // 
             // buttonSmoothingLow
             // 
-            this.buttonSmoothingLow.Location = new System.Drawing.Point(9, 36);
+            this.buttonSmoothingLow.Location = new System.Drawing.Point(9, 19);
             this.buttonSmoothingLow.Name = "buttonSmoothingLow";
             this.buttonSmoothingLow.Size = new System.Drawing.Size(63, 23);
             this.buttonSmoothingLow.TabIndex = 19;
@@ -114,9 +102,9 @@
             this.groupBox7.Controls.Add(this.buttonEnableLimits);
             this.groupBox7.Controls.Add(this.groupBox5);
             this.groupBox7.Controls.Add(this.buttonDisableLimits);
-            this.groupBox7.Location = new System.Drawing.Point(3, 79);
+            this.groupBox7.Location = new System.Drawing.Point(3, 120);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(341, 202);
+            this.groupBox7.Size = new System.Drawing.Size(341, 193);
             this.groupBox7.TabIndex = 25;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Limit";
@@ -194,6 +182,50 @@
             this.buttonDisableLimits.UseVisualStyleBackColor = true;
             this.buttonDisableLimits.Click += new System.EventHandler(this.buttonDisableLimits_Click);
             // 
+            // textBoxAcceleration
+            // 
+            this.textBoxAcceleration.Location = new System.Drawing.Point(91, 50);
+            this.textBoxAcceleration.Name = "textBoxAcceleration";
+            this.textBoxAcceleration.Size = new System.Drawing.Size(50, 20);
+            this.textBoxAcceleration.TabIndex = 22;
+            this.textBoxAcceleration.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(19, 53);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(69, 13);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "Acceleration:";
+            // 
+            // textBoxGain
+            // 
+            this.textBoxGain.Location = new System.Drawing.Point(91, 76);
+            this.textBoxGain.Name = "textBoxGain";
+            this.textBoxGain.Size = new System.Drawing.Size(50, 20);
+            this.textBoxGain.TabIndex = 24;
+            this.textBoxGain.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(53, 79);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.TabIndex = 25;
+            this.label2.Text = "Gain:";
+            // 
+            // buttonSetSmoothing
+            // 
+            this.buttonSetSmoothing.Location = new System.Drawing.Point(147, 48);
+            this.buttonSetSmoothing.Name = "buttonSetSmoothing";
+            this.buttonSetSmoothing.Size = new System.Drawing.Size(51, 48);
+            this.buttonSetSmoothing.TabIndex = 26;
+            this.buttonSetSmoothing.Text = "Set";
+            this.buttonSetSmoothing.UseVisualStyleBackColor = true;
+            this.buttonSetSmoothing.Click += new System.EventHandler(this.buttonSetSmoothing_Click);
+            // 
             // EneoUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -201,7 +233,7 @@
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox1);
             this.Name = "EneoUserControl";
-            this.Size = new System.Drawing.Size(493, 334);
+            this.Size = new System.Drawing.Size(493, 320);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox7.ResumeLayout(false);
@@ -213,9 +245,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label labelGain;
         private System.Windows.Forms.Button buttonSmoothingHigh;
-        private System.Windows.Forms.Label labelAccleration;
         private System.Windows.Forms.Button buttonSmoothingNormal;
         private System.Windows.Forms.Button buttonSmoothingLow;
         private System.Windows.Forms.GroupBox groupBox7;
@@ -226,5 +256,10 @@
         private System.Windows.Forms.Button buttonSetLimitDown;
         private System.Windows.Forms.Button buttonSetLimitRight;
         private System.Windows.Forms.Button buttonDisableLimits;
+        private System.Windows.Forms.Button buttonSetSmoothing;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxGain;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBoxAcceleration;
     }
 }
