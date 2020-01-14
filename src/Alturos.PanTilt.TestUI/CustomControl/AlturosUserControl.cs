@@ -33,7 +33,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private async void buttonStartUpdate_Click(object sender, EventArgs e)
         {
-            var version = this.textBoxVersion.Text;
+            var version = this.textBoxFirmwareVersion.Text;
             var packageUrl = $"https://skiline.s3-eu-west-1.amazonaws.com/artifacts/pt-head/master-{version}/pt-head.zip";
 
             this.labelUpdateStatus.Invoke((MethodInvoker)delegate { this.labelUpdateStatus.Text = "download package"; });
@@ -53,10 +53,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 }
             }
 
-            if (Directory.Exists("tmp"))
-            {
-                Directory.Delete("tmp", true);
-            }
+            this.CleanupTemp();
 
             this.labelUpdateStatus.Invoke((MethodInvoker)delegate { this.labelUpdateStatus.Text = "extract package"; });
             ZipFile.ExtractToDirectory("pt-head.zip", "tmp");
@@ -95,8 +92,17 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             }
 
             this._cancellationTokenSource.Dispose();
+            this.CleanupTemp();
 
             this.labelUpdateStatus.Invoke((MethodInvoker)delegate { this.labelUpdateStatus.Text = "update done"; });
+        }
+
+        private void CleanupTemp()
+        {
+            if (Directory.Exists("tmp"))
+            {
+                Directory.Delete("tmp", true);
+            }
         }
 
         private void TransferOnFinished(Tftp.Net.ITftpTransfer transfer)

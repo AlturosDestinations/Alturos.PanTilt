@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.labelVersion = new System.Windows.Forms.Label();
-            this.textBoxVersion = new System.Windows.Forms.TextBox();
+            this.textBoxFirmwareVersion = new System.Windows.Forms.TextBox();
             this.buttonStartUpdate = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.labelUpdateStatus = new System.Windows.Forms.Label();
@@ -46,13 +46,12 @@
             this.labelVersion.TabIndex = 0;
             this.labelVersion.Text = "Version:";
             // 
-            // textBoxVersion
+            // textBoxFirmwareVersion
             // 
-            this.textBoxVersion.Location = new System.Drawing.Point(66, 26);
-            this.textBoxVersion.Name = "textBoxVersion";
-            this.textBoxVersion.Size = new System.Drawing.Size(57, 20);
-            this.textBoxVersion.TabIndex = 1;
-            this.textBoxVersion.Text = "16038";
+            this.textBoxFirmwareVersion.Location = new System.Drawing.Point(66, 26);
+            this.textBoxFirmwareVersion.Name = "textBoxFirmwareVersion";
+            this.textBoxFirmwareVersion.Size = new System.Drawing.Size(57, 20);
+            this.textBoxFirmwareVersion.TabIndex = 1;
             // 
             // buttonStartUpdate
             // 
@@ -84,7 +83,7 @@
             // 
             this.groupBox1.Controls.Add(this.labelVersion);
             this.groupBox1.Controls.Add(this.labelUpdateStatus);
-            this.groupBox1.Controls.Add(this.textBoxVersion);
+            this.groupBox1.Controls.Add(this.textBoxFirmwareVersion);
             this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.buttonStartUpdate);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
@@ -110,7 +109,7 @@
         #endregion
 
         private System.Windows.Forms.Label labelVersion;
-        private System.Windows.Forms.TextBox textBoxVersion;
+        private System.Windows.Forms.TextBox textBoxFirmwareVersion;
         private System.Windows.Forms.Button buttonStartUpdate;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label labelUpdateStatus;
