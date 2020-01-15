@@ -28,14 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonStartTest = new System.Windows.Forms.Button();
             this.dataGridViewResult = new System.Windows.Forms.DataGridView();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.comboBoxSequence = new System.Windows.Forms.ComboBox();
+            this.buttonAbort = new System.Windows.Forms.Button();
             this.ColumnCreateDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRepeat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSuccessful = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -45,11 +48,11 @@
             // 
             // buttonStartTest
             // 
-            this.buttonStartTest.Location = new System.Drawing.Point(0, 3);
+            this.buttonStartTest.Location = new System.Drawing.Point(163, 3);
             this.buttonStartTest.Name = "buttonStartTest";
-            this.buttonStartTest.Size = new System.Drawing.Size(75, 23);
+            this.buttonStartTest.Size = new System.Drawing.Size(54, 23);
             this.buttonStartTest.TabIndex = 0;
-            this.buttonStartTest.Text = "Start Test";
+            this.buttonStartTest.Text = "Start";
             this.buttonStartTest.UseVisualStyleBackColor = true;
             this.buttonStartTest.Click += new System.EventHandler(this.buttonStartTest_Click);
             // 
@@ -72,44 +75,6 @@
             this.dataGridViewResult.TabIndex = 4;
             this.dataGridViewResult.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridViewResult_RowPrePaint);
             // 
-            // ColumnCreateDate
-            // 
-            this.ColumnCreateDate.DataPropertyName = "CreateDate";
-            this.ColumnCreateDate.HeaderText = "CreateDate";
-            this.ColumnCreateDate.Name = "ColumnCreateDate";
-            this.ColumnCreateDate.ReadOnly = true;
-            // 
-            // ColumnName
-            // 
-            this.ColumnName.DataPropertyName = "Name";
-            this.ColumnName.HeaderText = "Name";
-            this.ColumnName.Name = "ColumnName";
-            this.ColumnName.ReadOnly = true;
-            // 
-            // ColumnRepeat
-            // 
-            this.ColumnRepeat.DataPropertyName = "Repeat";
-            this.ColumnRepeat.HeaderText = "Repeat";
-            this.ColumnRepeat.Name = "ColumnRepeat";
-            this.ColumnRepeat.ReadOnly = true;
-            // 
-            // ColumnSuccessful
-            // 
-            this.ColumnSuccessful.DataPropertyName = "Successful";
-            this.ColumnSuccessful.HeaderText = "Successful";
-            this.ColumnSuccessful.Name = "ColumnSuccessful";
-            this.ColumnSuccessful.ReadOnly = true;
-            // 
-            // ColumnDescription
-            // 
-            this.ColumnDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnDescription.DataPropertyName = "Description";
-            this.ColumnDescription.HeaderText = "Description";
-            this.ColumnDescription.Name = "ColumnDescription";
-            this.ColumnDescription.ReadOnly = true;
-            this.ColumnDescription.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ColumnDescription.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -121,6 +86,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.buttonAbort);
+            this.splitContainer1.Panel1.Controls.Add(this.comboBoxSequence);
             this.splitContainer1.Panel1.Controls.Add(this.buttonStartTest);
             // 
             // splitContainer1.Panel2
@@ -129,6 +96,69 @@
             this.splitContainer1.Size = new System.Drawing.Size(600, 350);
             this.splitContainer1.SplitterDistance = 31;
             this.splitContainer1.TabIndex = 5;
+            // 
+            // comboBoxSequence
+            // 
+            this.comboBoxSequence.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSequence.FormattingEnabled = true;
+            this.comboBoxSequence.Location = new System.Drawing.Point(3, 5);
+            this.comboBoxSequence.Name = "comboBoxSequence";
+            this.comboBoxSequence.Size = new System.Drawing.Size(154, 21);
+            this.comboBoxSequence.TabIndex = 1;
+            // 
+            // buttonAbort
+            // 
+            this.buttonAbort.Location = new System.Drawing.Point(223, 3);
+            this.buttonAbort.Name = "buttonAbort";
+            this.buttonAbort.Size = new System.Drawing.Size(54, 23);
+            this.buttonAbort.TabIndex = 2;
+            this.buttonAbort.Text = "Abort";
+            this.buttonAbort.UseVisualStyleBackColor = true;
+            this.buttonAbort.Click += new System.EventHandler(this.buttonAbort_Click);
+            // 
+            // ColumnCreateDate
+            // 
+            this.ColumnCreateDate.DataPropertyName = "CreateDate";
+            dataGridViewCellStyle1.Format = "HH:mm:ss.fff";
+            dataGridViewCellStyle1.NullValue = null;
+            this.ColumnCreateDate.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ColumnCreateDate.HeaderText = "CreateDate";
+            this.ColumnCreateDate.Name = "ColumnCreateDate";
+            this.ColumnCreateDate.ReadOnly = true;
+            // 
+            // ColumnName
+            // 
+            this.ColumnName.DataPropertyName = "Name";
+            this.ColumnName.HeaderText = "Name";
+            this.ColumnName.Name = "ColumnName";
+            this.ColumnName.ReadOnly = true;
+            this.ColumnName.Width = 150;
+            // 
+            // ColumnRepeat
+            // 
+            this.ColumnRepeat.DataPropertyName = "Repeat";
+            this.ColumnRepeat.HeaderText = "Repeat";
+            this.ColumnRepeat.Name = "ColumnRepeat";
+            this.ColumnRepeat.ReadOnly = true;
+            this.ColumnRepeat.Width = 50;
+            // 
+            // ColumnSuccessful
+            // 
+            this.ColumnSuccessful.DataPropertyName = "Successful";
+            this.ColumnSuccessful.HeaderText = "Successful";
+            this.ColumnSuccessful.Name = "ColumnSuccessful";
+            this.ColumnSuccessful.ReadOnly = true;
+            this.ColumnSuccessful.Width = 70;
+            // 
+            // ColumnDescription
+            // 
+            this.ColumnDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnDescription.DataPropertyName = "Description";
+            this.ColumnDescription.HeaderText = "Description";
+            this.ColumnDescription.Name = "ColumnDescription";
+            this.ColumnDescription.ReadOnly = true;
+            this.ColumnDescription.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnDescription.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // CommandSequenceControl
             // 
@@ -151,6 +181,8 @@
         private System.Windows.Forms.Button buttonStartTest;
         private System.Windows.Forms.DataGridView dataGridViewResult;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.ComboBox comboBoxSequence;
+        private System.Windows.Forms.Button buttonAbort;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCreateDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRepeat;

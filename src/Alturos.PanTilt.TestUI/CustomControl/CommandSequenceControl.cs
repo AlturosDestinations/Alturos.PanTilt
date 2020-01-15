@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,7 +16,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         private PositionChecker _positionChecker;
         private List<CommandSequenceResult> _testResults = new List<CommandSequenceResult>();
         private BindingSource _testBindingSource;
-
+        private CancellationTokenSource _cancellationTokenSource;
         private CommandSequence[] _commandSequences;
 
         public CommandSequenceControl()
@@ -28,9 +29,11 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.dataGridViewResult.AutoGenerateColumns = false;
             this.dataGridViewResult.DataSource = this._testBindingSource;
 
+            this.buttonAbort.Enabled = false;
+
             this._commandSequences = new CommandSequence[]
             {
-                new CommandSequence("Sequence1")
+                new CommandSequence("Sequence RPT 1")
                 {
                     Steps = new CommandSequenceStep[]
                     {
@@ -61,7 +64,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         },
                     }
                 },
-                new CommandSequence("Sequence2")
+                new CommandSequence("Sequence APT RPT 1")
                 {
                     Steps = new CommandSequenceStep[]
                     {
@@ -97,7 +100,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         },
                     }
                 },
-                new CommandSequence("Sequence3")
+                new CommandSequence("Sequence APT RPT 2")
                 {
                     Steps = new CommandSequenceStep[]
                     {
@@ -133,7 +136,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         },
                     }
                 },
-                new CommandSequence("Sequence4")
+                new CommandSequence("Sequence APT RP 1")
                 {
                     Steps = new CommandSequenceStep[]
                     {
@@ -174,7 +177,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         },
                     }
                 },
-                new CommandSequence("Sequence5")
+                new CommandSequence("Sequence AP RPT 1")
                 {
                     Steps = new CommandSequenceStep[]
                     {
@@ -275,8 +278,397 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                             WaitPositionIsReached = false
                         },
                     }
+                },
+                new CommandSequence("Sequence AP RP 1")
+                {
+                    Steps = new CommandSequenceStep[]
+                    {
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(-15, 0),
+                            WaitPositionIsReached = true
+                        },
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(-20, 0),
+                            WaitPositionIsReached = true
+                        },
+                        //Drive 20x 5° pan
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(200)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        //After these steps we must be very close to the position
+                        new CommandSequenceStepAbsolute(1000)
+                        {
+                            Position = new PanTiltPosition(0, 0),
+                            WaitPositionIsReached = false
+                        },
+                    }
+                },
+                new CommandSequence("Sequence AP RP 2")
+                {
+                    Steps = new CommandSequenceStep[]
+                    {
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(-5, 0),
+                            WaitPositionIsReached = true
+                        },
+                        //Drive 20x 5° pan
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        //After these steps we must be very close to the position
+                        new CommandSequenceStepAbsolute(1000)
+                        {
+                            Position = new PanTiltPosition(0, 0),
+                            WaitPositionIsReached = false
+                        },
+                    }
+                },
+                new CommandSequence("Sequence AT RT 1")
+                {
+                    Steps = new CommandSequenceStep[]
+                    {
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(0, -5),
+                            WaitPositionIsReached = true
+                        },
+                        //Drive 20x 5° pan
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(50)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        //After these steps we must be very close to the position
+                        new CommandSequenceStepAbsolute(1000)
+                        {
+                            Position = new PanTiltPosition(0, 0),
+                            WaitPositionIsReached = false
+                        },
+                    }
+                },
+                new CommandSequence("Sequence APT 1")
+                {
+                    Steps = new CommandSequenceStep[]
+                    {
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(0, -5),
+                        },
+                        new CommandSequenceStepAbsolute(50)
+                        {
+                            Position = new PanTiltPosition(-10, -20),
+                        },
+                        new CommandSequenceStepAbsolute(50)
+                        {
+                            Position = new PanTiltPosition(20, 10),
+                        },
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(0, 0),
+                            WaitPositionIsReached = true
+                        }
+                    }
                 }
             };
+
+            this._commandSequences = this._commandSequences.OrderBy(o => o.Name).ToArray();
+
+            var sequences = this._commandSequences.Select(o => o.Name).ToList();
+            sequences.Insert(0, "All");
+
+            this.comboBoxSequence.DataSource = sequences;
         }
 
         public void SetPanTiltControl(IPanTiltControl panTiltControl)
@@ -287,25 +679,54 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private async void buttonStartTest_Click(object sender, EventArgs e)
         {
-            this.buttonStartTest.Enabled = false;
-            this._testResults.Clear();
+            this._cancellationTokenSource?.Dispose();
+            this._cancellationTokenSource = new CancellationTokenSource();
 
-            foreach (var sequence in this._commandSequences)
+            this.buttonStartTest.Enabled = false;
+            this.buttonAbort.Enabled = true;
+            this._testResults.Clear();
+            this._testBindingSource.ResetBindings(false);
+
+            var selectedSequence = this.comboBoxSequence.Text;
+            var sequences = this._commandSequences.AsQueryable();
+            if (!selectedSequence.Equals("All", StringComparison.OrdinalIgnoreCase))
             {
-                for (var repeat = 1; repeat <= 6; repeat++)
+                sequences = sequences.Where(o => o.Name.Equals(selectedSequence));
+            }
+
+            foreach (var sequence in sequences)
+            {
+                if (this._cancellationTokenSource.IsCancellationRequested)
                 {
-                    var result = await this.RunTestAsync(sequence);
-                    result.Repeat = repeat;
-                    this._testResults.Add(result);
+                    break;
+                }
+
+                for (var repeat = 1; repeat <= 10; repeat++)
+                {
+                    await this.RunTestAsync(sequence, this._cancellationTokenSource.Token).ContinueWith(t =>
+                    {
+                        if (t.IsCanceled)
+                        {
+                            return;
+                        }
+
+                        this._testResults.Add(t.Result);
+                    });
 
                     this._testBindingSource.ResetBindings(false);
                 }
             }
 
+            this.buttonAbort.Enabled = false;
             this.buttonStartTest.Enabled = true;
         }
 
-        private async Task<CommandSequenceResult> RunTestAsync(CommandSequence sequence)
+        private void buttonAbort_Click(object sender, EventArgs e)
+        {
+            this._cancellationTokenSource?.Cancel();
+        }
+
+        private async Task<CommandSequenceResult> RunTestAsync(CommandSequence sequence, CancellationToken cancellationToken)
         {
             var result = new CommandSequenceResult
             {
@@ -315,6 +736,11 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
             foreach (var step in sequence.Steps)
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return result;
+                }
+
                 switch (step.CommandType)
                 {
                     case CommandSequenceType.Absolute:
@@ -322,7 +748,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         this._panTiltControl.PanTiltAbsolute(absoluteStep.Position);
                         if (absoluteStep.WaitPositionIsReached)
                         {
-                            await this._positionChecker.ComparePositionAsync(absoluteStep.Position, 0.1);
+                            await this._positionChecker.ComparePositionAsync(absoluteStep.Position, 0.1, cancellationToken: cancellationToken);
                         }
                         break;
                     case CommandSequenceType.Relative:
@@ -335,7 +761,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
                 if (step.DelayAfterCommand > 0)
                 {
-                    await Task.Delay(step.DelayAfterCommand);
+                    await Task.Delay(step.DelayAfterCommand, cancellationToken);
                 }
             }
 
