@@ -33,7 +33,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private async void buttonStartUpdate_Click(object sender, EventArgs e)
         {
-            var version = this.textBoxFirmwareVersion.Text;
+            var version = this.textBoxFirmwareVersion.Text.Trim();
             var packageUrl = $"https://skiline.s3-eu-west-1.amazonaws.com/artifacts/pt-head/master-{version}/pt-head.zip";
 
             this.labelUpdateStatus.Invoke((MethodInvoker)delegate { this.labelUpdateStatus.Text = "download package"; });
