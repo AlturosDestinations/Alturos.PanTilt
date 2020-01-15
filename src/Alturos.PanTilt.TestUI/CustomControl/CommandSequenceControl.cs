@@ -37,11 +37,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 {
                     Steps = new CommandSequenceStep[]
                     {
-                        new CommandSequenceStepAbsolute(0)
-                        {
-                            Position = new PanTiltPosition(0, 0),
-                            WaitPositionIsReached = true
-                        },
                         new CommandSequenceStepRelative(40)
                         {
                             PanSpeed = 10,
@@ -68,11 +63,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 {
                     Steps = new CommandSequenceStep[]
                     {
-                        new CommandSequenceStepAbsolute(0)
-                        {
-                            Position = new PanTiltPosition(0, 0),
-                            WaitPositionIsReached = true
-                        },
                         new CommandSequenceStepAbsolute(0)
                         {
                             Position = new PanTiltPosition(-14.25, 10.95),
@@ -104,11 +94,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 {
                     Steps = new CommandSequenceStep[]
                     {
-                        new CommandSequenceStepAbsolute(0)
-                        {
-                            Position = new PanTiltPosition(0, 0),
-                            WaitPositionIsReached = true
-                        },
                         new CommandSequenceStepAbsolute(150)
                         {
                             Position = new PanTiltPosition(-14.25, 10.95),
@@ -140,11 +125,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 {
                     Steps = new CommandSequenceStep[]
                     {
-                        new CommandSequenceStepAbsolute(0)
-                        {
-                            Position = new PanTiltPosition(0, 0),
-                            WaitPositionIsReached = true
-                        },
                         new CommandSequenceStepAbsolute(500)
                         {
                             Position = new PanTiltPosition(-40, 10),
@@ -272,7 +252,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                             TiltSpeed = -5.5,
                         },
                         //After these steps we must be very close to the position
-                        new CommandSequenceStepAbsolute(1000)
+                        new CommandSequenceStepAbsolute(1500)
                         {
                             Position = new PanTiltPosition(0, 0),
                             WaitPositionIsReached = false
@@ -645,6 +625,11 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         new CommandSequenceStepAbsolute(0)
                         {
                             Position = new PanTiltPosition(0, -5),
+                            WaitPositionIsReached = true
+                        },
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(0, -5),
                         },
                         new CommandSequenceStepAbsolute(50)
                         {
@@ -660,7 +645,315 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                             WaitPositionIsReached = true
                         }
                     }
-                }
+                },
+                new CommandSequence("Sequence RPT 2")
+                {
+                    Steps = new CommandSequenceStep[]
+                    {
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 1,
+                            TiltSpeed = 1,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 2,
+                            TiltSpeed = 2,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 3,
+                            TiltSpeed = 3,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 4,
+                            TiltSpeed = 4,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 10,
+                            TiltSpeed = 10,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 20,
+                            TiltSpeed = 20,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 30,
+                            TiltSpeed = 30,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 40,
+                            TiltSpeed = 40,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 50,
+                            TiltSpeed = 50,
+                        },
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(20, 0),
+                            WaitPositionIsReached = true
+                        }
+                    }
+                },
+                new CommandSequence("Sequence RPT 3")
+                {
+                    Steps = new CommandSequenceStep[]
+                    {
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 1,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 2,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 3,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 4,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 10,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 20,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 30,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 40,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 50,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 1,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 2,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 3,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 4,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 5,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 10,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 10,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 30,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 40,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = 50,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = -1,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = -2,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = -3,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = -4,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = -5,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = -10,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = -20,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = -30,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = -40,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = -50,
+                            TiltSpeed = 0,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = -1,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = -2,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = -3,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = -4,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = -5,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = -10,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = -10,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = -30,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = -40,
+                        },
+                        new CommandSequenceStepRelative(100)
+                        {
+                            PanSpeed = 0,
+                            TiltSpeed = -50,
+                        },
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(0, 0),
+                            WaitPositionIsReached = true
+                        }
+                    }
+                },
+                new CommandSequence("Sequence RPT 4")
+                {
+                    Steps = new CommandSequenceStep[]
+                    {
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(30, 0),
+                            WaitPositionIsReached = true
+                        },
+                        new CommandSequenceStepRelative(1000)
+                        {
+                            PanSpeed = -30,
+                            TiltSpeed = 10,
+                        },
+                        new CommandSequenceStepRelative(1000)
+                        {
+                            PanSpeed = -30,
+                            TiltSpeed = -10,
+                        },
+                        new CommandSequenceStepRelative(1000)
+                        {
+                            PanSpeed = 30,
+                            TiltSpeed = -10,
+                        },
+                        new CommandSequenceStepRelative(1000)
+                        {
+                            PanSpeed = 30,
+                            TiltSpeed = 10,
+                        },
+                        new CommandSequenceStepAbsolute(0)
+                        {
+                            Position = new PanTiltPosition(0, 0),
+                            WaitPositionIsReached = true
+                        }
+                    }
+                },
             };
 
             this._commandSequences = this._commandSequences.OrderBy(o => o.Name).ToArray();
@@ -710,6 +1003,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                             return;
                         }
 
+                        t.Result.Repeat = repeat;
                         this._testResults.Add(t.Result);
                     });
 
@@ -734,10 +1028,15 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 Name = sequence.Name,
             };
 
+            var initialPosition = new PanTiltPosition(0, 0);
+            this._panTiltControl.PanTiltAbsolute(initialPosition);
+            await this._positionChecker.ComparePositionAsync(initialPosition, 0.1, 50, 100, cancellationToken: cancellationToken).ContinueWith(t => { });
+
             foreach (var step in sequence.Steps)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
+                    result.Description = "Aborted";
                     return result;
                 }
 
@@ -748,7 +1047,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         this._panTiltControl.PanTiltAbsolute(absoluteStep.Position);
                         if (absoluteStep.WaitPositionIsReached)
                         {
-                            await this._positionChecker.ComparePositionAsync(absoluteStep.Position, 0.1, cancellationToken: cancellationToken);
+                            await this._positionChecker.ComparePositionAsync(absoluteStep.Position, 0.1, 50, 100, cancellationToken: cancellationToken).ContinueWith(t => { });
                         }
                         break;
                     case CommandSequenceType.Relative:
@@ -761,7 +1060,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
                 if (step.DelayAfterCommand > 0)
                 {
-                    await Task.Delay(step.DelayAfterCommand, cancellationToken);
+                    await Task.Delay(step.DelayAfterCommand, cancellationToken).ContinueWith(t => { });
                 }
             }
 
