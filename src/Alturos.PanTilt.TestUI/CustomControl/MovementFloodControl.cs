@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using Alturos.PanTilt.TestUI.Extension;
+using Alturos.PanTilt.Tools;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Alturos.PanTilt.TestUI.Extension;
-using Alturos.PanTilt.Tools;
 
 namespace Alturos.PanTilt.TestUI.CustomControl
 {

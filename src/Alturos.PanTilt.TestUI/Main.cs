@@ -97,6 +97,7 @@ namespace Alturos.PanTilt.TestUI
                 this.movementFloodControl1.SetPanTiltControl(this._panTiltControl);
                 this.commandSequenceControl1.SetPanTiltControl(this._panTiltControl);
                 this.alturosUserControl1.SetDeviceConfiguration(this._deviceConfiguration);
+                this.feedbackAnalyzeControl1.SetPanTiltControl(this._panTiltControl);
                 this._panTiltControl.PanTiltAbsolute(0,0);
             }
         }

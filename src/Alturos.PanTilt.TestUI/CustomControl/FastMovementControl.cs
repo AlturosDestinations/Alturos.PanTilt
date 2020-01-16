@@ -109,22 +109,21 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this._panTiltControl.PositionChanged += PanTiltPositionChanged;
             this._panTiltControl.LimitChanged += PanTiltLimitChanged;
 
-            this.CheckPtLimitAsync().GetAwaiter().GetResult();
+            this.CheckPtLimit();
         }
 
         private void PanTiltLimitChanged()
         {
-            Task.Run(async () => await this.CheckPtLimitAsync());
+            this.CheckPtLimit();
         }
 
-        private async Task CheckPtLimitAsync()
+        private void CheckPtLimit()
         {
             if (this._panTiltControl == null)
             {
                 return;
             }
 
-            await Task.Delay(1000).ConfigureAwait(false);
             this._ptLimit = this._panTiltControl.GetLimits();
 
             this.PrepareDrawing();

@@ -67,6 +67,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -125,6 +126,12 @@
     <Compile Include="CustomControl\CommunicationHistoryControl.Designer.cs">
       <DependentUpon>CommunicationHistoryControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\FeedbackAnalyzeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\FeedbackAnalyzeControl.Designer.cs">
+      <DependentUpon>FeedbackAnalyzeControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\MovementFloodControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -179,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControl\CommunicationHistoryControl.resx">
       <DependentUpon>CommunicationHistoryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControl\FeedbackAnalyzeControl.resx">
+      <DependentUpon>FeedbackAnalyzeControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControl\MovementFloodControl.resx">
       <DependentUpon>MovementFloodControl.cs</DependentUpon>
