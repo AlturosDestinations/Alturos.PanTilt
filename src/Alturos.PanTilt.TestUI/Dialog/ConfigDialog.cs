@@ -22,7 +22,7 @@ namespace Alturos.PanTilt.TestUI.Dialog
             this.comboBoxCameraImageUrl.DataSource = new string[]
             {
                 "/jpg/image.jpg", //Axis
-                "19/snapshot/1/snapshot.jpg" //Eneo
+                "/snapshot/1/snapshot.jpg" //Eneo
             };
 
             this.comboBoxPanTiltControl.DataSource = ((PanTiltControlType[])Enum.GetValues(typeof(PanTiltControlType))).OrderBy(x => x.ToString()).ToList();
