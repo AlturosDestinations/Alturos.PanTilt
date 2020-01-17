@@ -2,27 +2,30 @@
 
 # Alturos.PanTilt
 
-This project delivers an interface for general pan tilt communication. Additionally we deliver an implementation for Eneo VPT-601 unit.
-We have three different communication providers udp/tcp/serial available.
+This project delivers an interface for general pan tilt communication and a comprehensive test tool.
+
+Supported manufacturers
+- Alturos - PT-Head
+- Eneo - VPT-601 (product discontinued)
 
 The library supports the following primary features
 - [x] Move to absolute position
 - [x] Move with relative speed
 - [x] Position feedback
-- [x] Get limits
+- [x] Get/Set limits
+- [x] Different communication providers udp/tcp/serial
 
 And some Eneo special features
-- [x] Set limits
 - [x] Get temperature
 - [x] Set relay
 
-### nuget
+### How can I use it?
 The package is available on [nuget](https://www.nuget.org/packages/Alturos.PanTilt)
 ```
 PM> install-package Alturos.PanTilt
 ```
 
-### Network communication to RS-422/RS-485
+### Network communication devices to RS-422/RS-485
 
 Do you want to talk about the network with your pan tilt unit you can use a serial device server.
 
