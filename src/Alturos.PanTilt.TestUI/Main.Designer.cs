@@ -83,24 +83,24 @@ namespace Alturos.PanTilt.TestUI
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.tabPageLiveView = new System.Windows.Forms.TabPage();
             this.pictureBox_CameraPos = new System.Windows.Forms.PictureBox();
-            this.tabPageMovementCheck = new System.Windows.Forms.TabPage();
-            this.tabPageFastMovement = new System.Windows.Forms.TabPage();
-            this.tabPageAbsolutePosition = new System.Windows.Forms.TabPage();
-            this.tabPageMovementFlood = new System.Windows.Forms.TabPage();
-            this.tabPageCommandSequence = new System.Windows.Forms.TabPage();
-            this.tabPageCommunicationHistory = new System.Windows.Forms.TabPage();
-            this.tabPageEneo = new System.Windows.Forms.TabPage();
-            this.tabPageAlturos = new System.Windows.Forms.TabPage();
             this.tabPageFeedbackAnalyzer = new System.Windows.Forms.TabPage();
-            this.continiousMovementControl1 = new Alturos.PanTilt.TestUI.CustomControl.ContiniousMovementControl();
-            this.fastMovementControl1 = new Alturos.PanTilt.TestUI.CustomControl.FastMovementControl();
-            this.absolutePositionControl1 = new Alturos.PanTilt.TestUI.CustomControl.AbsolutePositionControl();
-            this.movementFloodControl1 = new Alturos.PanTilt.TestUI.CustomControl.MovementFloodControl();
-            this.commandSequenceControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommandSequenceControl();
-            this.communicationHistoryControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommunicationHistoryControl();
-            this.eneoUserControl1 = new Alturos.PanTilt.TestUI.CustomControl.EneoUserControl();
-            this.alturosUserControl1 = new Alturos.PanTilt.TestUI.CustomControl.AlturosUserControl();
             this.feedbackAnalyzeControl1 = new Alturos.PanTilt.TestUI.CustomControl.FeedbackAnalyzeControl();
+            this.tabPageMovementCheck = new System.Windows.Forms.TabPage();
+            this.continiousMovementControl1 = new Alturos.PanTilt.TestUI.CustomControl.ContiniousMovementControl();
+            this.tabPageFastMovement = new System.Windows.Forms.TabPage();
+            this.fastMovementControl1 = new Alturos.PanTilt.TestUI.CustomControl.FastMovementControl();
+            this.tabPageAbsolutePosition = new System.Windows.Forms.TabPage();
+            this.absolutePositionControl1 = new Alturos.PanTilt.TestUI.CustomControl.AbsolutePositionControl();
+            this.tabPageMovementFlood = new System.Windows.Forms.TabPage();
+            this.movementFloodControl1 = new Alturos.PanTilt.TestUI.CustomControl.MovementFloodControl();
+            this.tabPageCommandSequence = new System.Windows.Forms.TabPage();
+            this.commandSequenceControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommandSequenceControl();
+            this.tabPageCommunicationHistory = new System.Windows.Forms.TabPage();
+            this.communicationHistoryControl1 = new Alturos.PanTilt.TestUI.CustomControl.CommunicationHistoryControl();
+            this.tabPageEneo = new System.Windows.Forms.TabPage();
+            this.eneoUserControl1 = new Alturos.PanTilt.TestUI.CustomControl.EneoUserControl();
+            this.tabPageAlturos = new System.Windows.Forms.TabPage();
+            this.alturosUserControl1 = new Alturos.PanTilt.TestUI.CustomControl.AlturosUserControl();
             this.groupBox2.SuspendLayout();
             this.groupBoxControls.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -121,6 +121,7 @@ namespace Alturos.PanTilt.TestUI
             this.mainTabControl.SuspendLayout();
             this.tabPageLiveView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CameraPos)).BeginInit();
+            this.tabPageFeedbackAnalyzer.SuspendLayout();
             this.tabPageMovementCheck.SuspendLayout();
             this.tabPageFastMovement.SuspendLayout();
             this.tabPageAbsolutePosition.SuspendLayout();
@@ -129,12 +130,11 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageCommunicationHistory.SuspendLayout();
             this.tabPageEneo.SuspendLayout();
             this.tabPageAlturos.SuspendLayout();
-            this.tabPageFeedbackAnalyzer.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonPanRelative
             // 
-            this.buttonPanRelative.Location = new System.Drawing.Point(148, 19);
+            this.buttonPanRelative.Location = new System.Drawing.Point(159, 19);
             this.buttonPanRelative.Name = "buttonPanRelative";
             this.buttonPanRelative.Size = new System.Drawing.Size(60, 23);
             this.buttonPanRelative.TabIndex = 1;
@@ -144,7 +144,7 @@ namespace Alturos.PanTilt.TestUI
             // 
             // buttonPanAboslute
             // 
-            this.buttonPanAboslute.Location = new System.Drawing.Point(82, 19);
+            this.buttonPanAboslute.Location = new System.Drawing.Point(93, 19);
             this.buttonPanAboslute.Name = "buttonPanAboslute";
             this.buttonPanAboslute.Size = new System.Drawing.Size(60, 23);
             this.buttonPanAboslute.TabIndex = 2;
@@ -180,7 +180,7 @@ namespace Alturos.PanTilt.TestUI
             // 
             this.textBoxPan.Location = new System.Drawing.Point(31, 21);
             this.textBoxPan.Name = "textBoxPan";
-            this.textBoxPan.Size = new System.Drawing.Size(27, 20);
+            this.textBoxPan.Size = new System.Drawing.Size(39, 20);
             this.textBoxPan.TabIndex = 3;
             this.textBoxPan.Text = "10";
             this.textBoxPan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -199,7 +199,7 @@ namespace Alturos.PanTilt.TestUI
             // buttonIncreaseP
             // 
             this.buttonIncreaseP.Font = new System.Drawing.Font("Verdana", 8F);
-            this.buttonIncreaseP.Location = new System.Drawing.Point(56, 20);
+            this.buttonIncreaseP.Location = new System.Drawing.Point(68, 20);
             this.buttonIncreaseP.Name = "buttonIncreaseP";
             this.buttonIncreaseP.Size = new System.Drawing.Size(20, 22);
             this.buttonIncreaseP.TabIndex = 7;
@@ -416,7 +416,7 @@ namespace Alturos.PanTilt.TestUI
             // 
             this.textBoxTilt.Location = new System.Drawing.Point(32, 21);
             this.textBoxTilt.Name = "textBoxTilt";
-            this.textBoxTilt.Size = new System.Drawing.Size(27, 20);
+            this.textBoxTilt.Size = new System.Drawing.Size(39, 20);
             this.textBoxTilt.TabIndex = 3;
             this.textBoxTilt.Text = "10";
             this.textBoxTilt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -424,7 +424,7 @@ namespace Alturos.PanTilt.TestUI
             // buttonIncreaseT
             // 
             this.buttonIncreaseT.Font = new System.Drawing.Font("Verdana", 8F);
-            this.buttonIncreaseT.Location = new System.Drawing.Point(57, 20);
+            this.buttonIncreaseT.Location = new System.Drawing.Point(69, 20);
             this.buttonIncreaseT.Name = "buttonIncreaseT";
             this.buttonIncreaseT.Size = new System.Drawing.Size(20, 22);
             this.buttonIncreaseT.TabIndex = 5;
@@ -445,7 +445,7 @@ namespace Alturos.PanTilt.TestUI
             // 
             // buttonTiltRelative
             // 
-            this.buttonTiltRelative.Location = new System.Drawing.Point(149, 19);
+            this.buttonTiltRelative.Location = new System.Drawing.Point(159, 19);
             this.buttonTiltRelative.Name = "buttonTiltRelative";
             this.buttonTiltRelative.Size = new System.Drawing.Size(60, 23);
             this.buttonTiltRelative.TabIndex = 1;
@@ -455,7 +455,7 @@ namespace Alturos.PanTilt.TestUI
             // 
             // buttonTiltAbsolute
             // 
-            this.buttonTiltAbsolute.Location = new System.Drawing.Point(83, 19);
+            this.buttonTiltAbsolute.Location = new System.Drawing.Point(93, 19);
             this.buttonTiltAbsolute.Name = "buttonTiltAbsolute";
             this.buttonTiltAbsolute.Size = new System.Drawing.Size(60, 23);
             this.buttonTiltAbsolute.TabIndex = 2;
@@ -742,6 +742,25 @@ namespace Alturos.PanTilt.TestUI
             this.pictureBox_CameraPos.TabStop = false;
             this.pictureBox_CameraPos.Visible = false;
             // 
+            // tabPageFeedbackAnalyzer
+            // 
+            this.tabPageFeedbackAnalyzer.Controls.Add(this.feedbackAnalyzeControl1);
+            this.tabPageFeedbackAnalyzer.Location = new System.Drawing.Point(4, 22);
+            this.tabPageFeedbackAnalyzer.Name = "tabPageFeedbackAnalyzer";
+            this.tabPageFeedbackAnalyzer.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageFeedbackAnalyzer.Size = new System.Drawing.Size(1125, 564);
+            this.tabPageFeedbackAnalyzer.TabIndex = 9;
+            this.tabPageFeedbackAnalyzer.Text = "Feedback Analyzer";
+            this.tabPageFeedbackAnalyzer.UseVisualStyleBackColor = true;
+            // 
+            // feedbackAnalyzeControl1
+            // 
+            this.feedbackAnalyzeControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.feedbackAnalyzeControl1.Location = new System.Drawing.Point(3, 3);
+            this.feedbackAnalyzeControl1.Name = "feedbackAnalyzeControl1";
+            this.feedbackAnalyzeControl1.Size = new System.Drawing.Size(1119, 558);
+            this.feedbackAnalyzeControl1.TabIndex = 0;
+            // 
             // tabPageMovementCheck
             // 
             this.tabPageMovementCheck.Controls.Add(this.continiousMovementControl1);
@@ -752,6 +771,14 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageMovementCheck.TabIndex = 1;
             this.tabPageMovementCheck.Text = "Continious Movement Check";
             this.tabPageMovementCheck.UseVisualStyleBackColor = true;
+            // 
+            // continiousMovementControl1
+            // 
+            this.continiousMovementControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.continiousMovementControl1.Location = new System.Drawing.Point(3, 3);
+            this.continiousMovementControl1.Name = "continiousMovementControl1";
+            this.continiousMovementControl1.Size = new System.Drawing.Size(1119, 558);
+            this.continiousMovementControl1.TabIndex = 20;
             // 
             // tabPageFastMovement
             // 
@@ -764,6 +791,14 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageFastMovement.Text = "Fast Movement Check";
             this.tabPageFastMovement.UseVisualStyleBackColor = true;
             // 
+            // fastMovementControl1
+            // 
+            this.fastMovementControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastMovementControl1.Location = new System.Drawing.Point(3, 3);
+            this.fastMovementControl1.Name = "fastMovementControl1";
+            this.fastMovementControl1.Size = new System.Drawing.Size(1119, 558);
+            this.fastMovementControl1.TabIndex = 0;
+            // 
             // tabPageAbsolutePosition
             // 
             this.tabPageAbsolutePosition.Controls.Add(this.absolutePositionControl1);
@@ -774,6 +809,14 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageAbsolutePosition.TabIndex = 4;
             this.tabPageAbsolutePosition.Text = "Absolute Position Check";
             this.tabPageAbsolutePosition.UseVisualStyleBackColor = true;
+            // 
+            // absolutePositionControl1
+            // 
+            this.absolutePositionControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.absolutePositionControl1.Location = new System.Drawing.Point(3, 3);
+            this.absolutePositionControl1.Name = "absolutePositionControl1";
+            this.absolutePositionControl1.Size = new System.Drawing.Size(1119, 558);
+            this.absolutePositionControl1.TabIndex = 0;
             // 
             // tabPageMovementFlood
             // 
@@ -786,6 +829,14 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageMovementFlood.Text = "Movement Flood";
             this.tabPageMovementFlood.UseVisualStyleBackColor = true;
             // 
+            // movementFloodControl1
+            // 
+            this.movementFloodControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.movementFloodControl1.Location = new System.Drawing.Point(3, 3);
+            this.movementFloodControl1.Name = "movementFloodControl1";
+            this.movementFloodControl1.Size = new System.Drawing.Size(1119, 558);
+            this.movementFloodControl1.TabIndex = 0;
+            // 
             // tabPageCommandSequence
             // 
             this.tabPageCommandSequence.Controls.Add(this.commandSequenceControl1);
@@ -796,6 +847,14 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageCommandSequence.TabIndex = 8;
             this.tabPageCommandSequence.Text = "Command Sequence";
             this.tabPageCommandSequence.UseVisualStyleBackColor = true;
+            // 
+            // commandSequenceControl1
+            // 
+            this.commandSequenceControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.commandSequenceControl1.Location = new System.Drawing.Point(3, 3);
+            this.commandSequenceControl1.Name = "commandSequenceControl1";
+            this.commandSequenceControl1.Size = new System.Drawing.Size(1119, 558);
+            this.commandSequenceControl1.TabIndex = 0;
             // 
             // tabPageCommunicationHistory
             // 
@@ -808,6 +867,14 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageCommunicationHistory.Text = "Communication History";
             this.tabPageCommunicationHistory.UseVisualStyleBackColor = true;
             // 
+            // communicationHistoryControl1
+            // 
+            this.communicationHistoryControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.communicationHistoryControl1.Location = new System.Drawing.Point(3, 3);
+            this.communicationHistoryControl1.Name = "communicationHistoryControl1";
+            this.communicationHistoryControl1.Size = new System.Drawing.Size(1119, 558);
+            this.communicationHistoryControl1.TabIndex = 0;
+            // 
             // tabPageEneo
             // 
             this.tabPageEneo.Controls.Add(this.eneoUserControl1);
@@ -818,6 +885,14 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageEneo.TabIndex = 5;
             this.tabPageEneo.Text = "Eneo";
             this.tabPageEneo.UseVisualStyleBackColor = true;
+            // 
+            // eneoUserControl1
+            // 
+            this.eneoUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.eneoUserControl1.Location = new System.Drawing.Point(3, 3);
+            this.eneoUserControl1.Name = "eneoUserControl1";
+            this.eneoUserControl1.Size = new System.Drawing.Size(1119, 558);
+            this.eneoUserControl1.TabIndex = 0;
             // 
             // tabPageAlturos
             // 
@@ -830,73 +905,6 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageAlturos.Text = "Alturos";
             this.tabPageAlturos.UseVisualStyleBackColor = true;
             // 
-            // tabPageFeedbackAnalyzer
-            // 
-            this.tabPageFeedbackAnalyzer.Controls.Add(this.feedbackAnalyzeControl1);
-            this.tabPageFeedbackAnalyzer.Location = new System.Drawing.Point(4, 22);
-            this.tabPageFeedbackAnalyzer.Name = "tabPageFeedbackAnalyzer";
-            this.tabPageFeedbackAnalyzer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFeedbackAnalyzer.Size = new System.Drawing.Size(1125, 564);
-            this.tabPageFeedbackAnalyzer.TabIndex = 9;
-            this.tabPageFeedbackAnalyzer.Text = "Feedback Analyzer";
-            this.tabPageFeedbackAnalyzer.UseVisualStyleBackColor = true;
-            // 
-            // continiousMovementControl1
-            // 
-            this.continiousMovementControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.continiousMovementControl1.Location = new System.Drawing.Point(3, 3);
-            this.continiousMovementControl1.Name = "continiousMovementControl1";
-            this.continiousMovementControl1.Size = new System.Drawing.Size(1119, 558);
-            this.continiousMovementControl1.TabIndex = 20;
-            // 
-            // fastMovementControl1
-            // 
-            this.fastMovementControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastMovementControl1.Location = new System.Drawing.Point(3, 3);
-            this.fastMovementControl1.Name = "fastMovementControl1";
-            this.fastMovementControl1.Size = new System.Drawing.Size(1119, 558);
-            this.fastMovementControl1.TabIndex = 0;
-            // 
-            // absolutePositionControl1
-            // 
-            this.absolutePositionControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.absolutePositionControl1.Location = new System.Drawing.Point(3, 3);
-            this.absolutePositionControl1.Name = "absolutePositionControl1";
-            this.absolutePositionControl1.Size = new System.Drawing.Size(1119, 558);
-            this.absolutePositionControl1.TabIndex = 0;
-            // 
-            // movementFloodControl1
-            // 
-            this.movementFloodControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.movementFloodControl1.Location = new System.Drawing.Point(3, 3);
-            this.movementFloodControl1.Name = "movementFloodControl1";
-            this.movementFloodControl1.Size = new System.Drawing.Size(1119, 558);
-            this.movementFloodControl1.TabIndex = 0;
-            // 
-            // commandSequenceControl1
-            // 
-            this.commandSequenceControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.commandSequenceControl1.Location = new System.Drawing.Point(3, 3);
-            this.commandSequenceControl1.Name = "commandSequenceControl1";
-            this.commandSequenceControl1.Size = new System.Drawing.Size(1119, 558);
-            this.commandSequenceControl1.TabIndex = 0;
-            // 
-            // communicationHistoryControl1
-            // 
-            this.communicationHistoryControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.communicationHistoryControl1.Location = new System.Drawing.Point(3, 3);
-            this.communicationHistoryControl1.Name = "communicationHistoryControl1";
-            this.communicationHistoryControl1.Size = new System.Drawing.Size(1119, 558);
-            this.communicationHistoryControl1.TabIndex = 0;
-            // 
-            // eneoUserControl1
-            // 
-            this.eneoUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.eneoUserControl1.Location = new System.Drawing.Point(3, 3);
-            this.eneoUserControl1.Name = "eneoUserControl1";
-            this.eneoUserControl1.Size = new System.Drawing.Size(1119, 558);
-            this.eneoUserControl1.TabIndex = 0;
-            // 
             // alturosUserControl1
             // 
             this.alturosUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -904,14 +912,6 @@ namespace Alturos.PanTilt.TestUI
             this.alturosUserControl1.Name = "alturosUserControl1";
             this.alturosUserControl1.Size = new System.Drawing.Size(1119, 558);
             this.alturosUserControl1.TabIndex = 0;
-            // 
-            // feedbackAnalyzeControl1
-            // 
-            this.feedbackAnalyzeControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.feedbackAnalyzeControl1.Location = new System.Drawing.Point(3, 3);
-            this.feedbackAnalyzeControl1.Name = "feedbackAnalyzeControl1";
-            this.feedbackAnalyzeControl1.Size = new System.Drawing.Size(1119, 558);
-            this.feedbackAnalyzeControl1.TabIndex = 0;
             // 
             // Main
             // 
@@ -952,6 +952,7 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageLiveView.ResumeLayout(false);
             this.tabPageLiveView.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CameraPos)).EndInit();
+            this.tabPageFeedbackAnalyzer.ResumeLayout(false);
             this.tabPageMovementCheck.ResumeLayout(false);
             this.tabPageFastMovement.ResumeLayout(false);
             this.tabPageAbsolutePosition.ResumeLayout(false);
@@ -960,7 +961,6 @@ namespace Alturos.PanTilt.TestUI
             this.tabPageCommunicationHistory.ResumeLayout(false);
             this.tabPageEneo.ResumeLayout(false);
             this.tabPageAlturos.ResumeLayout(false);
-            this.tabPageFeedbackAnalyzer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

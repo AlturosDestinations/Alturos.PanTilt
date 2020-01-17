@@ -163,6 +163,7 @@
     <Compile Include="Model\DeviceConfigurationHelper.cs" />
     <Compile Include="Model\DiscoveredDevice.cs" />
     <Compile Include="Model\FastMovementInfo.cs" />
+    <Compile Include="Model\FeedbackResult.cs" />
     <Compile Include="Model\PositionCompare.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

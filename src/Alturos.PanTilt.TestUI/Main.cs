@@ -8,6 +8,7 @@ using Alturos.PanTilt.Tools;
 using Alturos.PanTilt.Translator;
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -586,31 +587,37 @@ namespace Alturos.PanTilt.TestUI
 
         #region Increase / Decrease buttons
 
+        private double ParseDouble(string value)
+        {
+            double.TryParse(value.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out var number);
+            return number;
+        }
+
         private void buttonDecreaseP_Click(object sender, EventArgs e)
         {
-            double.TryParse(this.textBoxPan.Text, out var pan);
-            pan--;
+            var pan = this.ParseDouble(this.textBoxPan.Text);
+            pan -= 0.1;
             this.textBoxPan.Text = pan.ToString();
         }
 
         private void buttonIncreaseP_Click(object sender, EventArgs e)
         {
-            double.TryParse(this.textBoxPan.Text, out var pan);
-            pan++;
+            var pan = this.ParseDouble(this.textBoxPan.Text);
+            pan += 0.1;
             this.textBoxPan.Text = pan.ToString();
         }
 
         private void buttonDecreaseT_Click(object sender, EventArgs e)
         {
-            double.TryParse(this.textBoxTilt.Text, out var tilt);
-            tilt--;
+            var tilt = this.ParseDouble(this.textBoxTilt.Text);
+            tilt -= 0.1;
             this.textBoxTilt.Text = tilt.ToString();
         }
 
         private void buttonIncreaseT_Click(object sender, EventArgs e)
         {
-            double.TryParse(this.textBoxTilt.Text, out var tilt);
-            tilt++;
+            var tilt = this.ParseDouble(this.textBoxTilt.Text);
+            tilt += 0.1;
             this.textBoxTilt.Text = tilt.ToString();
         }
 

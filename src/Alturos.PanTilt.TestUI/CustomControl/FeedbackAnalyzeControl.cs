@@ -1,6 +1,9 @@
 ﻿using Alturos.PanTilt.TestUI.Extension;
+using Alturos.PanTilt.TestUI.Model;
 using Alturos.PanTilt.Tools;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,6 +21,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         {
             this.InitializeComponent();
             this._currentPosition = new PanTiltPosition();
+            this.labelInfo.Text = string.Empty;
         }
 
         public void SetPanTiltControl(IPanTiltControl panTiltControl)
@@ -36,8 +40,11 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         {
             var startPosition = new PanTiltPosition(-60, -40);
 
+            this.buttonStart.Enabled = false;
+            this.labelInfo.Text = $"Drive to test start position {startPosition}";
+
             this._panTiltControl.PanTiltAbsolute(startPosition);
-            await this._positionChecker.ComparePositionAsync(startPosition);
+            await this._positionChecker.ComparePositionAsync(startPosition, retry: 50);
 
             var chartPanMaximum = 5;
             var chartTiltMaximum = 5;
@@ -46,10 +53,17 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
             var cancellationTokenSource = new CancellationTokenSource();
 
+            this.labelInfo.Text = "Start test";
+
+            var feebackItems = new List<FeedbackResult>();
+
             _ = Task.Run(async () =>
             {
                 var lastPosition = new PanTiltPosition();
-                var delay = 100;
+                lastPosition.Pan = this._currentPosition.Pan;
+                lastPosition.Tilt = this._currentPosition.Tilt;
+
+                var delay = 200;
                 var multiplier = 1000 / delay;
 
                 while (true)
@@ -59,11 +73,22 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         return;
                     }
 
-                    var differencePan = Math.Abs((lastPosition.Pan - this._currentPosition.Pan) * multiplier);
-                    var differenceTilt = Math.Abs((lastPosition.Tilt - this._currentPosition.Tilt) * multiplier);
+                    var calculatedPan = Math.Abs((lastPosition.Pan - this._currentPosition.Pan) * multiplier);
+                    var calculatedTilt = Math.Abs((lastPosition.Tilt - this._currentPosition.Tilt) * multiplier);
 
                     lastPosition.Pan = this._currentPosition.Pan;
                     lastPosition.Tilt = this._currentPosition.Tilt;
+
+                    feebackItems.Add(new FeedbackResult
+                    {
+                        Timestamp = DateTime.Now,
+                        PanPosition = this._currentPosition.Pan,
+                        TiltPosition = this._currentPosition.Tilt,
+                        PanSpeedCalculated = calculatedPan,
+                        PanSpeedCommand = currentPanSpeed,
+                        TiltSpeedCalculated = calculatedTilt,
+                        TiltSpeedCommand = currentTiltSpeed
+                    });
 
                     void UpdateChart(Series series, double value)
                     {
@@ -74,14 +99,14 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         }
                     }
 
-                    this.chart1.Invoke(o =>
+                    this.chartAnalyze.Invoke(o =>
                     {
-                        this.chart1.ChartAreas[o.Series[0].ChartArea].AxisY.Maximum = chartPanMaximum;
-                        this.chart1.ChartAreas[o.Series[2].ChartArea].AxisY.Maximum = chartTiltMaximum;
+                        this.chartAnalyze.ChartAreas[o.Series[0].ChartArea].AxisY.Maximum = chartPanMaximum;
+                        this.chartAnalyze.ChartAreas[o.Series[2].ChartArea].AxisY.Maximum = chartTiltMaximum;
 
-                        UpdateChart(o.Series[0], differencePan);
+                        UpdateChart(o.Series[0], calculatedPan);
                         UpdateChart(o.Series[1], currentPanSpeed);
-                        UpdateChart(o.Series[2], differenceTilt);
+                        UpdateChart(o.Series[2], calculatedTilt);
                         UpdateChart(o.Series[3], currentTiltSpeed);
                     });
 
@@ -89,7 +114,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 }
             }, cancellationTokenSource.Token);
 
-            var task1 = Task.Run(async () =>
+            var taskPan = Task.Run(async () =>
             {
                 var delay = 50;
 
@@ -104,7 +129,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 this._panTiltControl.PanRelative(0);
             });
 
-            var task2 = Task.Run(async () =>
+            var taskTilt = Task.Run(async () =>
             {
                 var delay = 50;
 
@@ -120,12 +145,33 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                 this._panTiltControl.TiltRelative(0);
             });
 
-            await Task.WhenAll(task1, task2);
+            this.labelInfo.Text = "Test is running...";
+
+            await Task.WhenAll(taskPan, taskTilt);
 
             this._panTiltControl.StopMoving();
 
             cancellationTokenSource.Cancel();
             cancellationTokenSource.Dispose();
+
+            this.dataGridView1.DataSource = feebackItems;
+
+            this.buttonStart.Enabled = true;
+            this.labelInfo.Text = string.Empty;
+        }
+
+        private void dataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            var item = this.dataGridView1.Rows[e.RowIndex].DataBoundItem as FeedbackResult;
+            if (item.PanSpeedDifference > 5 || item.TiltSpeedDifference > 5)
+            {
+                this.dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.OrangeRed;
+            }
+
+            if (item.TiltSpeedCalculated < 0.001 || item.PanSpeedCalculated < 0.001)
+            {
+                this.dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Orange;
+            }
         }
     }
 }

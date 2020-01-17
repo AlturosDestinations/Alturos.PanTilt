@@ -33,13 +33,15 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private async void buttonStartUpdate_Click(object sender, EventArgs e)
         {
+            var packageFileName = "pt-head.zip";
+
             var version = this.textBoxFirmwareVersion.Text.Trim();
-            var packageUrl = $"https://skiline.s3-eu-west-1.amazonaws.com/artifacts/pt-head/master-{version}/pt-head.zip";
+            var packageUrl = $"https://skiline.s3-eu-west-1.amazonaws.com/artifacts/pt-head/master-{version}/{packageFileName}";
 
             this.labelUpdateStatus.Invoke((MethodInvoker)delegate { this.labelUpdateStatus.Text = "download package"; });
             using (var httpClient = new HttpClient())
             using (var response = await httpClient.GetAsync(packageUrl))
-            using (var file = File.Create("pt-head.zip"))
+            using (var file = File.Create(packageFileName))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -56,7 +58,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.CleanupTemp();
 
             this.labelUpdateStatus.Invoke((MethodInvoker)delegate { this.labelUpdateStatus.Text = "extract package"; });
-            ZipFile.ExtractToDirectory("pt-head.zip", "tmp");
+            ZipFile.ExtractToDirectory(packageFileName, "tmp");
 
             var firmwarePath = @"tmp\pt-head\firmware.bin";
 
@@ -93,6 +95,10 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
             this._cancellationTokenSource.Dispose();
             this.CleanupTemp();
+            if (File.Exists(packageFileName))
+            {
+                File.Delete(packageFileName);
+            }
 
             this.labelUpdateStatus.Invoke((MethodInvoker)delegate { this.labelUpdateStatus.Text = "update done"; });
         }
