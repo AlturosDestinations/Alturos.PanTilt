@@ -1,6 +1,7 @@
 ﻿using Alturos.PanTilt.Communication;
 using log4net;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using System.Text;
@@ -353,9 +354,10 @@ namespace Alturos.PanTilt
 
                 using (var cannelationTokenSource = new CancellationTokenSource())
                 {
+                    var value = string.Empty;
+
                     this._communication.ReceiveData += ProcessData;
 
-                    var value = string.Empty;
                     void ProcessData(byte[] data)
                     {
                         var message = Encoding.ASCII.GetString(data);
@@ -377,6 +379,51 @@ namespace Alturos.PanTilt
             catch (Exception exception)
             {
                 Log.Error(nameof(GetStatisticDataAsync), exception);
+                return null;
+            }
+        }
+
+        private async Task<string> GetEpromDataAsync(string command, string commandDescription)
+        {
+            try
+            {
+                var commandData = Encoding.ASCII.GetBytes(command);
+
+                using (var cannelationTokenSource = new CancellationTokenSource())
+                {
+                    var eprom = new StringBuilder();
+                    var list = new List<string>();
+                    this._communication.ReceiveData += ProcessData;
+
+                    void ProcessData(byte[] data)
+                    {
+                        var message = Encoding.ASCII.GetString(data);
+                        if (message.StartsWith(command, StringComparison.OrdinalIgnoreCase))
+                        {
+                            list.Add(message);
+
+                            var index = message.Substring(command.Length, 2);
+
+                            eprom.Append(message.Substring(command.Length + 2));
+
+                            if (index == "07")
+                            {
+                                cannelationTokenSource.Cancel();
+                            }
+                        }
+                    }
+
+                    this.Send(commandData, commandDescription);
+                    await Task.Delay(2000, cannelationTokenSource.Token).ContinueWith(tsk => { });
+
+                    this._communication.ReceiveData -= ProcessData;
+
+                    return eprom.ToString();
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.Error(nameof(GetEpromDataAsync), exception);
                 return null;
             }
         }
@@ -425,6 +472,11 @@ namespace Alturos.PanTilt
         public async Task<string> GetTiltInitialErrorAsync()
         {
             return await this.GetStatisticDataAsync("GS06", "GetTiltInitialError");
+        }
+
+        public async Task<string> GetEpromData()
+        {
+            return await this.GetEpromDataAsync("GE", "GetEpromData");
         }
 
         #endregion
