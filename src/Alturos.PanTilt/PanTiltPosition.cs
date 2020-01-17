@@ -26,6 +26,11 @@ namespace Alturos.PanTilt
 
         protected bool Equals(PanTiltPosition other)
         {
+            if (other == null)
+            {
+                return false;
+            }
+
             return this.Pan == other.Pan && this.Tilt == other.Tilt;
         }
 

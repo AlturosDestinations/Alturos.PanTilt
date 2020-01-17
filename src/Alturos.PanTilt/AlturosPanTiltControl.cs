@@ -93,7 +93,14 @@ namespace Alturos.PanTilt
 
                 try
                 {
-                    this.PositionChanged?.Invoke(this._position);
+                    var subscribers = this.PositionChanged?.GetInvocationList();
+                    if (subscribers != null)
+                    {
+                        foreach (var subscriber in subscribers)
+                        {
+                            Task.Run(() => subscriber.DynamicInvoke(this._position));
+                        }
+                    }
                 }
                 catch (Exception exception)
                 {
