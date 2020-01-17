@@ -1,6 +1,8 @@
 ﻿using Alturos.PanTilt.Communication;
 using log4net;
 using System;
+using System.Globalization;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +21,6 @@ namespace Alturos.PanTilt
         private readonly bool _debug;
         private readonly PanTiltPosition _position;
         private PanTiltLimit _panTiltlimit;
-        private event Action<string> _firmwareVersionReceived;
         private CancellationTokenSource _cancellationTokenSource;
 
         private int _sendCount;
@@ -107,24 +108,29 @@ namespace Alturos.PanTilt
                     Log.Error($"{nameof(PackageReceived)}", exception);
                 }
             }
-            else if (message.StartsWith("ANC", StringComparison.OrdinalIgnoreCase))
+            else if (message.StartsWith("AN", StringComparison.OrdinalIgnoreCase) && message.Length == 37)
             {
-                //Announce in application mode
-                //Ip
-                //Mac
+                var announce = message.Substring(2);
+                var ip = this.GetIpAddressFromHex(announce.Substring(0, 8));
+                var mac = announce.Substring(8, 12);
                 //Name
                 //Serial
-            }
-            else if (message.StartsWith("GS07", StringComparison.OrdinalIgnoreCase))
-            {
-                var firmwareVersion = message.Substring(4);
-                this._firmwareVersionReceived?.Invoke(firmwareVersion);
             }
             else
             {
                 var hex = BitConverter.ToString(data);
                 Log.Debug($"{nameof(PackageReceived)} - {hex}");
             }
+        }
+
+        private string GetIpAddressFromHex(string hex)
+        {
+            if (string.IsNullOrEmpty(hex))
+            {
+                return null;
+            }
+
+            return new IPAddress((BitConverter.IsLittleEndian ? IPAddress.HostToNetworkOrder(Convert.ToInt32(hex, 16)) : Convert.ToInt32(hex, 16))).ToString();
         }
 
         private bool Send(string command, string description)
@@ -337,27 +343,91 @@ namespace Alturos.PanTilt
             return true;
         }
 
-        public async Task<string> GetFirmwareAsync()
+        #region Get Statistic Data
+
+        private async Task<string> GetStatisticDataAsync(string command, string commandDescription)
         {
-            var command = Encoding.ASCII.GetBytes("GS07");
-
-            using (var cannelationTokenSource = new CancellationTokenSource())
+            try
             {
-                var firmwareVersion = string.Empty;
-                void GetFirmware(string data)
+                var commandData = Encoding.ASCII.GetBytes(command);
+
+                using (var cannelationTokenSource = new CancellationTokenSource())
                 {
-                    firmwareVersion = data;
-                    cannelationTokenSource.Cancel();
+                    this._communication.ReceiveData += ProcessData;
+
+                    var value = string.Empty;
+                    void ProcessData(byte[] data)
+                    {
+                        var message = Encoding.ASCII.GetString(data);
+                        if (message.StartsWith(command, StringComparison.OrdinalIgnoreCase))
+                        {
+                            value = message.Substring(command.Length);
+                            cannelationTokenSource.Cancel();
+                        }
+                    }
+
+                    this.Send(commandData, commandDescription);
+                    await Task.Delay(2000, cannelationTokenSource.Token).ContinueWith(tsk => { });
+
+                    this._communication.ReceiveData -= ProcessData;
+
+                    return value;
                 }
-
-                this._firmwareVersionReceived += GetFirmware;
-                this.Send(command, "GetFirmware");
-                await Task.Delay(2000, cannelationTokenSource.Token).ContinueWith(tsk => { });
-                this._firmwareVersionReceived -= GetFirmware;
-
-                return firmwareVersion;
+            }
+            catch (Exception exception)
+            {
+                Log.Error(nameof(GetStatisticDataAsync), exception);
+                return null;
             }
         }
+
+        private async Task<double> GetDoubleStatisticDataAsync(string command, string commandDescription)
+        {
+            var value = await this.GetStatisticDataAsync(command, commandDescription);
+            if (!int.TryParse(value, out var tempValue))
+            {
+                Log.Warn($"{nameof(GetDoubleStatisticDataAsync)} - Cannot parse response for {command} {value}");
+            }
+
+            return tempValue / 100.0;
+        }
+
+        public async Task<string> GetFirmwareAsync()
+        {
+            return await this.GetStatisticDataAsync("GS07", "GetFirmwareVersion");
+        }
+
+        public async Task<double> GetTemperatureAsync()
+        {
+            return await this.GetDoubleStatisticDataAsync("GS01", "GetTemperature");
+        }
+
+        public async Task<double> GetHumidityAsync()
+        {
+            return await this.GetDoubleStatisticDataAsync("GS02", "GetHumidity");
+        }
+
+        public async Task<double> GetPanHalSensorAsync()
+        {
+            return await this.GetDoubleStatisticDataAsync("GS03", "GetPanHalSensor");
+        }
+
+        public async Task<double> GetTiltHalSensorAsync()
+        {
+            return await this.GetDoubleStatisticDataAsync("GS04", "GetTiltHalSensor");
+        }
+
+        public async Task<string> GetPanInitialErrorAsync()
+        {
+            return await this.GetStatisticDataAsync("GS05", "GetPanInitialError");
+        }
+
+        public async Task<string> GetTiltInitialErrorAsync()
+        {
+            return await this.GetStatisticDataAsync("GS06", "GetTiltInitialError");
+        }
+
+        #endregion
 
         public PanTiltInfo GetPanTiltInfo()
         {

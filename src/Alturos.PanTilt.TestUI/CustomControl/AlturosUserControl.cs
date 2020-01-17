@@ -11,7 +11,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 {
     public partial class AlturosUserControl : UserControl
     {
-        private IPanTiltControl _panTiltControl;
+        private AlturosPanTiltControl _panTiltControl;
         private DeviceConfiguration _deviceConfiguration;
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -23,7 +23,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         public void SetPanTiltControl(IPanTiltControl panTiltControl)
         {
-            this._panTiltControl = panTiltControl;
+            this._panTiltControl = panTiltControl as AlturosPanTiltControl;
         }
 
         public void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
@@ -125,6 +125,42 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         {
             var uploadProgress = (int)Math.Floor(100.0 * progress.TransferredBytes / progress.TotalBytes);
             this.progressBar1.Invoke((MethodInvoker)delegate { this.progressBar1.Value = uploadProgress; });
+        }
+
+        private async void buttonTemperature_Click(object sender, EventArgs e)
+        {
+            var value = await this._panTiltControl.GetTemperatureAsync();
+            this.textBoxTemperature.Text = $"{value}°";
+        }
+
+        private async void buttonHumidity_Click(object sender, EventArgs e)
+        {
+            var value = await this._panTiltControl.GetHumidityAsync();
+            this.textBoxHumidity.Text = $"{value}%";
+        }
+
+        private async void buttonPanHalSensor_Click(object sender, EventArgs e)
+        {
+            var value = await this._panTiltControl.GetPanHalSensorAsync();
+            this.textBoxPanHalSensor.Text = $"{value}";
+        }
+
+        private async void buttonTiltHalSensor_Click(object sender, EventArgs e)
+        {
+            var value = await this._panTiltControl.GetTiltHalSensorAsync();
+            this.textBoxTiltHalSensor.Text = $"{value}";
+        }
+
+        private async void buttonPanInitialError_Click(object sender, EventArgs e)
+        {
+            var value = await this._panTiltControl.GetPanInitialErrorAsync();
+            this.textBoxPanInitialError.Text = value;
+        }
+
+        private async void buttonTiltInitialError_Click(object sender, EventArgs e)
+        {
+            var value = await this._panTiltControl.GetTiltInitialErrorAsync();
+            this.textBoxTiltInitialError.Text = value;
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Alturos.PanTilt.TestUI
         private DeviceConfigurationHelper _deviceConfigurationHelper;
         private DrawEngine _cameraDrawEngine;
         private IPositionChecker _positionChecker;
+        private object _syncLock = new object();
 
         public Main()
         {
@@ -529,25 +530,28 @@ namespace Alturos.PanTilt.TestUI
 
         private void OnPositionChanged(PanTiltPosition position)
         {
-            if (this._lastRefresh.AddMilliseconds(200) >= DateTime.Now)
+            lock (this._syncLock)
             {
-                return;
-            }
+                if (this._lastRefresh.AddMilliseconds(200) >= DateTime.Now)
+                {
+                    return;
+                }
 
-            this._lastRefresh = DateTime.Now;
+                this._lastRefresh = DateTime.Now;
 
-            this.labelPositionPan.Invoke(o => o.Text = $"Pan: {position.Pan}");
-            this.labelPositionTilt.Invoke(o => o.Text = $"Tilt: {position.Tilt}");
+                this.labelPositionPan.Invoke(o => o.Text = $"Pan: {position.Pan}");
+                this.labelPositionTilt.Invoke(o => o.Text = $"Tilt: {position.Tilt}");
 
-            if (this._deviceConfiguration.CameraActive)
-            {
-                return;
-            }
+                if (this._deviceConfiguration.CameraActive)
+                {
+                    return;
+                }
 
-            if (this._panTiltControl != null)
-            {
-                //TODO:Optimize render image does not block position changed event
-                this.Redraw(position);
+                if (this._panTiltControl != null)
+                {
+                    //TODO:Optimize render image does not block position changed event
+                    this.Redraw(position);
+                }
             }
         }
 
