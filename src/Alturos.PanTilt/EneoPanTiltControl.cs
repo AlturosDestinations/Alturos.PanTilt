@@ -1,6 +1,6 @@
 using Alturos.PanTilt.Communication;
-using Alturos.PanTilt.Eneo;
-using Alturos.PanTilt.Eneo.Response;
+using Alturos.PanTilt.Manufacturer.Eneo;
+using Alturos.PanTilt.Manufacturer.Eneo.Response;
 using Alturos.PanTilt.Tools;
 using log4net;
 using System;
@@ -530,10 +530,7 @@ namespace Alturos.PanTilt
             var data = new byte[3];
             data[0] = 0xDC;
 
-            byte panData1;
-            byte panData2;
-
-            this._positionConverter.ConvertPositionData(panPosition, out panData1, out panData2);
+            this._positionConverter.ConvertPositionData(panPosition, out var panData1, out var panData2);
 
             data[1] = panData1;
             data[2] = panData2;
@@ -547,10 +544,7 @@ namespace Alturos.PanTilt
             var data = new byte[3];
             data[0] = 0xDD;
 
-            byte tiltData1;
-            byte tiltData2;
-
-            this._positionConverter.ConvertPositionData(tiltPosition, out tiltData1, out tiltData2);
+            this._positionConverter.ConvertPositionData(tiltPosition, out var tiltData1, out var tiltData2);
 
             data[1] = tiltData1;
             data[2] = tiltData2;

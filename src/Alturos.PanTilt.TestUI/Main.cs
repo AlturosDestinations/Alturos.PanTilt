@@ -6,6 +6,7 @@ using Alturos.PanTilt.TestUI.Extension;
 using Alturos.PanTilt.TestUI.Model;
 using Alturos.PanTilt.Tools;
 using Alturos.PanTilt.Translator;
+using log4net;
 using System;
 using System.Drawing;
 using System.Globalization;
@@ -18,6 +19,8 @@ namespace Alturos.PanTilt.TestUI
 {
     public partial class Main : Form
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Main));
+
         private ICommunication _communication;
         private IPanTiltControl _panTiltControl;
         private bool _mouseControlActive;
@@ -31,6 +34,8 @@ namespace Alturos.PanTilt.TestUI
 
         public Main()
         {
+            Log.Debug("Start");
+
             this.InitializeComponent();
 
             this._deviceConfigurationHelper = new DeviceConfigurationHelper();

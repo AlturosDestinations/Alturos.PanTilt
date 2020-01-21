@@ -1,4 +1,4 @@
-﻿using Alturos.PanTilt.Eneo;
+﻿using Alturos.PanTilt.Manufacturer.Eneo;
 using System.Text;
 
 namespace Alturos.PanTilt.Translator

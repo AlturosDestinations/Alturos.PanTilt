@@ -1,5 +1,5 @@
-﻿using Alturos.PanTilt.Eneo;
-using Alturos.PanTilt.Eneo.Response;
+﻿using Alturos.PanTilt.Manufacturer.Eneo;
+using Alturos.PanTilt.Manufacturer.Eneo.Response;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Alturos.PanTilt.UnitTest.Eneo

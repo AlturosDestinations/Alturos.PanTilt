@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Alturos.PanTilt.Eneo
+namespace Alturos.PanTilt.Manufacturer.Eneo
 {
     public class PositionConverter
     {

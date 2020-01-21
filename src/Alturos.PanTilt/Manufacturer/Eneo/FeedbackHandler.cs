@@ -1,10 +1,10 @@
-﻿using Alturos.PanTilt.Eneo.Response;
+﻿using Alturos.PanTilt.Manufacturer.Eneo.Response;
 using log4net;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Alturos.PanTilt.Eneo
+namespace Alturos.PanTilt.Manufacturer.Eneo
 {
     /// <summary>
     /// Understands the pt head feedback and converts them into application domain knowledge

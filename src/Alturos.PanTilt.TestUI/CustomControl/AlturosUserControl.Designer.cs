@@ -47,8 +47,13 @@
             this.buttonHumidity = new System.Windows.Forms.Button();
             this.textBoxHumidity = new System.Windows.Forms.TextBox();
             this.textBoxTemperature = new System.Windows.Forms.TextBox();
+            this.buttonGetConfig = new System.Windows.Forms.Button();
+            this.buttonSetConfig = new System.Windows.Forms.Button();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelVersion
@@ -230,10 +235,51 @@
             this.textBoxTemperature.Size = new System.Drawing.Size(100, 20);
             this.textBoxTemperature.TabIndex = 0;
             // 
+            // buttonGetConfig
+            // 
+            this.buttonGetConfig.Location = new System.Drawing.Point(6, 19);
+            this.buttonGetConfig.Name = "buttonGetConfig";
+            this.buttonGetConfig.Size = new System.Drawing.Size(75, 23);
+            this.buttonGetConfig.TabIndex = 8;
+            this.buttonGetConfig.Text = "Get";
+            this.buttonGetConfig.UseVisualStyleBackColor = true;
+            this.buttonGetConfig.Click += new System.EventHandler(this.buttonGetConfig_Click);
+            // 
+            // buttonSetConfig
+            // 
+            this.buttonSetConfig.Location = new System.Drawing.Point(87, 19);
+            this.buttonSetConfig.Name = "buttonSetConfig";
+            this.buttonSetConfig.Size = new System.Drawing.Size(75, 23);
+            this.buttonSetConfig.TabIndex = 9;
+            this.buttonSetConfig.Text = "Set";
+            this.buttonSetConfig.UseVisualStyleBackColor = true;
+            this.buttonSetConfig.Click += new System.EventHandler(this.buttonSetConfig_Click);
+            // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.HelpVisible = false;
+            this.propertyGrid1.Location = new System.Drawing.Point(6, 48);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(390, 380);
+            this.propertyGrid1.TabIndex = 10;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.buttonGetConfig);
+            this.groupBox3.Controls.Add(this.propertyGrid1);
+            this.groupBox3.Controls.Add(this.buttonSetConfig);
+            this.groupBox3.Location = new System.Drawing.Point(302, 3);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(402, 434);
+            this.groupBox3.TabIndex = 11;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Config";
+            // 
             // AlturosUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "AlturosUserControl";
@@ -242,6 +288,7 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -267,5 +314,9 @@
         private System.Windows.Forms.TextBox textBoxPanInitialError;
         private System.Windows.Forms.Button buttonTiltInitialError;
         private System.Windows.Forms.Button buttonPanInitialError;
+        private System.Windows.Forms.Button buttonGetConfig;
+        private System.Windows.Forms.Button buttonSetConfig;
+        private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.GroupBox groupBox3;
     }
 }

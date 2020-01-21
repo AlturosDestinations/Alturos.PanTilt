@@ -1,4 +1,4 @@
-﻿namespace Alturos.PanTilt.Eneo.Response
+﻿namespace Alturos.PanTilt.Manufacturer.Eneo.Response
 {
     public class PanLimitResponse : BaseResponse
     {

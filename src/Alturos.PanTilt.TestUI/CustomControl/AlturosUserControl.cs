@@ -1,4 +1,5 @@
-﻿using Alturos.PanTilt.TestUI.Model;
+﻿using Alturos.PanTilt.Manufacturer.Alturos.Eprom;
+using Alturos.PanTilt.TestUI.Model;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -14,11 +15,12 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         private AlturosPanTiltControl _panTiltControl;
         private DeviceConfiguration _deviceConfiguration;
         private CancellationTokenSource _cancellationTokenSource;
+        private MainConfig _config;
 
         public AlturosUserControl()
         {
             this.InitializeComponent();
-            this.labelUpdateStatus.Text = "";
+            this.labelUpdateStatus.Text = string.Empty;
         }
 
         public void SetPanTiltControl(IPanTiltControl panTiltControl)
@@ -161,6 +163,17 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         {
             var value = await this._panTiltControl.GetTiltInitialErrorAsync();
             this.textBoxTiltInitialError.Text = value;
+        }
+
+        private async void buttonGetConfig_Click(object sender, EventArgs e)
+        {
+            this._config = await this._panTiltControl.GetConfigAsync();
+            this.propertyGrid1.SelectedObject = this._config;
+        }
+
+        private async void buttonSetConfig_Click(object sender, EventArgs e)
+        {
+            await this._panTiltControl.SetConfigAsync(this._config);
         }
     }
 }

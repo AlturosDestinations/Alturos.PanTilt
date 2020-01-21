@@ -1,4 +1,7 @@
 ﻿using Alturos.PanTilt.Communication;
+using Alturos.PanTilt.Manufacturer.Alturos;
+using Alturos.PanTilt.Manufacturer.Alturos.Eprom;
+using Alturos.PanTilt.Tools;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -402,9 +405,9 @@ namespace Alturos.PanTilt
                         {
                             list.Add(message);
 
-                            var index = message.Substring(command.Length, 2);
-
-                            eprom.Append(message.Substring(command.Length + 2));
+                            var packageInfoLength = 2;
+                            var index = message.Substring(command.Length, packageInfoLength);
+                            eprom.Append(message.Substring(command.Length + packageInfoLength));
 
                             if (index == "07")
                             {
@@ -474,9 +477,31 @@ namespace Alturos.PanTilt
             return await this.GetStatisticDataAsync("GS06", "GetTiltInitialError");
         }
 
-        public async Task<string> GetEpromData()
+        public async Task<MainConfig> GetConfigAsync()
         {
-            return await this.GetEpromDataAsync("GE", "GetEpromData");
+            var hexEpromData = await this.GetEpromDataAsync("GE", "GetEpromData");
+            if (string.IsNullOrEmpty(hexEpromData))
+            {
+                return default(MainConfig);
+            }
+
+            var epromData = ByteConverter.HexToByteArray(hexEpromData);
+
+            var converter = new EpromConverter();
+            return converter.Deserialize(epromData);
+        }
+
+        public async Task<bool> SetConfigAsync(MainConfig mainConfig)
+        {
+            var converter = new EpromConverter();
+            var configBytes = converter.Serialize(mainConfig);
+            for (var i = 0; i < configBytes.Length; i++)
+            {
+                //this.Send($"SE{i:X2}{configBytes[i]:X2}", "SetEpromData");
+                Log.Debug($"SE{i:X2}{configBytes[i]:X2}");
+            }
+
+            return await Task.FromResult(true);
         }
 
         #endregion

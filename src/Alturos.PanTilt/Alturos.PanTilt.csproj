@@ -43,7 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Manufacturer\Alturos\Eprom\MainConfig.cs" />
+    <Compile Include="Manufacturer\Alturos\EpromConverter.cs" />
+    <Compile Include="Manufacturer\Alturos\Eprom\IpAddressConfig.cs" />
+    <Compile Include="Manufacturer\Alturos\Eprom\MacConfig.cs" />
     <Compile Include="PanTiltInfo.cs" />
+    <Compile Include="Tools\ByteConverter.cs" />
     <Compile Include="Tools\PositionComparer.cs" />
     <Compile Include="Translator\AlturosFeedbackTranslator.cs" />
     <Compile Include="Translator\EneoFeedbackTranslator.cs" />
@@ -53,20 +58,20 @@
     <Compile Include="AlturosPanTiltControl.cs" />
     <Compile Include="Communication\CommunicationType.cs" />
     <Compile Include="EneoPanTiltControl.cs" />
-    <Compile Include="Eneo\FeedbackHandler.cs" />
-    <Compile Include="Eneo\PositionConverter.cs" />
-    <Compile Include="Eneo\Response\BaseResponse.cs" />
-    <Compile Include="Eneo\Response\LimitOverrunResponse.cs" />
-    <Compile Include="Eneo\Response\LimitActiveResponse.cs" />
-    <Compile Include="Eneo\Response\LimitOverrunType.cs" />
-    <Compile Include="Eneo\Response\LimitType.cs" />
-    <Compile Include="Eneo\Response\PanInfoResponse.cs" />
-    <Compile Include="Eneo\Response\PanLimitResponse.cs" />
-    <Compile Include="Eneo\Response\PotentiometerResponse.cs" />
-    <Compile Include="Eneo\Response\ResponseType.cs" />
-    <Compile Include="Eneo\Response\TemperatureResponse.cs" />
-    <Compile Include="Eneo\Response\TiltInfoResponse.cs" />
-    <Compile Include="Eneo\Response\TiltLimitResponse.cs" />
+    <Compile Include="Manufacturer\Eneo\FeedbackHandler.cs" />
+    <Compile Include="Manufacturer\Eneo\PositionConverter.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\BaseResponse.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\LimitOverrunResponse.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\LimitActiveResponse.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\LimitOverrunType.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\LimitType.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\PanInfoResponse.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\PanLimitResponse.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\PotentiometerResponse.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\ResponseType.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\TemperatureResponse.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\TiltInfoResponse.cs" />
+    <Compile Include="Manufacturer\Eneo\Response\TiltLimitResponse.cs" />
     <Compile Include="Communication\ICommunication.cs" />
     <Compile Include="IPanTiltControl.cs" />
     <Compile Include="Tools\IPositionChecker.cs" />

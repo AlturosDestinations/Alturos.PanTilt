@@ -1,4 +1,4 @@
-﻿using Alturos.PanTilt.Eneo;
+﻿using Alturos.PanTilt.Manufacturer.Eneo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Alturos.PanTilt.UnitTest

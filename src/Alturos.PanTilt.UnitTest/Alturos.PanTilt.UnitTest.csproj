@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alturos\ReceiveTest.cs" />
+    <Compile Include="Alturos\EpromTest.cs" />
     <Compile Include="Alturos\SendTest.cs" />
     <Compile Include="Eneo\FeedbackHandlerTest.cs" />
     <Compile Include="Mock\MockCommunication.cs" />
