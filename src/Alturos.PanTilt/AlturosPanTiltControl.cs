@@ -497,8 +497,8 @@ namespace Alturos.PanTilt
             var configBytes = converter.Serialize(mainConfig);
             for (var i = 0; i < configBytes.Length; i++)
             {
-                //this.Send($"SE{i:X2}{configBytes[i]:X2}", "SetEpromData");
-                Log.Debug($"SE{i:X2}{configBytes[i]:X2}");
+                this.Send($"SE{i:X2}{configBytes[i]:X2}", "SetEpromData");
+                //Log.Debug($"SE{i:X2}{configBytes[i]:X2}");
             }
 
             return await Task.FromResult(true);

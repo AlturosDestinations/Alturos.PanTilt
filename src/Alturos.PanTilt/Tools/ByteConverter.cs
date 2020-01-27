@@ -31,6 +31,11 @@ namespace Alturos.PanTilt.Tools
 
         public static string ByteArrayToHex(byte[] bytes)
         {
+            if (bytes == null)
+            {
+                return null;
+            }
+
             return BitConverter.ToString(bytes).Replace("-", "");
         }
 

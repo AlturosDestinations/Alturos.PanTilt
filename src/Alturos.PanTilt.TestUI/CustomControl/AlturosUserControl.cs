@@ -173,6 +173,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private async void buttonSetConfig_Click(object sender, EventArgs e)
         {
+            this._config = (MainConfig)this.propertyGrid1.SelectedObject;
             await this._panTiltControl.SetConfigAsync(this._config);
         }
     }
