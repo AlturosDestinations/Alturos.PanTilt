@@ -1047,7 +1047,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         this._panTiltControl.PanTiltAbsolute(absoluteStep.Position);
                         if (absoluteStep.WaitPositionIsReached)
                         {
-                            await this._positionChecker.ComparePositionAsync(absoluteStep.Position, 0.1, 50, 100, cancellationToken: cancellationToken).ContinueWith(t => { });
+                            await this._positionChecker.ComparePositionAsync(absoluteStep.Position, 0.1, 50, 500, cancellationToken: cancellationToken).ContinueWith(t => { });
                         }
                         break;
                     case CommandSequenceType.Relative:

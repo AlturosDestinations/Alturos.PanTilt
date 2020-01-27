@@ -35,14 +35,14 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.ColumnSendData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSendType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewReceive = new System.Windows.Forms.DataGridView();
-            this.ColumnReceiveTimestamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnReceiveData = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnReceiveType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainerCommunication = new System.Windows.Forms.SplitContainer();
             this.groupBoxReceive = new System.Windows.Forms.GroupBox();
             this.groupBoxSend = new System.Windows.Forms.GroupBox();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.checkBoxRefresh = new System.Windows.Forms.CheckBox();
+            this.ColumnReceiveTimestamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnReceiveData = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnReceiveType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSend)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReceive)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerCommunication)).BeginInit();
@@ -121,31 +121,6 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.dataGridViewReceive.Size = new System.Drawing.Size(511, 396);
             this.dataGridViewReceive.TabIndex = 8;
             // 
-            // ColumnReceiveTimestamp
-            // 
-            this.ColumnReceiveTimestamp.DataPropertyName = "Timestamp";
-            dataGridViewCellStyle2.Format = "dd.MM.yyyy HH:mm:ss.fff";
-            this.ColumnReceiveTimestamp.DefaultCellStyle = dataGridViewCellStyle2;
-            this.ColumnReceiveTimestamp.HeaderText = "Timestamp";
-            this.ColumnReceiveTimestamp.Name = "ColumnReceiveTimestamp";
-            this.ColumnReceiveTimestamp.ReadOnly = true;
-            this.ColumnReceiveTimestamp.Width = 140;
-            // 
-            // ColumnReceiveData
-            // 
-            this.ColumnReceiveData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnReceiveData.DataPropertyName = "DataReadable";
-            this.ColumnReceiveData.HeaderText = "Data";
-            this.ColumnReceiveData.Name = "ColumnReceiveData";
-            this.ColumnReceiveData.ReadOnly = true;
-            // 
-            // ColumnReceiveType
-            // 
-            this.ColumnReceiveType.DataPropertyName = "Type";
-            this.ColumnReceiveType.HeaderText = "Type";
-            this.ColumnReceiveType.Name = "ColumnReceiveType";
-            this.ColumnReceiveType.ReadOnly = true;
-            // 
             // splitContainerCommunication
             // 
             this.splitContainerCommunication.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -218,6 +193,32 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             this.checkBoxRefresh.UseVisualStyleBackColor = true;
             this.checkBoxRefresh.CheckedChanged += new System.EventHandler(this.CheckBoxRefreshCheckedChanged);
             // 
+            // ColumnReceiveTimestamp
+            // 
+            this.ColumnReceiveTimestamp.DataPropertyName = "Timestamp";
+            dataGridViewCellStyle2.Format = "dd.MM.yyyy HH:mm:ss.fff";
+            this.ColumnReceiveTimestamp.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ColumnReceiveTimestamp.HeaderText = "Timestamp";
+            this.ColumnReceiveTimestamp.Name = "ColumnReceiveTimestamp";
+            this.ColumnReceiveTimestamp.ReadOnly = true;
+            this.ColumnReceiveTimestamp.Width = 140;
+            // 
+            // ColumnReceiveData
+            // 
+            this.ColumnReceiveData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnReceiveData.DataPropertyName = "DataReadable";
+            this.ColumnReceiveData.HeaderText = "Data";
+            this.ColumnReceiveData.Name = "ColumnReceiveData";
+            this.ColumnReceiveData.ReadOnly = true;
+            // 
+            // ColumnReceiveType
+            // 
+            this.ColumnReceiveType.DataPropertyName = "Type";
+            this.ColumnReceiveType.HeaderText = "Type";
+            this.ColumnReceiveType.Name = "ColumnReceiveType";
+            this.ColumnReceiveType.ReadOnly = true;
+            this.ColumnReceiveType.Width = 200;
+            // 
             // CommunicationHistoryControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -249,13 +250,13 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         private System.Windows.Forms.SplitContainer splitContainerCommunication;
         private System.Windows.Forms.GroupBox groupBoxReceive;
         private System.Windows.Forms.GroupBox groupBoxSend;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnReceiveTimestamp;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnReceiveData;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnReceiveType;
         private System.Windows.Forms.SplitContainer splitContainerMain;
         private System.Windows.Forms.CheckBox checkBoxRefresh;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSendTimestamp;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSendData;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSendType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnReceiveTimestamp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnReceiveData;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnReceiveType;
     }
 }
