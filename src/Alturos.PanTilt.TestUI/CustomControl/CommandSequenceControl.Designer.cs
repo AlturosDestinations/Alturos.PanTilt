@@ -28,17 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonStartTest = new System.Windows.Forms.Button();
             this.dataGridViewResult = new System.Windows.Forms.DataGridView();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.comboBoxSequence = new System.Windows.Forms.ComboBox();
-            this.buttonAbort = new System.Windows.Forms.Button();
             this.ColumnCreateDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRepeat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSuccessful = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.buttonAbort = new System.Windows.Forms.Button();
+            this.comboBoxSequence = new System.Windows.Forms.ComboBox();
+            this.textBoxRepeat = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -48,7 +50,7 @@
             // 
             // buttonStartTest
             // 
-            this.buttonStartTest.Location = new System.Drawing.Point(163, 3);
+            this.buttonStartTest.Location = new System.Drawing.Point(256, 3);
             this.buttonStartTest.Name = "buttonStartTest";
             this.buttonStartTest.Size = new System.Drawing.Size(54, 23);
             this.buttonStartTest.TabIndex = 0;
@@ -75,53 +77,12 @@
             this.dataGridViewResult.TabIndex = 4;
             this.dataGridViewResult.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridViewResult_RowPrePaint);
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.IsSplitterFixed = true;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.buttonAbort);
-            this.splitContainer1.Panel1.Controls.Add(this.comboBoxSequence);
-            this.splitContainer1.Panel1.Controls.Add(this.buttonStartTest);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridViewResult);
-            this.splitContainer1.Size = new System.Drawing.Size(600, 350);
-            this.splitContainer1.SplitterDistance = 31;
-            this.splitContainer1.TabIndex = 5;
-            // 
-            // comboBoxSequence
-            // 
-            this.comboBoxSequence.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSequence.FormattingEnabled = true;
-            this.comboBoxSequence.Location = new System.Drawing.Point(3, 5);
-            this.comboBoxSequence.Name = "comboBoxSequence";
-            this.comboBoxSequence.Size = new System.Drawing.Size(154, 21);
-            this.comboBoxSequence.TabIndex = 1;
-            // 
-            // buttonAbort
-            // 
-            this.buttonAbort.Location = new System.Drawing.Point(223, 3);
-            this.buttonAbort.Name = "buttonAbort";
-            this.buttonAbort.Size = new System.Drawing.Size(54, 23);
-            this.buttonAbort.TabIndex = 2;
-            this.buttonAbort.Text = "Abort";
-            this.buttonAbort.UseVisualStyleBackColor = true;
-            this.buttonAbort.Click += new System.EventHandler(this.buttonAbort_Click);
-            // 
             // ColumnCreateDate
             // 
             this.ColumnCreateDate.DataPropertyName = "CreateDate";
-            dataGridViewCellStyle1.Format = "HH:mm:ss.fff";
-            dataGridViewCellStyle1.NullValue = null;
-            this.ColumnCreateDate.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Format = "HH:mm:ss.fff";
+            dataGridViewCellStyle2.NullValue = null;
+            this.ColumnCreateDate.DefaultCellStyle = dataGridViewCellStyle2;
             this.ColumnCreateDate.HeaderText = "CreateDate";
             this.ColumnCreateDate.Name = "ColumnCreateDate";
             this.ColumnCreateDate.ReadOnly = true;
@@ -160,6 +121,67 @@
             this.ColumnDescription.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.ColumnDescription.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.IsSplitterFixed = true;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
+            this.splitContainer1.Panel1.Controls.Add(this.textBoxRepeat);
+            this.splitContainer1.Panel1.Controls.Add(this.buttonAbort);
+            this.splitContainer1.Panel1.Controls.Add(this.comboBoxSequence);
+            this.splitContainer1.Panel1.Controls.Add(this.buttonStartTest);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridViewResult);
+            this.splitContainer1.Size = new System.Drawing.Size(600, 350);
+            this.splitContainer1.SplitterDistance = 31;
+            this.splitContainer1.TabIndex = 5;
+            // 
+            // buttonAbort
+            // 
+            this.buttonAbort.Location = new System.Drawing.Point(316, 3);
+            this.buttonAbort.Name = "buttonAbort";
+            this.buttonAbort.Size = new System.Drawing.Size(54, 23);
+            this.buttonAbort.TabIndex = 2;
+            this.buttonAbort.Text = "Abort";
+            this.buttonAbort.UseVisualStyleBackColor = true;
+            this.buttonAbort.Click += new System.EventHandler(this.buttonAbort_Click);
+            // 
+            // comboBoxSequence
+            // 
+            this.comboBoxSequence.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSequence.FormattingEnabled = true;
+            this.comboBoxSequence.Location = new System.Drawing.Point(3, 5);
+            this.comboBoxSequence.Name = "comboBoxSequence";
+            this.comboBoxSequence.Size = new System.Drawing.Size(154, 21);
+            this.comboBoxSequence.TabIndex = 1;
+            // 
+            // textBoxRepeat
+            // 
+            this.textBoxRepeat.Location = new System.Drawing.Point(214, 5);
+            this.textBoxRepeat.Name = "textBoxRepeat";
+            this.textBoxRepeat.Size = new System.Drawing.Size(36, 20);
+            this.textBoxRepeat.TabIndex = 3;
+            this.textBoxRepeat.Text = "10";
+            this.textBoxRepeat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(163, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Repeat:";
+            // 
             // CommandSequenceControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -169,6 +191,7 @@
             this.Size = new System.Drawing.Size(600, 350);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResult)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -188,5 +211,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRepeat;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnSuccessful;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDescription;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBoxRepeat;
     }
 }

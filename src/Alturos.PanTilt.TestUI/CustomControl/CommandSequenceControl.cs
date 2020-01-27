@@ -972,6 +972,8 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private async void buttonStartTest_Click(object sender, EventArgs e)
         {
+            int.TryParse(this.textBoxRepeat.Text, out var repeats);
+
             this._cancellationTokenSource?.Dispose();
             this._cancellationTokenSource = new CancellationTokenSource();
 
@@ -994,7 +996,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                     break;
                 }
 
-                for (var repeat = 1; repeat <= 10; repeat++)
+                for (var repeat = 1; repeat <= repeats; repeat++)
                 {
                     await this.RunTestAsync(sequence, this._cancellationTokenSource.Token).ContinueWith(t =>
                     {
@@ -1047,7 +1049,7 @@ namespace Alturos.PanTilt.TestUI.CustomControl
                         this._panTiltControl.PanTiltAbsolute(absoluteStep.Position);
                         if (absoluteStep.WaitPositionIsReached)
                         {
-                            await this._positionChecker.ComparePositionAsync(absoluteStep.Position, 0.1, 50, 500, cancellationToken: cancellationToken).ContinueWith(t => { });
+                            await this._positionChecker.ComparePositionAsync(absoluteStep.Position, 0.1, 50, 100, cancellationToken: cancellationToken).ContinueWith(t => { });
                         }
                         break;
                     case CommandSequenceType.Relative:
