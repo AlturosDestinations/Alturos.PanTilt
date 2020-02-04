@@ -189,7 +189,7 @@ namespace Alturos.PanTilt
 
         private async Task FeedbackMonitoringAsync()
         {
-            if (this.ActivateFeedback())
+            if (!this.ActivateFeedback())
             {
                 Log.Warn($"{nameof(FeedbackMonitoringAsync)} - Cannot activate feedback");
             }

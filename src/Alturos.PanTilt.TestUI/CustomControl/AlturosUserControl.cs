@@ -41,6 +41,8 @@ namespace Alturos.PanTilt.TestUI.CustomControl
             var packageUrl = $"https://skiline.s3-eu-west-1.amazonaws.com/artifacts/pt-head/master-{version}/{packageFileName}";
 
             this.labelUpdateStatus.Invoke((MethodInvoker)delegate { this.labelUpdateStatus.Text = "download package"; });
+            this.progressBar1.Invoke((MethodInvoker)delegate { this.progressBar1.Value = 0; });
+
             using (var httpClient = new HttpClient())
             using (var response = await httpClient.GetAsync(packageUrl))
             using (var file = File.Create(packageFileName))
