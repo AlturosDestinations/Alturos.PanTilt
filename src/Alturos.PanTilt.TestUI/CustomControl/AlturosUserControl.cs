@@ -178,6 +178,12 @@ namespace Alturos.PanTilt.TestUI.CustomControl
 
         private async void buttonSetConfig_Click(object sender, EventArgs e)
         {
+            if (this.propertyGrid1.SelectedObject == null)
+            {
+                MessageBox.Show("Load first the current config", "Set Configuration", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             this._config = (MainConfig)this.propertyGrid1.SelectedObject;
             var ipAddress = this.GetIpAddress();
             if (ipAddress.HasValue)
