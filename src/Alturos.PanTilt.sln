@@ -13,7 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.PanTilt.Diagnostic"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alturos.PanTilt", "Alturos.PanTilt\Alturos.PanTilt.csproj", "{7FBC021B-A5DD-4229-B990-A66C4A150FD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.PanTilt.UnitTest", "Alturos.PanTilt.UnitTest\Alturos.PanTilt.UnitTest.csproj", "{8960A6A7-99A6-43EC-B1D9-E3410F00B3DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alturos.PanTilt.UnitTest", "Alturos.PanTilt.UnitTest\Alturos.PanTilt.UnitTest.csproj", "{8960A6A7-99A6-43EC-B1D9-E3410F00B3DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.PanTilt.Website", "Alturos.PanTilt.Website\Alturos.PanTilt.Website.csproj", "{EF4604D1-0292-49E6-8691-0E6D8E8BD4CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{8960A6A7-99A6-43EC-B1D9-E3410F00B3DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8960A6A7-99A6-43EC-B1D9-E3410F00B3DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8960A6A7-99A6-43EC-B1D9-E3410F00B3DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF4604D1-0292-49E6-8691-0E6D8E8BD4CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF4604D1-0292-49E6-8691-0E6D8E8BD4CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF4604D1-0292-49E6-8691-0E6D8E8BD4CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF4604D1-0292-49E6-8691-0E6D8E8BD4CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
