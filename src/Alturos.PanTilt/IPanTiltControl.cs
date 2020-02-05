@@ -36,6 +36,11 @@ namespace Alturos.PanTilt
         event Action<PanTiltPosition> PositionChanged;
 
         /// <summary>
+        /// Event triggers no position feedback received
+        /// </summary>
+        event Action NoPositionFeedbackReceived;
+
+        /// <summary>
         /// Get the current pt position
         /// </summary>
         /// <returns></returns>

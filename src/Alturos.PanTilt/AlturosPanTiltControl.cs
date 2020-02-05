@@ -19,6 +19,7 @@ namespace Alturos.PanTilt
 
         public event Action<PanTiltPosition> PositionChanged;
         public event Action LimitChanged;
+        public event Action NoPositionFeedbackReceived;
 
         private readonly ICommunication _communication;
 
@@ -196,9 +197,15 @@ namespace Alturos.PanTilt
 
             while (!this._cancellationTokenSource.IsCancellationRequested)
             {
+                //2 Seconds no feedback received
+                if (this._lastPositionReceiveDate < DateTime.Now.AddSeconds(-2))
+                {
+                    this.NoPositionFeedbackReceived?.Invoke();
+                }
+
                 if (this._lastPositionReceiveDate > DateTime.Now.AddSeconds(-10))
                 {
-                    await Task.Delay(10000, this._cancellationTokenSource.Token).ContinueWith(t => { });
+                    await Task.Delay(1000, this._cancellationTokenSource.Token).ContinueWith(t => { });
                     continue;
                 }
 

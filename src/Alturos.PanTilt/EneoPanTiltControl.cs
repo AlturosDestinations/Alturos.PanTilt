@@ -28,10 +28,13 @@ namespace Alturos.PanTilt
         private readonly bool _debug;
         private readonly ICommunication _communication;
         private readonly Dictionary<double, byte> _speed = new Dictionary<double, byte>();
+        private DateTime _lastPositionReceiveDate;
+        private DateTime _lastActivateFeedbackDate;
 
         public event Action<PanTiltPosition> PositionChanged;
         public event Action LimitOverrun;
         public event Action LimitChanged;
+        public event Action NoPositionFeedbackReceived;
 
         public EneoPanTiltControl(ICommunication communication, bool debug = false)
         {
@@ -373,6 +376,8 @@ namespace Alturos.PanTilt
             double pan;
             if (groupResponses.ContainsKey(ResponseType.PanInfo))
             {
+                this._lastPositionReceiveDate = DateTime.Now;
+
                 pan = groupResponses[ResponseType.PanInfo].Select(o => ((PanInfoResponse)o).Pan).FirstOrDefault();
                 if (!double.IsNaN(pan))
                 {
@@ -388,6 +393,8 @@ namespace Alturos.PanTilt
             double tilt;
             if (groupResponses.ContainsKey(ResponseType.TiltInfo))
             {
+                this._lastPositionReceiveDate = DateTime.Now;
+
                 tilt = groupResponses[ResponseType.TiltInfo].Select(o => ((TiltInfoResponse)o).Tilt).FirstOrDefault();
                 if (!double.IsNaN(tilt))
                 {
@@ -486,11 +493,22 @@ namespace Alturos.PanTilt
 
         private void Heartbeat()
         {
-            var timeout = 10 * 1000; //10 seconds
+            var timeout = 1000; //1 second
 
             while (!this._stopHeartbeat)
             {
-                this.ActivateFeedback();
+                //2 Seconds no feedback received
+                if (this._lastPositionReceiveDate < DateTime.Now.AddSeconds(-2))
+                {
+                    this.NoPositionFeedbackReceived?.Invoke();
+                }
+
+                if (this._lastActivateFeedbackDate > DateTime.Now.AddSeconds(-10))
+                {
+                    this._lastActivateFeedbackDate = DateTime.Now;
+                    this.ActivateFeedback();
+                }
+                
                 this._resetEvent.WaitOne(timeout);
             }
 

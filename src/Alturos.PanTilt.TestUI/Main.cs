@@ -122,6 +122,7 @@ namespace Alturos.PanTilt.TestUI
                 this._panTiltControl.Stop();
                 this._panTiltControl.PositionChanged -= OnPositionChanged;
                 this._panTiltControl.LimitChanged -= OnLimitChanged;
+                this._panTiltControl.NoPositionFeedbackReceived -= NoPositionFeedbackReceived;
                 this._panTiltControl.Dispose();
             }
 
@@ -216,6 +217,7 @@ namespace Alturos.PanTilt.TestUI
 
             this._panTiltControl.PositionChanged += OnPositionChanged;
             this._panTiltControl.LimitChanged += OnLimitChanged;
+            this._panTiltControl.NoPositionFeedbackReceived += NoPositionFeedbackReceived;
 
             this._positionChecker = new PositionChecker(this._panTiltControl);
 
@@ -533,6 +535,15 @@ namespace Alturos.PanTilt.TestUI
             this.Redraw(position);
         }
 
+        private void NoPositionFeedbackReceived()
+        {
+            this.labelPositionPan.Invoke(o => {
+                o.ForeColor = Color.Red;
+                o.Text = "Feedback Interrupt";
+            });
+            this.labelPositionTilt.Invoke(o => o.Text = "No Feedback available");
+        }
+
         private void OnPositionChanged(PanTiltPosition position)
         {
             lock (this._syncLock)
@@ -544,7 +555,10 @@ namespace Alturos.PanTilt.TestUI
 
                 this._lastRefresh = DateTime.Now;
 
-                this.labelPositionPan.Invoke(o => o.Text = $"Pan: {position.Pan}");
+                this.labelPositionPan.Invoke(o => {
+                    o.ForeColor = Color.Black;
+                    o.Text = $"Pan: {position.Pan}";
+                });
                 this.labelPositionTilt.Invoke(o => o.Text = $"Tilt: {position.Tilt}");
 
                 if (this._deviceConfiguration.CameraActive)
