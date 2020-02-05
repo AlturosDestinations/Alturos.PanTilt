@@ -30,6 +30,21 @@ namespace Alturos.PanTilt.Communication
             }
         }
 
+        public UdpReceiver(IPEndPoint ipEndPoint, IPAddress[] allowedIpAddresses)
+        {
+            this.UdpClient = new UdpClient(ipEndPoint);
+            this._allowedIpAddress = allowedIpAddresses;
+
+            try
+            {
+                this.UdpClient.BeginReceive(new AsyncCallback(this.ReceiveProcess), null);
+            }
+            catch (Exception exception)
+            {
+                Log.Error(nameof(UdpReceiver), exception);
+            }
+        }
+
         public void Dispose()
         {
             this.Dispose(true);

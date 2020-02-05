@@ -42,10 +42,10 @@ namespace Alturos.PanTilt
             //Add default limits
             this._panTiltlimit = new PanTiltLimit
             {
-                PanMin = -100,
-                PanMax = 100,
+                PanMin = -170,
+                PanMax = 170,
                 TiltMin = -60,
-                TiltMax = 25
+                TiltMax = 45
             };
 
             this._position = new PanTiltPosition(0, 0);
@@ -113,29 +113,11 @@ namespace Alturos.PanTilt
                     Log.Error($"{nameof(PackageReceived)}", exception);
                 }
             }
-            else if (message.StartsWith("AN", StringComparison.OrdinalIgnoreCase) && message.Length == 37)
-            {
-                var announce = message.Substring(2);
-                var ip = this.GetIpAddressFromHex(announce.Substring(0, 8));
-                var mac = announce.Substring(8, 12);
-                //Name
-                //Serial
-            }
             else
             {
                 var hex = BitConverter.ToString(data);
                 Log.Debug($"{nameof(PackageReceived)} - {hex}");
             }
-        }
-
-        private string GetIpAddressFromHex(string hex)
-        {
-            if (string.IsNullOrEmpty(hex))
-            {
-                return null;
-            }
-
-            return new IPAddress((BitConverter.IsLittleEndian ? IPAddress.HostToNetworkOrder(Convert.ToInt32(hex, 16)) : Convert.ToInt32(hex, 16))).ToString();
         }
 
         private bool Send(string command, string description)

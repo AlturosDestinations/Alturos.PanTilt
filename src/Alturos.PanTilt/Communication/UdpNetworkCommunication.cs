@@ -14,24 +14,39 @@ namespace Alturos.PanTilt.Communication
         public event Action<byte[]> ReceiveData;
         public event Action<byte[], string> SendData;
 
-        public UdpNetworkCommunication(IPAddress ipAddress, UdpReceiver receiver, int sendPort = 4003)
+        public UdpNetworkCommunication(IPAddress ipAddress, UdpReceiver receiver, int sendPort)
         {
             this._externalReceiver = true;
             this.Initialize(ipAddress, sendPort, receiver);
         }
 
-        public UdpNetworkCommunication(IPAddress ipAddress, int sendPort = 4003, int receivePort = 4003)
+        public UdpNetworkCommunication(IPAddress ipAddress, int sendPort, int receivePort)
         {
             var receiver = new UdpReceiver(receivePort, new IPAddress[] { ipAddress });
             this.Initialize(ipAddress, sendPort, receiver);
         }
 
-        private void Initialize(IPAddress ipAddress, int sendPort = 4003, UdpReceiver receiver = null)
+        public UdpNetworkCommunication(IPAddress ipAddress, int sendPort)
+        {
+            this.Initialize(ipAddress, sendPort);
+        }
+
+        private void Initialize(IPAddress ipAddress, int sendPort, UdpReceiver receiver = null)
         {
             this._ipAddress = ipAddress;
             this._sender = new UdpClient();
             this._sender.Connect(ipAddress, sendPort);
-            this._receiver = receiver;
+
+            var localIpEndPoint = (IPEndPoint)this._sender.Client.LocalEndPoint;
+            if (receiver == null)
+            {
+                this._receiver = new UdpReceiver(localIpEndPoint, new IPAddress[] { ipAddress });
+            }
+            else
+            {
+                this._receiver = receiver;
+            }
+            
             this._receiver.OnPackageReceived += OnPackageReceived;
         }
 
