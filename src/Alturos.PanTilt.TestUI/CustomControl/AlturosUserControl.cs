@@ -170,13 +170,52 @@ namespace Alturos.PanTilt.TestUI.CustomControl
         private async void buttonGetConfig_Click(object sender, EventArgs e)
         {
             this._config = await this._panTiltControl.GetConfigAsync();
+            this.ViewIpAddress(this._config.Ip);
+
+
             this.propertyGrid1.SelectedObject = this._config;
         }
 
         private async void buttonSetConfig_Click(object sender, EventArgs e)
         {
             this._config = (MainConfig)this.propertyGrid1.SelectedObject;
+            var ipAddress = this.GetIpAddress();
+            if (ipAddress.HasValue)
+            {
+                this._config.Ip = ipAddress.Value;
+            }
+
             await this._panTiltControl.SetConfigAsync(this._config);
+        }
+
+        private void ViewIpAddress(IpAddressData ipAddressData)
+        {
+            this.textBoxIpAddressPart1.Text = ipAddressData.Part1.ToString();
+            this.textBoxIpAddressPart2.Text = ipAddressData.Part2.ToString();
+            this.textBoxIpAddressPart3.Text = ipAddressData.Part3.ToString();
+            this.textBoxIpAddressPart4.Text = ipAddressData.Part4.ToString();
+        }
+
+        private IpAddressData? GetIpAddress()
+        {
+            if (!byte.TryParse(this.textBoxIpAddressPart1.Text, out var ipPart1))
+            {
+                return null;
+            }
+            if (!byte.TryParse(this.textBoxIpAddressPart2.Text, out var ipPart2))
+            {
+                return null;
+            }
+            if (!byte.TryParse(this.textBoxIpAddressPart3.Text, out var ipPart3))
+            {
+                return null;
+            }
+            if (!byte.TryParse(this.textBoxIpAddressPart4.Text, out var ipPart4))
+            {
+                return null;
+            }
+
+            return new IpAddressData { Part1 = ipPart1, Part2 = ipPart2, Part3 = ipPart3, Part4 = ipPart4 };
         }
     }
 }

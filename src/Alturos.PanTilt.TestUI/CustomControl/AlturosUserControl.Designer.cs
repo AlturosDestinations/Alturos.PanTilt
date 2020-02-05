@@ -51,9 +51,15 @@
             this.buttonSetConfig = new System.Windows.Forms.Button();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.textBoxIpAddressPart1 = new System.Windows.Forms.TextBox();
+            this.textBoxIpAddressPart2 = new System.Windows.Forms.TextBox();
+            this.textBoxIpAddressPart3 = new System.Windows.Forms.TextBox();
+            this.textBoxIpAddressPart4 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelVersion
@@ -260,11 +266,12 @@
             this.propertyGrid1.HelpVisible = false;
             this.propertyGrid1.Location = new System.Drawing.Point(6, 48);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(390, 380);
+            this.propertyGrid1.Size = new System.Drawing.Size(390, 331);
             this.propertyGrid1.TabIndex = 10;
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.groupBox4);
             this.groupBox3.Controls.Add(this.buttonGetConfig);
             this.groupBox3.Controls.Add(this.propertyGrid1);
             this.groupBox3.Controls.Add(this.buttonSetConfig);
@@ -274,6 +281,47 @@
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Config";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.textBoxIpAddressPart4);
+            this.groupBox4.Controls.Add(this.textBoxIpAddressPart3);
+            this.groupBox4.Controls.Add(this.textBoxIpAddressPart2);
+            this.groupBox4.Controls.Add(this.textBoxIpAddressPart1);
+            this.groupBox4.Location = new System.Drawing.Point(6, 385);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(214, 42);
+            this.groupBox4.TabIndex = 11;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "IpAddress";
+            // 
+            // textBoxIpAddressPart1
+            // 
+            this.textBoxIpAddressPart1.Location = new System.Drawing.Point(6, 16);
+            this.textBoxIpAddressPart1.Name = "textBoxIpAddressPart1";
+            this.textBoxIpAddressPart1.Size = new System.Drawing.Size(44, 20);
+            this.textBoxIpAddressPart1.TabIndex = 0;
+            // 
+            // textBoxIpAddressPart2
+            // 
+            this.textBoxIpAddressPart2.Location = new System.Drawing.Point(56, 16);
+            this.textBoxIpAddressPart2.Name = "textBoxIpAddressPart2";
+            this.textBoxIpAddressPart2.Size = new System.Drawing.Size(44, 20);
+            this.textBoxIpAddressPart2.TabIndex = 1;
+            // 
+            // textBoxIpAddressPart3
+            // 
+            this.textBoxIpAddressPart3.Location = new System.Drawing.Point(106, 16);
+            this.textBoxIpAddressPart3.Name = "textBoxIpAddressPart3";
+            this.textBoxIpAddressPart3.Size = new System.Drawing.Size(44, 20);
+            this.textBoxIpAddressPart3.TabIndex = 2;
+            // 
+            // textBoxIpAddressPart4
+            // 
+            this.textBoxIpAddressPart4.Location = new System.Drawing.Point(156, 16);
+            this.textBoxIpAddressPart4.Name = "textBoxIpAddressPart4";
+            this.textBoxIpAddressPart4.Size = new System.Drawing.Size(44, 20);
+            this.textBoxIpAddressPart4.TabIndex = 3;
             // 
             // AlturosUserControl
             // 
@@ -289,6 +337,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -318,5 +368,10 @@
         private System.Windows.Forms.Button buttonSetConfig;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox textBoxIpAddressPart4;
+        private System.Windows.Forms.TextBox textBoxIpAddressPart3;
+        private System.Windows.Forms.TextBox textBoxIpAddressPart2;
+        private System.Windows.Forms.TextBox textBoxIpAddressPart1;
     }
 }
