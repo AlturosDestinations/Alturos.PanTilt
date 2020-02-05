@@ -1,92 +1,37 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5821939A-053D-4818-B2A5-B8A805E7D40F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Alturos.PanTilt</RootNamespace>
-    <AssemblyName>Alturos.PanTilt</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <Version>3.0.1</Version>
+    <AssemblyVersion>3.0.1</AssemblyVersion>
+    <FileVersion>3.0.1</FileVersion>
+    <Description>Pan Tilt control for Eneo - VPT-601 and Alturos Pt-Head</Description>
+    <Company>Alturos Destinations</Company>
+    <Authors>Alturos Destinations</Authors>
+    <Copyright>Copyright © 2020 Alturos Destinations</Copyright>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/AlturosDestinations/Alturos.PanTilt</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/AlturosDestinations/Alturos.PanTilt</RepositoryUrl>
+    <PackageTags>pantilt pthead ptunit pan tilt</PackageTags>
+    <PackageReleaseNotes>add .netstandard support</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="log4net" Version="2.0.8" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Manufacturer\Alturos\Eprom\MainConfig.cs" />
-    <Compile Include="Manufacturer\Alturos\EpromConverter.cs" />
-    <Compile Include="Manufacturer\Alturos\Eprom\IpAddressConfig.cs" />
-    <Compile Include="Manufacturer\Alturos\Eprom\MacConfig.cs" />
-    <Compile Include="PanTiltInfo.cs" />
-    <Compile Include="Tools\ByteConverter.cs" />
-    <Compile Include="Tools\PositionComparer.cs" />
-    <Compile Include="Translator\AlturosFeedbackTranslator.cs" />
-    <Compile Include="Translator\EneoFeedbackTranslator.cs" />
-    <Compile Include="Translator\IFeedbackTranslator.cs" />
-    <Compile Include="IFirmwareReader.cs" />
-    <Compile Include="PanTiltControlType.cs" />
-    <Compile Include="AlturosPanTiltControl.cs" />
-    <Compile Include="Communication\CommunicationType.cs" />
-    <Compile Include="EneoPanTiltControl.cs" />
-    <Compile Include="Manufacturer\Eneo\FeedbackHandler.cs" />
-    <Compile Include="Manufacturer\Eneo\PositionConverter.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\BaseResponse.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\LimitOverrunResponse.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\LimitActiveResponse.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\LimitOverrunType.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\LimitType.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\PanInfoResponse.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\PanLimitResponse.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\PotentiometerResponse.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\ResponseType.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\TemperatureResponse.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\TiltInfoResponse.cs" />
-    <Compile Include="Manufacturer\Eneo\Response\TiltLimitResponse.cs" />
-    <Compile Include="Communication\ICommunication.cs" />
-    <Compile Include="IPanTiltControl.cs" />
-    <Compile Include="Tools\IPositionChecker.cs" />
-    <Compile Include="PanTiltLimit.cs" />
-    <Compile Include="PanTiltPosition.cs" />
-    <Compile Include="Tools\PositionChecker.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Communication\SerialPortCommunication.cs" />
-    <Compile Include="Communication\TcpNetworkCommunication.cs" />
-    <Compile Include="Communication\UdpNetworkCommunication.cs" />
-    <Compile Include="Communication\UdpReceiver.cs" />
+    <None Include="..\..\doc\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

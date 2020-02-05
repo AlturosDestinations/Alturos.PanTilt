@@ -1,4 +1,6 @@
-﻿using log4net;
+﻿#if NET461
+
+using log4net;
 using System;
 using System.IO.Ports;
 using System.Linq;
@@ -73,3 +75,31 @@ namespace Alturos.PanTilt.Communication
         }
     }
 }
+
+#else
+
+using Alturos.PanTilt.Communication;
+using System;
+
+public class SerialPortCommunication : ICommunication
+{
+    public event Action<byte[]> ReceiveData;
+    public event Action<byte[], string> SendData;
+
+    public SerialPortCommunication()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Send(byte[] data, string description)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+#endif

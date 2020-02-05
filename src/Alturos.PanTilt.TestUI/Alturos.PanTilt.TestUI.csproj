@@ -233,7 +233,7 @@
       <Name>Alturos.PanTilt.Diagnostic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Alturos.PanTilt\Alturos.PanTilt.csproj">
-      <Project>{5821939a-053d-4818-b2a5-b8a805e7d40f}</Project>
+      <Project>{7fbc021b-a5dd-4229-b990-a66c4a150fd6}</Project>
       <Name>Alturos.PanTilt</Name>
     </ProjectReference>
   </ItemGroup>

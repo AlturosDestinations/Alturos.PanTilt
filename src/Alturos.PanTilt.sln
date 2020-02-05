@@ -1,12 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.PanTilt", "Alturos.PanTilt\Alturos.PanTilt.csproj", "{5821939A-053D-4818-B2A5-B8A805E7D40F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.PanTilt.UnitTest", "Alturos.PanTilt.UnitTest\Alturos.PanTilt.UnitTest.csproj", "{5E91CC5A-3457-4114-9A5B-438BE1A7D353}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.PanTilt.Calibration", "Alturos.PanTilt.Calibration\Alturos.PanTilt.Calibration.csproj", "{1E742DD0-3087-425A-BB32-DF16031EF988}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.PanTilt.TestConsole", "Alturos.PanTilt.TestConsole\Alturos.PanTilt.TestConsole.csproj", "{1AD1E6F7-5FF1-431E-82CB-ABD1F9BBF2B5}"
@@ -15,20 +11,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.PanTilt.TestUI", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.PanTilt.Diagnostic", "Alturos.PanTilt.Diagnostic\Alturos.PanTilt.Diagnostic.csproj", "{AB4C8442-D805-4E26-80A8-52EAA879FC88}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alturos.PanTilt", "Alturos.PanTilt\Alturos.PanTilt.csproj", "{7FBC021B-A5DD-4229-B990-A66C4A150FD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.PanTilt.UnitTest", "Alturos.PanTilt.UnitTest\Alturos.PanTilt.UnitTest.csproj", "{8960A6A7-99A6-43EC-B1D9-E3410F00B3DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5821939A-053D-4818-B2A5-B8A805E7D40F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5821939A-053D-4818-B2A5-B8A805E7D40F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5821939A-053D-4818-B2A5-B8A805E7D40F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5821939A-053D-4818-B2A5-B8A805E7D40F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E91CC5A-3457-4114-9A5B-438BE1A7D353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E91CC5A-3457-4114-9A5B-438BE1A7D353}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E91CC5A-3457-4114-9A5B-438BE1A7D353}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E91CC5A-3457-4114-9A5B-438BE1A7D353}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1E742DD0-3087-425A-BB32-DF16031EF988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1E742DD0-3087-425A-BB32-DF16031EF988}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E742DD0-3087-425A-BB32-DF16031EF988}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +37,14 @@ Global
 		{AB4C8442-D805-4E26-80A8-52EAA879FC88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB4C8442-D805-4E26-80A8-52EAA879FC88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB4C8442-D805-4E26-80A8-52EAA879FC88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FBC021B-A5DD-4229-B990-A66C4A150FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FBC021B-A5DD-4229-B990-A66C4A150FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FBC021B-A5DD-4229-B990-A66C4A150FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FBC021B-A5DD-4229-B990-A66C4A150FD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8960A6A7-99A6-43EC-B1D9-E3410F00B3DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8960A6A7-99A6-43EC-B1D9-E3410F00B3DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8960A6A7-99A6-43EC-B1D9-E3410F00B3DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8960A6A7-99A6-43EC-B1D9-E3410F00B3DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
