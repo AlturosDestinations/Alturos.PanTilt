@@ -503,7 +503,7 @@ namespace Alturos.PanTilt
                     this.NoPositionFeedbackReceived?.Invoke();
                 }
 
-                if (this._lastActivateFeedbackDate > DateTime.Now.AddSeconds(-10))
+                if (this._lastActivateFeedbackDate < DateTime.Now.AddSeconds(-10))
                 {
                     this._lastActivateFeedbackDate = DateTime.Now;
                     this.ActivateFeedback();
