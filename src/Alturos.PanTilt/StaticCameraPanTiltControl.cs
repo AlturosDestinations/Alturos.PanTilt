@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Alturos.PanTilt
 {
@@ -87,6 +88,22 @@ namespace Alturos.PanTilt
         public bool TiltRelative(double degreePerSecond)
         {
             return true;
+        }
+        public Task<double> GetTemperatureAsync()
+        {
+            return Task.FromResult(0.00);
+        }
+        public Task<double> GetHumidityAsync()
+        {
+            return Task.FromResult(0.00);
+        }
+        public Task<string> GetHeaterActiceAsync()
+        {
+            return Task.FromResult("-1");
+        }
+        public Task<string> GetEnvironmentErrorAsync()
+        {
+            return Task.FromResult("-1");
         }
     }
 }

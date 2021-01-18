@@ -731,6 +731,23 @@ namespace Alturos.PanTilt
             this.Send(command, "GetTemperature");
         }
 
+        public Task<double> GetTemperatureAsync()
+        {
+            return Task.FromResult(0.00);
+        }
+        public Task<double> GetHumidityAsync()
+        {
+            return Task.FromResult(0.00);
+        }
+        public Task<string> GetHeaterActiceAsync()
+        {
+            return Task.FromResult("-1");
+        }
+        public Task<string> GetEnvironmentErrorAsync()
+        {
+            return Task.FromResult("-1");
+        }
+
         public void MoveRandom()
         {
             var data = new byte[1];

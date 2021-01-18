@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Alturos.PanTilt
 {
@@ -130,5 +131,10 @@ namespace Alturos.PanTilt
         bool SetLimits(PanTiltLimit panTiltLimit);
 
         #endregion
+
+        Task<double> GetTemperatureAsync();
+        Task<double> GetHumidityAsync();
+        Task<string> GetHeaterActiceAsync();
+        Task<string> GetEnvironmentErrorAsync();
     }
 }

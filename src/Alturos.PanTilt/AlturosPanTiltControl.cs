@@ -466,6 +466,16 @@ namespace Alturos.PanTilt
             return await this.GetStatisticDataAsync("GS06", "GetTiltInitialError");
         }
 
+        public async Task<string> GetHeaterActiceAsync() //flag if heating system is activated
+        {
+            return await this.GetStatisticDataAsync("GS08", "GetHeaterActive");
+        }
+
+        public async Task<string> GetEnvironmentErrorAsync() //1 means the temperature is so low that the head can not be moved
+        {
+            return await this.GetStatisticDataAsync("GS09", "GetEnvironmentError");
+        }
+
         public async Task<MainConfig> GetConfigAsync()
         {
             var hexEpromData = await this.GetEpromDataAsync("GE", "GetEpromData");
