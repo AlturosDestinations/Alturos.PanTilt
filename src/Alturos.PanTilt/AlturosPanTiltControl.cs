@@ -113,11 +113,11 @@ namespace Alturos.PanTilt
                     Log.Error($"{nameof(PackageReceived)}", exception);
                 }
             }
-            else
-            {
-                var hex = BitConverter.ToString(data);
-                Log.Debug($"{nameof(PackageReceived)} - {hex}");
-            }
+            //else
+            //{
+            //    var hex = BitConverter.ToString(data);
+            //    Log.Debug($"{nameof(PackageReceived)} - {hex}");
+            //}
         }
 
         private bool Send(string command, string description)
