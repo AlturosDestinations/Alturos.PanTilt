@@ -227,7 +227,7 @@ namespace Alturos.PanTilt
             #endregion
 
             //Set a default speed of 30°
-            var degreePerSecond = 30;
+            var degreePerSecond = 50;
             this.Send($"SSP{Math.Abs(degreePerSecond * 100):00000}", "PanSpeed");
 
             return this.Send($"MAP{degree * 100:+00000;-00000;+00000}", "PanAbsolute");
